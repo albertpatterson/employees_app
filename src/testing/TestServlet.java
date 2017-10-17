@@ -1,7 +1,5 @@
 package testing;
 
-import com.mysql.jdbc.interceptors.ResultSetScannerInterceptor;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

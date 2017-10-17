@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees</title>
+</head>
+<body>
+
+<p>Tables</p>
+<pre id="m1"></pre>
+<p>Fields</p>
+<pre id="m2"></pre>
+
+
+
+
+
+<script>
+    app = {};
+</script>
+
+<script src="services/databaseDataServcie.js"></script>
+<script src="services/tableDataService.js"></script>
+
+<script>
+    app.databaseDataService.getTables(function(tables){
+        document.getElementById("m1").innerText = tables;
+    })
+
+    app.tableDataService.getTableData("departments", function(fields){
+        document.getElementById("m2").innerText = fields;
+    })
+</script>
+
+</body>
+</html>
