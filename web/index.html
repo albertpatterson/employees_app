@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Employees</title>
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
 
 <p>Tables</p>
 <pre id="m1"></pre>
+<div id="tables"></div>
 <p>Fields</p>
 <pre id="m2"></pre>
-
+<div id="tableData"></div>
 
 
 
@@ -21,15 +23,47 @@
 
 <script src="services/databaseDataServcie.js"></script>
 <script src="services/tableDataService.js"></script>
+<script src="utils/table.js"></script>
 
 <script>
-    app.databaseDataService.getTables(function(tables){
-        document.getElementById("m1").innerText = tables;
+    app.databaseDataService.getTables(function(tablesJson){
+        var tableNames = JSON.parse(tablesJson);
+        document.getElementById("m1").innerText = tableNames.join(", ");
+        app.utils.table.create(tableNames, "Tables", document.getElementById("tables"));
+
+        createClickCallbacks();
     })
 
-    app.tableDataService.getTableData("departments", function(fields){
-        document.getElementById("m2").innerText = fields;
-    })
+    function createClickCallbacks(){
+        var table = document.querySelector('#tables>table');
+
+        table.onclick = function(event){
+            if(event.target.nodeName=="TD"){
+                var tableName = event.target.textContent;
+                showData(tableName);
+            }
+        };
+    }
+
+    var dataDiv = document.getElementById("tableData");
+
+    function showData(tableName){
+        app.tableDataService.getTableData(tableName, function(tableDataJson){
+            document.getElementById("m2").innerText = tableDataJson;
+            var tableData = JSON.parse(tableDataJson);
+
+
+            var curTable = dataDiv.firstElementChild;
+            if(curTable){
+                app.utils.table.update(tableData.data, tableData.columnNames, dataDiv, curTable);
+            }else{
+                app.utils.table.create(tableData.data, tableData.columnNames, dataDiv);
+            }
+        })
+    }
+
+
+
 </script>
 
 </body>

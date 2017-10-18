@@ -1,6 +1,7 @@
 package servlets;
 
 
+import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import jdk.nashorn.internal.ir.debug.JSONWriter;
 import services.database.EmployeesDBService;
 import services.database.StrigifiedTableData;
 /**
@@ -32,20 +34,44 @@ public class EmployeesTableDataServlet extends HttpServlet {
         StrigifiedTableData data = employeesDBService.getTableData(tableName);
 
         PrintWriter out = response.getWriter();
+        JsonWriter jsonWriter = Json.createWriter(out);
 
-        for(String colName : data.columnNames){
-            out.print(colName);
-            out.print("\t\t");
+        JsonArrayBuilder tableColumnNamesJsonArrayBuilder = Json.createArrayBuilder();
+        for(String columnName : data.columnNames){
+            tableColumnNamesJsonArrayBuilder.add(columnName);
         }
-        out.print("\n");
+        JsonArray tableColumnNamesJsonArray = tableColumnNamesJsonArrayBuilder.build();
 
-        for(int row = 0; row<data.rowData.size(); row++){
-            for(String item : data.rowData.get(row)){
-                out.print(item);
-                out.print("\t\t");
+        JsonArrayBuilder tableDataJsonArrayBuilder = Json.createArrayBuilder();
+        for(String[] row : data.rowData){
+            JsonArrayBuilder rowDataJsonArrayBuilder = Json.createArrayBuilder();
+            for(String value : row){
+                rowDataJsonArrayBuilder.add(value);
             }
-            out.print("\n");
+            tableDataJsonArrayBuilder.add(rowDataJsonArrayBuilder.build());
         }
+
+        JsonArray tableDataJsonArray = tableDataJsonArrayBuilder.build();
+
+        JsonObjectBuilder tableDataJsonObjectBuilder = Json.createObjectBuilder();
+        tableDataJsonObjectBuilder.add("columnNames", tableColumnNamesJsonArray);
+        tableDataJsonObjectBuilder.add("data", tableDataJsonArray);
+
+        jsonWriter.writeObject(tableDataJsonObjectBuilder.build());
+
+//        for(String colName : data.columnNames){
+//            out.print(colName);
+//            out.print("\t\t");
+//        }
+//        out.print("\n");
+//
+//        for(int row = 0; row<data.rowData.size(); row++){
+//            for(String item : data.rowData.get(row)){
+//                out.print(item);
+//                out.print("\t\t");
+//            }
+//            out.print("\n");
+//        }
 
         out.flush();
         response.setStatus(HttpServletResponse.SC_OK);
