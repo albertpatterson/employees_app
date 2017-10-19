@@ -12,7 +12,16 @@
 <div id="tables"></div>
 <p>Fields</p>
 <pre id="m2"></pre>
-<div id="tableData"></div>
+<div id="tableDataSection">
+    <div id="titleWithButtonSection">
+        <span class="label"></span>
+        <button class="add">+</button>
+    </div>
+    <table></table>
+</div>
+<!--<p id="tableLabel"></p>-->
+<!--<button id="newItem">+</button>-->
+<!--<div id="tableData"></div>-->
 
 
 
@@ -45,20 +54,22 @@
         };
     }
 
-    var dataDiv = document.getElementById("tableData");
+    var tableDataSection = document.getElementById("tableDataSection");
+    var tableLabel = tableDataSection.querySelector(".label");
 
     function showData(tableName){
         app.tableDataService.getTableData(tableName, function(tableDataJson){
+
+
             document.getElementById("m2").innerText = tableDataJson;
             var tableData = JSON.parse(tableDataJson);
 
 
-            var curTable = dataDiv.firstElementChild;
-            if(curTable){
-                app.utils.table.update(tableData.data, tableData.columnNames, dataDiv, curTable);
-            }else{
-                app.utils.table.create(tableData.data, tableData.columnNames, dataDiv);
-            }
+            var curTable = tableDataSection.querySelector("table");
+            app.utils.table.update(tableData.data, tableData.columnNames, tableDataSection, curTable);
+            tableLabel.innerText = tableName;
+            tableDataSection.style.visibility="visible";
+//            tableDataSection.style.width = tableDataSection.querySelector("table").offsetWidth + "px";
         })
     }
 

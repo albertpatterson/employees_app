@@ -18,3 +18,19 @@ td, th {
 #tables>table>tr>td{
     border: 1px solid black;
 }
+
+#tableLabel{
+    display: inline-block;
+    text-align: center;
+    margin: 0;
+    font-size: 20px;
+}
+
+#tableDataSection{
+    visibility: hidden;
+    display: inline-block;
+}
+
+#tableDataSection>#titleWithButtonSection{
+    text-align: center;
+}
