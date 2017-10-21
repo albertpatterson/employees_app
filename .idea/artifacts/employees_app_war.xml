@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="employees_app:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/employees_app_war</output-path>
+    <root id="archive" name="employee_manager.war">
+      <element id="artifact" artifact-name="employees_app:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="file-copy" path="C:/Program Files/Tomcat/apache-tomcat-8.5.15/lib/javax.json-1.0.4.jar" />
+          <element id="file-copy" path="C:/Program Files/Tomcat/apache-tomcat-8.5.15/lib/mysql-connector-java-5.1.44-bin.jar" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

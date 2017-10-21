@@ -8,10 +8,8 @@
 <body>
 
 <p>Tables</p>
-<pre id="m1"></pre>
 <div id="tables"></div>
-<p>Fields</p>
-<pre id="m2"></pre>
+<p>Data</p>
 <div id="tableDataSection">
     <div id="titleWithButtonSection">
         <span class="label"></span>
@@ -19,12 +17,6 @@
     </div>
     <table></table>
 </div>
-<!--<p id="tableLabel"></p>-->
-<!--<button id="newItem">+</button>-->
-<!--<div id="tableData"></div>-->
-
-
-
 
 <script>
     app = {};
@@ -37,7 +29,6 @@
 <script>
     app.databaseDataService.getTables(function(tablesJson){
         var tableNames = JSON.parse(tablesJson);
-        document.getElementById("m1").innerText = tableNames.join(", ");
         app.utils.table.create(tableNames, "Tables", document.getElementById("tables"));
 
         createClickCallbacks();
@@ -59,9 +50,6 @@
 
     function showData(tableName){
         app.tableDataService.getTableData(tableName, function(tableDataJson){
-
-
-            document.getElementById("m2").innerText = tableDataJson;
             var tableData = JSON.parse(tableDataJson);
 
 
@@ -69,7 +57,6 @@
             app.utils.table.update(tableData.data, tableData.columnNames, tableDataSection, curTable);
             tableLabel.innerText = tableName;
             tableDataSection.style.visibility="visible";
-//            tableDataSection.style.width = tableDataSection.querySelector("table").offsetWidth + "px";
         })
     }
 

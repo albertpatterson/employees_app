@@ -1,5 +1,7 @@
 package services.database;
 
+import utils.JsonConvertible;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -8,7 +10,33 @@ import java.util.ArrayList;
  */
 public class EmployeesDBService {
 
-    private static final EmployeesDB db = new EmployeesDB();
+    private static final String DATABASEURL = "jdbc:mysql://localhost:3306/employees";
+    private static final String USERNANME = "pma";
+    private static final String PASSWORD = "";
+    public static Connection conn = null;
+
+    public static void init(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(DATABASEURL, USERNANME, PASSWORD);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void destroy(){
+        if(conn!=null){
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+//    private static final EmployeesDB db = new EmployeesDB();
 
 //    private static final PreparedStatement GET_TABLE_DATA_PSTMT = makeGetTableDataStatement();
 //
@@ -23,34 +51,28 @@ public class EmployeesDBService {
 //        return stmt;
 //    }
 
-    public ArrayList<String> getTableNames(){
+    public ArrayList<String> getTableNames() throws SQLException {
         ArrayList<String> tableNames = new ArrayList<>();
 
-        try {
-            DatabaseMetaData metaData = db.conn.getMetaData();
-            ResultSet rs = metaData.getTables(null, null, null, new String[]{"TABLE"});
-            while(rs.next()){
-                tableNames.add(rs.getString("TABLE_NAME"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        DatabaseMetaData metaData = conn.getMetaData();
+        ResultSet rs = metaData.getTables(null, null, null, new String[]{"TABLE"});
+        while(rs.next()){
+            tableNames.add(rs.getString("TABLE_NAME"));
         }
 
         return tableNames;
     }
 
-    public StrigifiedTableData getTableData(String tableName){
+    public JsonConvertible getTableData(String tableName) throws SQLException {
         return getTableData(tableName, 50);
     }
 
-    public StrigifiedTableData getTableData(String tableName, int limit){
+    public StrigifiedTableData getTableData(String tableName, int limit) throws SQLException {
 
         String[] colNames = null;
         ArrayList<String[]> rowData = new ArrayList<>();
 
-        try {
-
-            Statement stmt = db.conn.createStatement();
+            Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM %s LIMIT %d;", tableName, limit));
 
             ResultSetMetaData rsMetaData =  rs.getMetaData();
@@ -70,10 +92,6 @@ public class EmployeesDBService {
                 }
                 rowData.add(stringData);
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         return new StrigifiedTableData(colNames, rowData);
     }

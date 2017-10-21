@@ -1,0 +1,107 @@
+SELECT employees.first_name, employees.last_name, employees.emp_no, dept_emp.dept_no
+From employees
+LEFT JOIN dept_emp  ON employees.emp_no=dept_emp.emp_no;
+
+SELECT employees.first_name, employees.last_name, employees.emp_no, dept_emp.dept_no, dept_manager.emp_no AS manager_no
+From employees
+LEFT JOIN dept_emp  ON employees.emp_no=dept_emp.emp_no
+LEFT JOIN dept_manager on dept_manager.dept_no =  dept_no
+
+
+
+SELECT employees.first_name, employees.last_name, dept_emp.dept_no
+From employees
+Left JOIN dept_emp ON employees.emp_no=dept_emp.emp_no
+
+SELECT employees.first_name, employees.last_name, dept_emp.dept_no
+From employees
+LEFT JOIN dept_emp ON employees.emp_no=dept_emp.emp_no
+
+
+SELECT employees.first_name, employees.last_name, dept_manager.dept_no
+From employees
+INNER JOIN dept_manager ON employees.emp_no=dept_manager.emp_no
+
+
+SELECT departments.dept_name, manag.first_name, manag.last_name
+From departments
+LEFT JOIN (SELECT employees.first_name, employees.last_name, dept_manager.dept_no
+From employees
+INNER JOIN dept_manager ON employees.emp_no=dept_manager.emp_no) AS manag ON departments.dept_no=manag.dept_no
+
+
+// get employees names and department numbers
+SELECT employees.first_name, employees.last_name, dept_emp.dept_no
+From employees
+Left JOIN dept_emp ON employees.emp_no=dept_emp.emp_no
+
+// get manager names and department numbers
+SELECT employees.first_name, employees.last_name, dept_manager.dept_no
+From employees
+INNER JOIN dept_manager ON employees.emp_no=dept_manager.emp_no
+
+// join
+SELECT employees.first_name, employees.last_name, dept_emp.dept_no, manag.mfn, manag.mln
+From employees
+Left JOIN dept_emp ON employees.emp_no=dept_emp.emp_no
+Left JOIN (SELECT employees.first_name as mfn, employees.last_name as mln, dept_manager.dept_no
+From employees
+INNER JOIN dept_manager ON employees.emp_no=dept_manager.emp_no) AS manag on dept_emp.dept_no = manag.dept_no
+
+
+
+// get department names and numbers and emploee ides
+SELECT departments.dept_name, departments.dept_no, dept_emp.emp_no
+From dept_emp
+LEFT JOIN departments ON dept_emp.dept_no = departments.dept_no
+
+
+//get names and departments
+select employees.first_name, employees.last_name, deps.name
+FROM employees
+Left JOIN (SELECT departments.dept_name AS name, departments.dept_no, dept_emp.emp_no
+From dept_emp
+LEFT JOIN departments ON dept_emp.dept_no = departments.dept_no) AS deps on employees.emp_no=deps.emp_no
+
+
+
+
+
+select e.emp_no, e.fn, e.ln, e.t, salaries.salary
+From salaries
+INNER JOIN (SELECT employees.emp_no, employees.first_name as fn, employees.last_name as ln, titles.title as t
+From employees
+INNER JOIN titles ON employees.emp_no=titles.emp_no) AS e ON e.emp_no=salaries.emp_no
+
+
+
+select MAX(salaries.salary), salaries.emp_no
+From salaries
+GROUP BY salaries.emp_no
+
+
+
+select e.emp_no, e.fn, e.ln, e.t, max(salaries.salary)
+From salaries
+INNER JOIN (SELECT employees.emp_no, employees.first_name as fn, employees.last_name as ln, titles.title as t
+From employees
+INNER JOIN titles ON employees.emp_no=titles.emp_no) AS e ON e.emp_no=salaries.emp_no
+GROUP BY e.emp_no
+
+SELECT employees.first_name, employees.last_name, employees.emp_no, sals.maxSal
+FROM employees
+INNER JOIN (SELECT MAX(salaries.salary) as maxSal, salaries.emp_no FROM salaries GROUP BY salaries.emp_no) as sals ON employees.emp_no=sals.emp_no
+
+
+
+
+
+
+
+
+
+// or 
+SELECT departments.dept_name, departments.dept_no, dept_emp.emp_no, employees.first_name, employees.last_name
+From dept_emp
+LEFT JOIN departments ON dept_emp.dept_no = departments.dept_no
+LEFT JOIN employees on employees.emp_no=dept_emp.emp_no
