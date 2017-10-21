@@ -2,4 +2,5 @@ junk
 .idea
 sqlexamples.txt
 out
-!/out/artifacts/employees_app_war
+out/artifacts/employees_app_war_exploded
+out/production
