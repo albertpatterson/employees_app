@@ -10,16 +10,16 @@ An application for exploring and manipulating the data contained in the [Employe
     - [x] salaries: salaries of employees
     - [x] titles: titles of employees
 - [ ] update data
-        - [ ] add department
-        - [ ] remove department
-        - [ ] rename department
-        - [ ] add manager
-        - [ ] remove manager
-        - [ ] add employee
-        - [ ] remove employee        
-        - [ ] update employee department 
-        - [ ] update employee title 
-        - [ ] update employee salary 
+    - [ ] add department
+    - [ ] remove department
+    - [ ] rename department
+    - [ ] add manager
+    - [ ] remove manager
+    - [ ] add employee
+    - [ ] remove employee        
+    - [ ] update employee department 
+    - [ ] update employee title 
+    - [ ] update employee salary 
 - [ ] custom queries
     - [ ] Employee name, Current department, Title, Current salary and Manager
     - [ ] Employee salary, title, and department history
