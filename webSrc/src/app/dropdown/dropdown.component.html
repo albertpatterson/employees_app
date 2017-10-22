@@ -1,0 +1,10 @@
+<div class="dropdownContainer">
+  <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{title}}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" (click)="select($event)">
+        <a class="dropdown-item" href="#" *ngFor="let item of itemsArr">{{item}}</a>
+      </div>
+    </div>
+</div>

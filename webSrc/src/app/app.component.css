@@ -1,0 +1,19 @@
+.tabButton{
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid black;
+    background: #f1f1f1;
+    font-size: 25px;
+}
+
+.tabButton:hover{
+    background: #707070;
+}
+
+.tabButton.selected{
+    background: #cfcfcf;
+}
+
+#viewButtons{
+    margin: 25px 0;
+}

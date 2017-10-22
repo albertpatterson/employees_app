@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+
+.centeredInlineBlock{
+    display: inline-block;
+    margin:0 auto;
+}
+
+.centeredBlock{
+    display: block;
+    margin:0 auto;
+}
+
+.centeredContents{
+    text-align: center;
+}

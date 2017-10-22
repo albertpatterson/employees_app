@@ -1,0 +1,10 @@
+<div class="data-table-contrainer">
+  <table class="table">
+    <tr>
+      <th *ngFor="let header of headers">{{header}}</th>
+    </tr>
+    <tr *ngFor="let row of rowData">
+      <td *ngFor="let item of row">{{item}}</td>
+    </tr>
+  </table>
+</div>

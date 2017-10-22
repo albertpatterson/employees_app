@@ -1,0 +1,15 @@
+<div class="container">
+    <h1 class="text-center">Employee Manager</h1>
+
+    <div id=viewButtons class="row">
+        <button class="col-md-4 btn tabButton" [class.selected]="view=='tables'" (click)="setView('tables')">Tables</button>
+        <button class="col-md-4 btn tabButton" [class.selected]="view=='update'" (click)="setView('update')">Update Data</button>
+        <button class="col-md-4 btn tabButton" [class.selected]="view=='custom'" (click)="setView('custom')">Custom Queries</button>
+    </div>
+
+    <div [ngSwitch]="view">
+        <app-tables-tab *ngSwitchCase="'tables'"></app-tables-tab>
+        <app-update-tab *ngSwitchCase="'update'"></app-update-tab>
+        <app-custom-tab *ngSwitchCase="'custom'"></app-custom-tab>
+    </div>    
+</div>
