@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DatabaseServiceService} from '../services/database-service.service';
+import {DatabaseService} from '../services/database.service';
 
 
 @Component({
@@ -14,10 +14,10 @@ export class TablesTabComponent implements OnInit {
   public rowDataJson: string = "[[]]";
 
 
-  constructor(private databaseServiceService: DatabaseServiceService) { }
+  constructor(private databaseService: DatabaseService) { }
 
   ngOnInit() {
-      this.databaseServiceService.getTableNames()
+      this.databaseService.getTableNames()
       .then(names=>{
         this.tableNamesString=names.join(",");
       })
@@ -25,7 +25,7 @@ export class TablesTabComponent implements OnInit {
   }
 
   public showTable(tableName: string):void{
-    this.databaseServiceService.getTableData(tableName)
+    this.databaseService.getTableData(tableName)
     .then(data=>{
       this.headersJson=JSON.stringify(data.columnNames);
       this.rowDataJson=JSON.stringify(data.data);

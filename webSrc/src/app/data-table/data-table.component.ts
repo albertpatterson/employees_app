@@ -17,8 +17,20 @@ export class DataTableComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges() {
-    this.headers=JSON.parse(this.headersJson);
-    this.rowData=JSON.parse(this.rowDataJson);
+    if(this.headersJson && this.rowDataJson){
+      this.headers=JSON.parse(this.headersJson);
+      this.rowData=JSON.parse(this.rowDataJson);
+    }
+  }
+
+  edit(event): void{
+    var target = event.target;
+    var txt = target.innerText;
+    var col = target.dataset.col;
+    var parent = target.parentElement;
+    var emp_no = parent.children[0].innerText;
+
+    console.log(event, target, txt, col, parent, emp_no);
   }
 
 }

@@ -34,4 +34,14 @@
         <url-pattern>/tableData</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>fullEmployeeData</servlet-name>
+        <servlet-class>servlets.FullEmployeeDataServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>fullEmployeeData</servlet-name>
+        <url-pattern>/fullEmployeeData</url-pattern>
+    </servlet-mapping>
+
 </web-app>

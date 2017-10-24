@@ -1,15 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 
+import { DatabaseService } from '../services/database.service';
+
 @Component({
   selector: 'app-custom-tab',
   templateUrl: './custom-tab.component.html',
-  styleUrls: ['./custom-tab.component.css']
+  styleUrls: ['./custom-tab.component.css'],
 })
 export class CustomTabComponent implements OnInit {
 
-  constructor() { }
+  public headersJson: string;
+  public rowDataJson: string;
+
+  constructor(private databaseService: DatabaseService) { }
 
   ngOnInit() {
+      this.databaseService.getFullEmployeeData()
+      .then(data=>this.showTable(data))
+      .catch(e=>console.log(e));
   }
 
+  showTable(data: any):void{
+    this.headersJson=JSON.stringify(data.columnNames);
+    this.rowDataJson=JSON.stringify(data.data);
+  }
 }

@@ -9,7 +9,13 @@ export class AppComponent {
 
   public view: string = "none";
 
+  public doFullEmployeeDataFetch = false;
+  public doTableNameFetch = false;
+
   public setView(view: string): void{
     this.view = view;
+    this.doFullEmployeeDataFetch = this.view==="custom";
+    this.doTableNameFetch = this.view==="tables";
+    
   }
 }

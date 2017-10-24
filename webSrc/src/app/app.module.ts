@@ -10,7 +10,7 @@ import { UpdateTabComponent } from './update-tab/update-tab.component';
 import { CustomTabComponent } from './custom-tab/custom-tab.component';
 import { HttpModule } from '@angular/http';
 
-import { DatabaseServiceService } from "./services/database-service.service";
+import { DatabaseService } from "./services/database.service";
 import { DataTableComponent } from './data-table/data-table.component';
 import { FilterableEmployeeDataComponent } from './filterable-employee-data/filterable-employee-data.component';
 
@@ -29,7 +29,7 @@ import { FilterableEmployeeDataComponent } from './filterable-employee-data/filt
     CommonModule,
     HttpModule
   ],
-  providers: [DatabaseServiceService],
+  providers: [DatabaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

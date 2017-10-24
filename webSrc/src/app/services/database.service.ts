@@ -8,11 +8,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw'
 
 @Injectable()
-export class DatabaseServiceService {
+export class DatabaseService {
 
 
   private _tableNamesUrl: string = "databaseData";
   private _tableDataUrl: string = "tableData";
+  private _FullEmployeeDataUrl: string = "fullEmployeeData";
 
   constructor(private http: Http) { }
 
@@ -35,5 +36,11 @@ export class DatabaseServiceService {
     return this.http.get(this._tableDataUrl, {search})
           .toPromise()
           .then((resp: Response)=>resp.json());
+  }
+
+  public getFullEmployeeData(): Promise<String[]>{
+    return this.http.get(this._FullEmployeeDataUrl)
+    .toPromise()
+    .then((resp: Response)=>resp.json());
   }
 }

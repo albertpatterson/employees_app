@@ -11,38 +11,38 @@ import static org.junit.Assert.*;
 public class EmployeesDBServiceTest {
 
 
-    @Before
-    public void connect(){
-        EmployeesDBService.init();
-    }
-
-    @After
-    public void destroy(){
-        EmployeesDBService.destroy();
-    }
-
-    @org.junit.Test
-    public void getTableNames() throws Exception {
-
-    }
-
-    @org.junit.Test
-    public void getTableData() throws Exception {
-
-    }
-
-    @org.junit.Test
-    public void getTableData1() throws Exception {
-
-    }
-
-    @org.junit.Test
-    public void getAllEmployeeData() throws Exception {
-
-        EmployeesDBService employeesDBService = new EmployeesDBService();
-
-
-        employeesDBService.getAllEmployeeData();
-    }
+//    @Before
+//    public void connect(){
+//        EmployeesDBService.init();
+//    }
+//
+//    @After
+//    public void destroy(){
+//        EmployeesDBService.destroy();
+//    }
+//
+//    @org.junit.Test
+//    public void getTableNames() throws Exception {
+//
+//    }
+//
+//    @org.junit.Test
+//    public void getTableData() throws Exception {
+//
+//    }
+//
+//    @org.junit.Test
+//    public void getTableData1() throws Exception {
+//
+//    }
+//
+//    @org.junit.Test
+//    public void getAllEmployeeData() throws Exception {
+//
+//        EmployeesDBService employeesDBService = new EmployeesDBService();
+//
+//
+//        employeesDBService.getAllEmployeeData();
+//    }
 
 }
