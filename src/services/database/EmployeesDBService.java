@@ -2,6 +2,7 @@ package services.database;
 
 import utils.JsonConvertible;
 
+import javax.lang.model.element.NestingKind;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -14,6 +15,49 @@ public class EmployeesDBService {
     private static final String USERNANME = "pma";
     private static final String PASSWORD = "";
     public static Connection conn = null;
+
+
+
+
+    private static final String SELECT_LATEST_EMP_DATE =    "SELECT emp_no, max(to_date) AS to_date "
+                                                        +   "FROM dept_emp "
+                                                        +   "GROUP BY emp_no ";
+
+    private static final String SELECT_LATEST_EMP_DATE2=    "SELECT latest.emp_no, latest.to_date "
+                                                        +   "FROM (" + SELECT_LATEST_EMP_DATE + ") AS latest "
+                                                        +   "WHERE latest.to_date <= CURDATE() "
+                                                        +   "UNION "
+                                                        +   "SELECT latest2.emp_no, CURDATE() AS to_date "
+                                                        +   "FROM (" + SELECT_LATEST_EMP_DATE + ") AS latest2 "
+                                                        +   "WHERE latest2.to_date > CURDATE() ";
+
+
+    private static final String SELECT_LATEST_DEPARTMENT =  "SELECT dept_emp.emp_no, dept_emp.dept_no, latest_emp_date.to_date, departments.dept_name "
+                                                        +   "FROM dept_emp "
+                                                        +   "INNER JOIN (" + SELECT_LATEST_EMP_DATE + ") AS latest_emp_date "
+                                                        +   "ON dept_emp.emp_no = latest_emp_date.emp_no AND dept_emp.to_date = latest_emp_date.to_date "
+                                                        +   "INNER JOIN departments "
+                                                        +   "ON departments.dept_no = dept_emp.dept_no";
+
+    private static final String SELECT_LATEST_TITLE =   "SELECT TITLES.emp_no, latest_emp_date.to_date, titles.title "
+                                                    +   "FROM titles "
+                                                    +   "INNER JOIN (" + SELECT_LATEST_EMP_DATE + ") AS latest_emp_date "
+                                                    +   "ON titles.emp_no = latest_emp_date.emp_no AND titles.to_date = latest_emp_date.to_date ";
+
+    private static final String SELECT_LATEST_SALARY =  "SELECT salaries.emp_no, latest_emp_date.to_date, salaries.salary "
+                                                    +   "FROM salaries "
+                                                    +   "INNER JOIN (" + SELECT_LATEST_EMP_DATE + ") AS latest_emp_date "
+                                                    +   "ON salaries.emp_no = latest_emp_date.emp_no AND salaries.to_date = latest_emp_date.to_date ";
+
+    private static final String SELECT_LATEST_DATA =    "SELECT employees.*, latest_title.title, latest_dept.to_date, latest_dept.dept_name, latest_salary.salary "
+                                                    +   "FROM employees "
+                                                    +   "INNER JOIN ("+SELECT_LATEST_DEPARTMENT+") AS latest_dept "
+                                                    +   "ON employees.emp_no = latest_dept.emp_no "
+                                                    +   "INNER JOIN ("+SELECT_LATEST_TITLE+") AS latest_title "
+                                                    +   "ON employees.emp_no = latest_title.emp_no "
+                                                    +   "INNER JOIN ("+SELECT_LATEST_SALARY+") AS latest_salary "
+                                                    +   "ON employees.emp_no = latest_salary.emp_no ";
+
 
     public static void init(){
         try {
@@ -63,11 +107,11 @@ public class EmployeesDBService {
         return tableNames;
     }
 
-    public JsonConvertible getTableData(String tableName) throws SQLException {
+    public StringifiedTableData getTableData(String tableName) throws SQLException {
         return getTableData(tableName, 50);
     }
 
-    public StrigifiedTableData getTableData(String tableName, int limit) throws SQLException {
+    public StringifiedTableData getTableData(String tableName, int limit) throws SQLException {
 
         String[] colNames = null;
         ArrayList<String[]> rowData = new ArrayList<>();
@@ -93,7 +137,73 @@ public class EmployeesDBService {
                 rowData.add(stringData);
             }
 
-        return new StrigifiedTableData(colNames, rowData);
+        return new StringifiedTableData(colNames, rowData);
     }
+
+    public void getAllEmployeeData(){
+        try (Statement stmt = conn.createStatement()) {
+
+            String q0 = SELECT_LATEST_EMP_DATE2 + "ORDER BY emp_no LIMIT 100";
+            ResultSet rs0 = stmt.executeQuery(q0);
+            String[][] data0 = getStrings(rs0, new String[]{"emp_no", "to_date"});
+
+
+//            String q = SELECT_LATEST_DEPARTMENT + " LIMIT 100";
+//            ResultSet rs = stmt.executeQuery(q);
+//            String[][] data = getStrings(rs, new String[]{"emp_no", "to_date", "dept_name"});
+//
+//            String q2 = SELECT_LATEST_TITLE+ " LIMIT 100";
+//            ResultSet rs2 = stmt.executeQuery(q2);
+//            String[][] data2 = getStrings(rs2, new String[]{"emp_no", "to_date", "title"});
+//
+//            String q3 = SELECT_LATEST_SALARY+ " LIMIT 100";
+//            ResultSet rs3 = stmt.executeQuery(q3);
+//            String[][] data3 = getStrings(rs3, new String[]{"emp_no", "to_date", "salary"});
+//
+//            String q4 = SELECT_LATEST_DATA+ " LIMIT 100";
+//            ResultSet rs4 = stmt.executeQuery(q4);
+//            String[][] data4 = getStrings(rs4, new String[]{"emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date", "to_date", "title", "dept_name", "salary"});
+
+//            while(rs.next()){
+//                System.out.println(String.format("%s, %s",rs.getString("emp_no"), rs.getString("dept_name")));
+//            }
+            System.out.println(data0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String[][] getStrings(ResultSet rs, String[] names) throws SQLException {
+        ResultSetMetaData rsMetaData =  rs.getMetaData();
+        int nCols = names.length;
+        rs.last();
+        int nRows = rs.getRow();
+        rs.beforeFirst();
+        String[][] data = new String[nRows][nCols];
+        int rowIdx=0;
+        while(rs.next()){
+            for(int colIdx=0; colIdx<nCols; colIdx++){
+                data[rowIdx][colIdx] = rs.getString(names[colIdx]);
+            }
+            rowIdx++;
+        }
+        return data;
+    }
+
+//    public StringifiedTableData getMatchingEmployeeData(
+//            String name,
+//            String minAge,
+//            String maxAge,
+//            String gender,
+//            String department,
+//            String title,
+//            String active){
+//
+//        StringBuilder querybuilder = new StringBuilder(
+//                "SELECT employees.first_name, employees.last_name, employees.gender, dept_names.dept_name")
+//
+//
+//
+//    }
 }
 

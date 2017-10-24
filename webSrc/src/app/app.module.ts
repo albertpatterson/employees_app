@@ -12,6 +12,7 @@ import { HttpModule } from '@angular/http';
 
 import { DatabaseServiceService } from "./services/database-service.service";
 import { DataTableComponent } from './data-table/data-table.component';
+import { FilterableEmployeeDataComponent } from './filterable-employee-data/filterable-employee-data.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DataTableComponent } from './data-table/data-table.component';
     TablesTabComponent,
     UpdateTabComponent,
     CustomTabComponent,
-    DataTableComponent
+    DataTableComponent,
+    FilterableEmployeeDataComponent
   ],
   imports: [
     BrowserModule,

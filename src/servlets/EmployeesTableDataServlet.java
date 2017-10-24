@@ -4,17 +4,12 @@ package servlets;
 import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Map;
 
-import jdk.nashorn.internal.ir.debug.JSONWriter;
-import services.database.EmployeesDBService;
-import services.database.StrigifiedTableData;
 import utils.JsonConvertible;
 
 /**

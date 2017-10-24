@@ -1,0 +1,77 @@
+SELECT employees.first_name, employees.last_name, employees.gender, dept_name.dept_name
+From employees
+INNER JOIN (SELECT dept_emp.emp_no, departments.dept_name 
+            From dept_emp
+           	INNER JOIN departments ON dept_emp.dept_no=departments.dept_no) AS dept_name
+           	ON employees.emp_no=dept_name.emp_no
+            ORDER BY employees.emp_no
+			
+			
+			
+			
+SELECT FLOOR(DATEDIFF(CURRENT_DATE, hire_date)/365)
+FROM employees			
+
+
+SELECT employees.first_name, employees.last_name, employees.gender, dept_name.dept_name, FLOOR(DATEDIFF(CURRENT_DATE, hire_date)/365) AS years
+From employees
+INNER JOIN (SELECT dept_emp.emp_no, departments.dept_name 
+            From dept_emp
+           	INNER JOIN departments ON dept_emp.dept_no=departments.dept_no) AS dept_name
+           	ON employees.emp_no=dept_name.emp_no
+            ORDER BY employees.emp_no
+			
+			
+			
+SELECT cur_titles.emp_no, cur_titles.to_date, titles.title
+FROM titles
+INNER JOIN (SELECT titles.emp_no, Max(titles.to_date) AS to_date
+            FROM titles
+            GROUP BY titles.emp_no) AS cur_titles
+           	ON titles.emp_no = cur_titles.emp_no AND titles.to_date=cur_titles.to_date			
+			
+			
+			
+			
+			
+			
+SELECT employees.first_name, employees.last_name, employees.gender, dept_name.dept_name, FLOOR(DATEDIFF(cur_titles.to_date, hire_date)/365) AS years, cur_titles.to_date, cur_titles.title
+From employees
+INNER JOIN (SELECT dept_emp.emp_no, departments.dept_name 
+            From dept_emp
+           	INNER JOIN departments ON dept_emp.dept_no=departments.dept_no) AS dept_name
+           	ON employees.emp_no=dept_name.emp_no
+INNER JOIN (SELECT last_titles.emp_no, last_titles.to_date, titles.title
+            FROM titles
+            INNER JOIN (SELECT titles.emp_no, Max(titles.to_date) AS to_date
+                        FROM titles
+                        GROUP BY titles.emp_no) AS last_titles
+                        ON titles.emp_no = last_titles.emp_no AND titles.to_date=last_titles.to_date) AS cur_titles
+            ON employees.emp_no = cur_titles.emp_no   			
+			
+			
+			
+			
+			
+			
+			
+SELECT employees.first_name, employees.last_name, employees.gender, dept_name.dept_name, cur_titles.to_date, cur_titles.title, cur_salaries.salary
+From employees
+INNER JOIN (SELECT dept_emp.emp_no, departments.dept_name 
+            From dept_emp
+           	INNER JOIN departments ON dept_emp.dept_no=departments.dept_no) AS dept_name
+           	ON employees.emp_no=dept_name.emp_no
+INNER JOIN (SELECT last_titles.emp_no, last_titles.to_date, titles.title
+            FROM titles
+            INNER JOIN (SELECT titles.emp_no, Max(titles.to_date) AS to_date
+                        FROM titles
+                        GROUP BY titles.emp_no) AS last_titles
+                        ON titles.emp_no = last_titles.emp_no AND titles.to_date=last_titles.to_date) AS cur_titles
+            ON employees.emp_no = cur_titles.emp_no
+INNER JOIN (SELECT last_salaries.emp_no, last_salaries.to_date, salaries.salary
+            FROM salaries
+            INNER JOIN (SELECT salaries.emp_no, Max(salaries.to_date) AS to_date
+                        FROM salaries
+                        GROUP BY salaries.emp_no) AS last_salaries
+                        ON salaries.emp_no = last_salaries.emp_no AND salaries.to_date=last_salaries.to_date) AS cur_salaries
+            ON employees.emp_no = cur_salaries.emp_no			

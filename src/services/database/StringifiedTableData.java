@@ -8,11 +8,11 @@ import java.util.ArrayList;
 /**
  * Created by apatters on 10/15/2017.
  */
-public class StrigifiedTableData implements JsonConvertible {
+public class StringifiedTableData implements JsonConvertible {
     public String[] columnNames = null;
     public ArrayList<String[]> rowData = null;
 
-    public StrigifiedTableData(String[] columnNames, ArrayList<String[]> rowData){
+    public StringifiedTableData(String[] columnNames, ArrayList<String[]> rowData){
         this.columnNames = columnNames;
         this.rowData = rowData;
     }
