@@ -1,10 +1,10 @@
 <div class="data-table-contrainer">
-  <table class="table" (dblclick)="edit($event)">
+  <table class="table" (dblclick)="dblClick($event)">
     <tr>
       <th *ngFor="let header of headers">{{header}}</th>
     </tr>
-    <tr *ngFor="let row of rowData">
-      <td *ngFor="let item of row; index as i" [attr.data-col]="i">{{item}}</td>
+    <tr *ngFor="let row of rowData; index as rowNum">
+      <td *ngFor="let item of row; index as colNum" [attr.data-row]="rowNum" [attr.data-col]="colNum">{{item}}</td>
     </tr>
   </table>
 </div>
