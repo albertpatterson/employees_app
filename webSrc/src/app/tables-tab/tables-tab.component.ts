@@ -10,9 +10,8 @@ import {DatabaseService} from '../services/database.service';
 export class TablesTabComponent implements OnInit {
 
   public tableNamesString: string = 'nothing';
-  public headersJson: string = "[]";
-  public rowDataJson: string = "[[]]";
-
+  public headers: string[];
+  public rowData: string [][];
 
   constructor(private databaseService: DatabaseService) { }
 
@@ -27,8 +26,8 @@ export class TablesTabComponent implements OnInit {
   public showTable(tableName: string):void{
     this.databaseService.getTableData(tableName)
     .then(data=>{
-      this.headersJson=JSON.stringify(data.columnNames);
-      this.rowDataJson=JSON.stringify(data.data);
+      this.headers=data.columnNames;
+      this.rowData=data.data;
       console.log(data);
     });
   }

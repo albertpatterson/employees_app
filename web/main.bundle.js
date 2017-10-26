@@ -168,7 +168,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/custom-tab/custom-tab.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"centeredContents\">\n  <app-employee-data-form [(visibility)]=\"formVisibility\"></app-employee-data-form>\n  <app-data-table headersJson={{headersJson}} rowDataJson={{rowDataJson}} (cellDblClick)=\"doUpdate($event)\"></app-data-table>\n</div>"
+module.exports = "<div class=\"centeredContents\">\n  <app-employee-data-form [(visibility)]=\"formVisibility\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-form>\n  <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showFormForEmployee($event)\"></app-data-table>\n</div>"
 
 /***/ }),
 
@@ -179,6 +179,7 @@ module.exports = "<div class=\"centeredContents\">\n  <app-employee-data-form [(
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomTabComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_database_service__ = __webpack_require__("../../../../../src/app/services/database.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_Employee__ = __webpack_require__("../../../../../src/app/utils/Employee.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -190,9 +191,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var CustomTabComponent = (function () {
     function CustomTabComponent(databaseService) {
         this.databaseService = databaseService;
+        this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
         this.formVisibility = "hidden";
     }
     CustomTabComponent.prototype.ngOnInit = function () {
@@ -202,12 +205,14 @@ var CustomTabComponent = (function () {
             .catch(function (e) { return console.log(e); });
     };
     CustomTabComponent.prototype.showTable = function (data) {
-        this.headersJson = JSON.stringify(data.columnNames);
-        this.rowDataJson = JSON.stringify(data.data);
+        this.headers = data.columnNames;
+        this.rowData = data.data;
     };
-    CustomTabComponent.prototype.doUpdate = function (itemCoords) {
+    CustomTabComponent.prototype.showFormForEmployee = function (itemCoords) {
         console.log(itemCoords);
         console.log(this.formVisibility);
+        var row = itemCoords[0];
+        this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]);
         this.formVisibility = "visible";
     };
     return CustomTabComponent;
@@ -272,10 +277,6 @@ var DataTableComponent = (function () {
         this.cellDblClick = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
     DataTableComponent.prototype.ngOnChanges = function () {
-        if (this.headersJson && this.rowDataJson) {
-            this.headers = JSON.parse(this.headersJson);
-            this.rowData = JSON.parse(this.rowDataJson);
-        }
     };
     DataTableComponent.prototype.dblClick = function (event) {
         var target = event.target;
@@ -290,8 +291,8 @@ DataTableComponent = __decorate([
         selector: 'app-data-table',
         template: __webpack_require__("../../../../../src/app/data-table/data-table.component.html"),
         styles: [__webpack_require__("../../../../../src/app/data-table/data-table.component.css")],
-        inputs: ["headersJson",
-            "rowDataJson"],
+        inputs: ["headers",
+            "rowData"],
         outputs: [
             "cellDblClick"
         ]
@@ -384,7 +385,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "#empoyeeDataFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#title{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n", ""]);
+exports.push([module.i, "#empoyeeDataFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n", ""]);
 
 // exports
 
@@ -397,7 +398,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/employee-data-form/employee-data-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"empoyeeDataFormContainer\" [style.visibility]=\"visibility\">\n  <h1 id=\"title\">{{formTitle}}</h1>\n  <form id=\"empoyeeDataForm\" (ngSubmit)=\"onSubmit()\" #employeeForm=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"birth_date\">Birth Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"birth_date\" required [(ngModel)]=\"employee.birth_date\" name=\"birth_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"first_name\">First Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"first_name\" required [(ngModel)]=\"employee.first_name\" name=\"first_name\">\n    </div>\n    \n    <div class=\"form-group\">\n      <label for=\"last_name\">Last Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"last_name\" required [(ngModel)]=\"employee.last_name\" name=\"last_name\">\n    </div>\n  \n    \n    <label for=\"gender\">Gender</label>\n    <div id=\"gender\" class=\"row\">\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderM\">Male</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderM\" required [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"M\">\n      </div>\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderF\">Female</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderF\" required [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"F\">\n      </div>\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"hire_date\">Hire Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"hire_date\" required [(ngModel)]=\"employee.hire_date\" name=\"hire_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input type=\"text\" class=\"form-control\" id=\"title\" required [(ngModel)]=\"employee.title\" name=\"title\">\n    </div> \n    \n    <div class=\"form-group\">\n      <label for=\"to_date\">To Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"to_date\" required [(ngModel)]=\"employee.to_date\" name=\"to_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"dept_name\">Department</label>\n      <input type=\"text\" class=\"form-control\" id=\"dept_name\" required [(ngModel)]=\"employee.dept_name\" name=\"dept_name\">\n    </div> \n  \n    <div class=\"form-group\">\n      <label for=\"salary\">Salary</label>\n      <input type=\"number\" class=\"form-control\" id=\"salary\" required [(ngModel)]=\"employee.salary\" name=\"salary\">\n    </div>       \n    \n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!employeeForm.form.valid\">Submit</button>\n    <button class=\"btn btn-basic\" (click)=\"hide()\">Cancel</button>\n  </form>\n</div>"
+module.exports = "<div id=\"empoyeeDataFormContainer\" [style.visibility]=\"visibility\">\n  <h1 id=\"formTitle\">{{formTitle}}</h1>\n  <form id=\"empoyeeDataForm\" (ngSubmit)=\"onSubmit()\" #employeeForm=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"birth_date\">Birth Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"birth_date\" required [(ngModel)]=\"employee.birth_date\" name=\"birth_date\" [value]=\"employee.birth_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"first_name\">First Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"first_name\" required [(ngModel)]=\"employee.first_name\" name=\"first_name\" [value]=\"employee.first_name\">\n    </div>\n    \n    <div class=\"form-group\">\n      <label for=\"last_name\">Last Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"last_name\" required [(ngModel)]=\"employee.last_name\" name=\"last_name\" [value]=\"employee.last_name\">\n    </div>\n  \n    \n    <label for=\"gender\">Gender</label>\n    <div id=\"gender\" class=\"row\">\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderM\">Male</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderM\" required [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"M\" [attr.checked]=\"employee.gender===M\">\n      </div>\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderF\">Female</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderF\" required [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"F\" [attr.checked]=\"employee.gender===F\">\n      </div>\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"hire_date\">Hire Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"hire_date\" required [(ngModel)]=\"employee.hire_date\" name=\"hire_date\" [value]=\"employee.hire_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input type=\"text\" class=\"form-control\" id=\"title\" required [(ngModel)]=\"employee.title\" name=\"title\" [value]=\"employee.title\">\n    </div> \n    \n    <div class=\"form-group\">\n      <label for=\"to_date\">To Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"to_date\" required [(ngModel)]=\"employee.to_date\" name=\"to_date\" [value]=\"employee.to_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"dept_name\">Department</label>\n      <input type=\"text\" class=\"form-control\" id=\"dept_name\" required [(ngModel)]=\"employee.dept_name\" name=\"dept_name\" [value]=\"employee.dept_name\">\n    </div> \n  \n    <div class=\"form-group\">\n      <label for=\"salary\">Salary</label>\n      <input type=\"number\" class=\"form-control\" id=\"salary\" required [(ngModel)]=\"employee.salary\" name=\"salary\" [value]=\"employee.salary\">\n    </div>       \n    \n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"(!employeeForm.form.valid)||(!employeeForm.form.dirty)\">Submit</button>\n    <button class=\"btn btn-basic\" (click)=\"hide()\">Cancel</button>\n  </form>\n</div>"
 
 /***/ }),
 
@@ -407,7 +408,6 @@ module.exports = "<div id=\"empoyeeDataFormContainer\" [style.visibility]=\"visi
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmployeeDataFormComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_Employee__ = __webpack_require__("../../../../../src/app/utils/Employee.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -418,7 +418,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-
 var EmployeeDataFormComponent = (function () {
     function EmployeeDataFormComponent() {
         this.visibility = "visible";
@@ -427,11 +426,37 @@ var EmployeeDataFormComponent = (function () {
         this.visibilityChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
     EmployeeDataFormComponent.prototype.ngOnInit = function () {
-        this.employee = new __WEBPACK_IMPORTED_MODULE_1__utils_Employee__["a" /* Employee */](this.emp_no, this.birth_date, this.first_name, this.last_name, this.gender, this.hire_date, this.title, this.to_date, this.dept_name, this.salary);
-        console.log(this.employee);
+        // this.employee=new Employee(
+        //   this.emp_no,
+        //   this.birth_date, 
+        //   this.first_name, 
+        //   this.last_name, 
+        //   this.gender, 
+        //   this.hire_date, 
+        //   this.title, 
+        //   this.to_date, 
+        //   this.dept_name, 
+        //   this.salary);
+        // console.log(this.employee);
     };
     EmployeeDataFormComponent.prototype.ngOnChanges = function () {
-        this.employee = new __WEBPACK_IMPORTED_MODULE_1__utils_Employee__["a" /* Employee */](this.emp_no, this.birth_date, this.first_name, this.last_name, this.gender, this.hire_date, this.title, this.to_date, this.dept_name, this.salary);
+        // this.employee=new Employee(
+        //   this.emp_no,
+        //   this.birth_date, 
+        //   this.first_name, 
+        //   this.last_name, 
+        //   this.gender, 
+        //   this.hire_date, 
+        //   this.title, 
+        //   this.to_date, 
+        //   this.dept_name, 
+        //   this.salary);
+        if (this.employee.emp_no) {
+            this.formTitle = "Update Data Form Employee #" + this.employee.emp_no;
+        }
+        else {
+            this.formTitle = "Provide Data For New Employee";
+        }
         console.log(this.employee);
     };
     EmployeeDataFormComponent.prototype.onSubmit = function () {
@@ -453,16 +478,17 @@ EmployeeDataFormComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/employee-data-form/employee-data-form.component.html"),
         styles: [__webpack_require__("../../../../../src/app/employee-data-form/employee-data-form.component.css")],
         inputs: [
-            "emp_no",
-            "birth_date",
-            "first_name",
-            "last_name",
-            "gender",
-            "hire_date",
-            "title",
-            "to_date",
-            "dept_name",
-            "salary",
+            // "emp_no",
+            // "birth_date",
+            // "first_name",
+            // "last_name",
+            // "gender",
+            // "hire_date",
+            // "title",
+            // "to_date",
+            // "dept_name",
+            // "salary",
+            "employee",
             "visibility"
         ],
         outputs: [
@@ -627,7 +653,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/tables-tab/tables-tab.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "  <div class=\"centeredContents\">\n      <dropdown title=\"Select Table\" items={{tableNamesString}} (selection)=\"showTable($event)\"></dropdown>\n      <app-data-table headersJson={{headersJson}} rowDataJson={{rowDataJson}}></app-data-table>\n  </div>"
+module.exports = "  <div class=\"centeredContents\">\n      <dropdown title=\"Select Table\" items={{tableNamesString}} (selection)=\"showTable($event)\"></dropdown>\n      <app-data-table [headers]=\"headers\" [rowData]=\"rowData\"></app-data-table>\n  </div>"
 
 /***/ }),
 
@@ -653,8 +679,6 @@ var TablesTabComponent = (function () {
     function TablesTabComponent(databaseService) {
         this.databaseService = databaseService;
         this.tableNamesString = 'nothing';
-        this.headersJson = "[]";
-        this.rowDataJson = "[[]]";
     }
     TablesTabComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -668,8 +692,8 @@ var TablesTabComponent = (function () {
         var _this = this;
         this.databaseService.getTableData(tableName)
             .then(function (data) {
-            _this.headersJson = JSON.stringify(data.columnNames);
-            _this.rowDataJson = JSON.stringify(data.data);
+            _this.headers = data.columnNames;
+            _this.rowData = data.data;
             console.log(data);
         });
     };

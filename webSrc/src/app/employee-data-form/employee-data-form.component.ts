@@ -6,16 +6,17 @@ import { Employee } from "../utils/Employee";
   templateUrl: './employee-data-form.component.html',
   styleUrls: ['./employee-data-form.component.css'],
   inputs: [
-    "emp_no",
-    "birth_date",
-    "first_name",
-    "last_name",
-    "gender",
-    "hire_date",
-    "title",
-    "to_date",
-    "dept_name",
-    "salary",
+    // "emp_no",
+    // "birth_date",
+    // "first_name",
+    // "last_name",
+    // "gender",
+    // "hire_date",
+    // "title",
+    // "to_date",
+    // "dept_name",
+    // "salary",
+    "employee",
     "visibility"
   ],
   outputs: [
@@ -25,17 +26,16 @@ import { Employee } from "../utils/Employee";
 })
 export class EmployeeDataFormComponent implements OnInit, OnChanges {
 
-
-  public emp_no: string;
-  public birth_date: string;
-  public first_name: string;
-  public last_name: string;
-  public gender: string;
-  public hire_date: string;
-  public title: string;
-  public to_date: string;
-  public dept_name: string;
-  public salary: string; 
+  // public emp_no: string;
+  // public birth_date: string;
+  // public first_name: string;
+  // public last_name: string;
+  // public gender: string;
+  // public hire_date: string;
+  // public title: string;
+  // public to_date: string;
+  // public dept_name: string;
+  // public salary: string; 
 
   public employee: Employee;
   public visibility: string = "visible";
@@ -47,33 +47,39 @@ export class EmployeeDataFormComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
-    this.employee=new Employee(
-      this.emp_no,
-      this.birth_date, 
-      this.first_name, 
-      this.last_name, 
-      this.gender, 
-      this.hire_date, 
-      this.title, 
-      this.to_date, 
-      this.dept_name, 
-      this.salary);
+    // this.employee=new Employee(
+    //   this.emp_no,
+    //   this.birth_date, 
+    //   this.first_name, 
+    //   this.last_name, 
+    //   this.gender, 
+    //   this.hire_date, 
+    //   this.title, 
+    //   this.to_date, 
+    //   this.dept_name, 
+    //   this.salary);
 
-      console.log(this.employee);
+      // console.log(this.employee);
   }
 
   ngOnChanges() {
-    this.employee=new Employee(
-      this.emp_no,
-      this.birth_date, 
-      this.first_name, 
-      this.last_name, 
-      this.gender, 
-      this.hire_date, 
-      this.title, 
-      this.to_date, 
-      this.dept_name, 
-      this.salary);
+    // this.employee=new Employee(
+    //   this.emp_no,
+    //   this.birth_date, 
+    //   this.first_name, 
+    //   this.last_name, 
+    //   this.gender, 
+    //   this.hire_date, 
+    //   this.title, 
+    //   this.to_date, 
+    //   this.dept_name, 
+    //   this.salary);
+
+      if(this.employee.emp_no){
+        this.formTitle = "Update Data Form Employee #"+this.employee.emp_no;
+      }else{
+        this.formTitle = "Provide Data For New Employee"
+      }
 
       console.log(this.employee);
   }

@@ -1,4 +1,4 @@
   <div class="centeredContents">
       <dropdown title="Select Table" items={{tableNamesString}} (selection)="showTable($event)"></dropdown>
-      <app-data-table headersJson={{headersJson}} rowDataJson={{rowDataJson}}></app-data-table>
+      <app-data-table [headers]="headers" [rowData]="rowData"></app-data-table>
   </div>

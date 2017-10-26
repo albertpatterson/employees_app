@@ -4,27 +4,21 @@ import { Component, OnChanges, EventEmitter } from '@angular/core';
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css'],
-  inputs: ["headersJson",
-            "rowDataJson"],
+  inputs: ["headers",
+            "rowData"],
   outputs: [
     "cellDblClick"
     ]
 })
 export class DataTableComponent implements OnChanges {
 
-  public headersJson: string;
-  public rowDataJson: string;
   public headers: string[];
   public rowData: string[][];
   public cellDblClick: EventEmitter<number[]> = new EventEmitter();
-  
+
   constructor() { }
 
   ngOnChanges() {
-    if(this.headersJson && this.rowDataJson){
-      this.headers=JSON.parse(this.headersJson);
-      this.rowData=JSON.parse(this.rowDataJson);
-    }
   }
 
   dblClick(event): void{
