@@ -18,8 +18,20 @@ label{
     color: white;
 }
 
+#gender>title{
+    text-align: center;
+}
+
 #formTitle{
     color: white;
     font-weight: bold;
     font-size: 25px;   
+}
+
+.form-group{
+    text-align: left;
+}
+
+#gender .form-group{
+    text-align: center;
 }

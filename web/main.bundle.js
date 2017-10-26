@@ -385,7 +385,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "#empoyeeDataFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n", ""]);
+exports.push([module.i, "#empoyeeDataFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#gender>title{\r\n    text-align: center;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n\r\n.form-group{\r\n    text-align: left;\r\n}\r\n\r\n#gender .form-group{\r\n    text-align: center;\r\n}", ""]);
 
 // exports
 
