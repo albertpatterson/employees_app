@@ -1,0 +1,10 @@
+<div class="centeredContents">
+  <div class="row">
+    <button (click)="addEmployee()" class="btn btn-success col-sm-4">Add</button>
+    <button (click)="showFilterForm()" class="btn btn-success col-sm-4">Set Filters</button>
+    <button (click)="fetchData()" class="btn btn-success col-sm-4">Fetch Data</button>
+  </div>
+  <app-data-table [headers]="headers" [rowData]="rowData" (cellDblClick)="showUpdateForm($event)"></app-data-table>
+  <app-employee-data-update-form [(visibility)]="updateFormVisibility" [employee]="employee" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form>
+  <app-employee-data-filter-form [(visibility)]="filterFormVisibility" [(filter)]="filter"></app-employee-data-filter-form>
+</div>

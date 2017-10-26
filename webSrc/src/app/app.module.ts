@@ -7,13 +7,14 @@ import { AppComponent } from './app.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { TablesTabComponent } from './tables-tab/tables-tab.component';
 import { UpdateTabComponent } from './update-tab/update-tab.component';
-import { CustomTabComponent } from './custom-tab/custom-tab.component';
+import { EmployeeDataTabComponent } from './employee-data-tab/employee-data-tab.component';
 import { HttpModule } from '@angular/http';
 
 import { DatabaseService } from "./services/database.service";
 import { DataTableComponent } from './data-table/data-table.component';
 import { FilterableEmployeeDataComponent } from './filterable-employee-data/filterable-employee-data.component';
-import { EmployeeDataFormComponent } from './employee-data-form/employee-data-form.component';
+import { EmployeeDataUpdateFormComponent } from './employee-data-update-form/employee-data-update-form.component';
+import { EmployeeDataFilterFormComponent } from './employee-data-filter-form/employee-data-filter-form.component';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,11 @@ import { EmployeeDataFormComponent } from './employee-data-form/employee-data-fo
     DropdownComponent,
     TablesTabComponent,
     UpdateTabComponent,
-    CustomTabComponent,
+    EmployeeDataTabComponent,
     DataTableComponent,
     FilterableEmployeeDataComponent,
-    EmployeeDataFormComponent
+    EmployeeDataUpdateFormComponent,
+    EmployeeDataFilterFormComponent
   ],
   imports: [
     BrowserModule,

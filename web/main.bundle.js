@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n    <h1 class=\"text-center\">Employee Manager</h1>\n\n    <div id=viewButtons class=\"row\">\n        <button class=\"col-md-4 btn tabButton\" [class.selected]=\"view=='tables'\" (click)=\"setView('tables')\">Tables</button>\n        <button class=\"col-md-4 btn tabButton\" [class.selected]=\"view=='update'\" (click)=\"setView('update')\">Update Data</button>\n        <button class=\"col-md-4 btn tabButton\" [class.selected]=\"view=='custom'\" (click)=\"setView('custom')\">Custom Queries</button>\n    </div>\n\n    <div [ngSwitch]=\"view\">\n        <app-tables-tab *ngSwitchCase=\"'tables'\"></app-tables-tab>\n        <app-update-tab *ngSwitchCase=\"'update'\"></app-update-tab>\n        <app-custom-tab *ngSwitchCase=\"'custom'\"></app-custom-tab>\n    </div>    \n    \n</div>"
+module.exports = "<div class=\"container\">\n    <h1 class=\"text-center\">Employee Manager</h1>\n\n    <div id=viewButtons class=\"row\">\n        <button class=\"col-md-4 btn tabButton\" [class.selected]=\"view=='tables'\" (click)=\"setView('tables')\">Tables</button>\n        <button class=\"col-md-4 btn tabButton\" [class.selected]=\"view=='update'\" (click)=\"setView('update')\">Update Data</button>\n        <button class=\"col-md-4 btn tabButton\" [class.selected]=\"view=='custom'\" (click)=\"setView('custom')\">Custom Queries</button>\n    </div>\n\n    <div [ngSwitch]=\"view\">\n        <app-tables-tab *ngSwitchCase=\"'tables'\"></app-tables-tab>\n        <app-update-tab *ngSwitchCase=\"'update'\"></app-update-tab>\n        <app-employee-data-tab *ngSwitchCase=\"'custom'\"></app-employee-data-tab>\n    </div>    \n    \n</div>"
 
 /***/ }),
 
@@ -89,18 +89,20 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__dropdown_dropdown_component__ = __webpack_require__("../../../../../src/app/dropdown/dropdown.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tables_tab_tables_tab_component__ = __webpack_require__("../../../../../src/app/tables-tab/tables-tab.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__update_tab_update_tab_component__ = __webpack_require__("../../../../../src/app/update-tab/update-tab.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__custom_tab_custom_tab_component__ = __webpack_require__("../../../../../src/app/custom-tab/custom-tab.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__employee_data_tab_employee_data_tab_component__ = __webpack_require__("../../../../../src/app/employee-data-tab/employee-data-tab.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_database_service__ = __webpack_require__("../../../../../src/app/services/database.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__data_table_data_table_component__ = __webpack_require__("../../../../../src/app/data-table/data-table.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__filterable_employee_data_filterable_employee_data_component__ = __webpack_require__("../../../../../src/app/filterable-employee-data/filterable-employee-data.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__employee_data_form_employee_data_form_component__ = __webpack_require__("../../../../../src/app/employee-data-form/employee-data-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__employee_data_update_form_employee_data_update_form_component__ = __webpack_require__("../../../../../src/app/employee-data-update-form/employee-data-update-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__employee_data_filter_form_employee_data_filter_form_component__ = __webpack_require__("../../../../../src/app/employee-data-filter-form/employee-data-filter-form.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -127,10 +129,11 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_5__dropdown_dropdown_component__["a" /* DropdownComponent */],
             __WEBPACK_IMPORTED_MODULE_6__tables_tab_tables_tab_component__["a" /* TablesTabComponent */],
             __WEBPACK_IMPORTED_MODULE_7__update_tab_update_tab_component__["a" /* UpdateTabComponent */],
-            __WEBPACK_IMPORTED_MODULE_8__custom_tab_custom_tab_component__["a" /* CustomTabComponent */],
+            __WEBPACK_IMPORTED_MODULE_8__employee_data_tab_employee_data_tab_component__["a" /* EmployeeDataTabComponent */],
             __WEBPACK_IMPORTED_MODULE_11__data_table_data_table_component__["a" /* DataTableComponent */],
             __WEBPACK_IMPORTED_MODULE_12__filterable_employee_data_filterable_employee_data_component__["a" /* FilterableEmployeeDataComponent */],
-            __WEBPACK_IMPORTED_MODULE_13__employee_data_form_employee_data_form_component__["a" /* EmployeeDataFormComponent */]
+            __WEBPACK_IMPORTED_MODULE_13__employee_data_update_form_employee_data_update_form_component__["a" /* EmployeeDataUpdateFormComponent */],
+            __WEBPACK_IMPORTED_MODULE_14__employee_data_filter_form_employee_data_filter_form_component__["a" /* EmployeeDataFilterFormComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -144,90 +147,6 @@ AppModule = __decorate([
 ], AppModule);
 
 //# sourceMappingURL=app.module.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/custom-tab/custom-tab.component.css":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/custom-tab/custom-tab.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"centeredContents\">\n  <app-employee-data-form [(visibility)]=\"formVisibility\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-form>\n  <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showFormForEmployee($event)\"></app-data-table>\n</div>"
-
-/***/ }),
-
-/***/ "../../../../../src/app/custom-tab/custom-tab.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomTabComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_database_service__ = __webpack_require__("../../../../../src/app/services/database.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_Employee__ = __webpack_require__("../../../../../src/app/utils/Employee.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var CustomTabComponent = (function () {
-    function CustomTabComponent(databaseService) {
-        this.databaseService = databaseService;
-        this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
-        this.formVisibility = "hidden";
-    }
-    CustomTabComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.databaseService.getFullEmployeeData()
-            .then(function (data) { return _this.showTable(data); })
-            .catch(function (e) { return console.log(e); });
-    };
-    CustomTabComponent.prototype.showTable = function (data) {
-        this.headers = data.columnNames;
-        this.rowData = data.data;
-    };
-    CustomTabComponent.prototype.showFormForEmployee = function (itemCoords) {
-        console.log(itemCoords);
-        console.log(this.formVisibility);
-        var row = itemCoords[0];
-        this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]);
-        this.formVisibility = "visible";
-    };
-    return CustomTabComponent;
-}());
-CustomTabComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'app-custom-tab',
-        template: __webpack_require__("../../../../../src/app/custom-tab/custom-tab.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/custom-tab/custom-tab.component.css")],
-    }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_database_service__["a" /* DatabaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_database_service__["a" /* DatabaseService */]) === "function" && _a || Object])
-], CustomTabComponent);
-
-var _a;
-//# sourceMappingURL=custom-tab.component.js.map
 
 /***/ }),
 
@@ -377,7 +296,7 @@ DropdownComponent = __decorate([
 
 /***/ }),
 
-/***/ "../../../../../src/app/employee-data-form/employee-data-form.component.css":
+/***/ "../../../../../src/app/employee-data-filter-form/employee-data-filter-form.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -385,7 +304,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "#empoyeeDataFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#gender>title{\r\n    text-align: center;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n\r\n.form-group{\r\n    text-align: left;\r\n}\r\n\r\n#gender .form-group{\r\n    text-align: center;\r\n}", ""]);
+exports.push([module.i, "#empoyeeDataFilterFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataFilterForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#gender>title{\r\n    text-align: center;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n\r\n.form-group{\r\n    text-align: left;\r\n}\r\n\r\n#gender .form-group{\r\n    text-align: center;\r\n}", ""]);
 
 // exports
 
@@ -395,18 +314,214 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/employee-data-form/employee-data-form.component.html":
+/***/ "../../../../../src/app/employee-data-filter-form/employee-data-filter-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"empoyeeDataFormContainer\" [style.visibility]=\"visibility\">\n  <h1 id=\"formTitle\">{{formTitle}}</h1>\n  <form id=\"empoyeeDataForm\" (ngSubmit)=\"onSubmit()\" #employeeForm=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"birth_date\">Birth Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"birth_date\" required [(ngModel)]=\"employee.birth_date\" name=\"birth_date\" [value]=\"employee.birth_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"first_name\">First Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"first_name\" required [(ngModel)]=\"employee.first_name\" name=\"first_name\" [value]=\"employee.first_name\">\n    </div>\n    \n    <div class=\"form-group\">\n      <label for=\"last_name\">Last Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"last_name\" required [(ngModel)]=\"employee.last_name\" name=\"last_name\" [value]=\"employee.last_name\">\n    </div>\n  \n    \n    <label for=\"gender\">Gender</label>\n    <div id=\"gender\" class=\"row\">\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderM\">Male</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderM\" required [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"M\" [attr.checked]=\"employee.gender===M\">\n      </div>\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderF\">Female</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderF\" required [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"F\" [attr.checked]=\"employee.gender===F\">\n      </div>\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"hire_date\">Hire Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"hire_date\" required [(ngModel)]=\"employee.hire_date\" name=\"hire_date\" [value]=\"employee.hire_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input type=\"text\" class=\"form-control\" id=\"title\" required [(ngModel)]=\"employee.title\" name=\"title\" [value]=\"employee.title\">\n    </div> \n    \n    <div class=\"form-group\">\n      <label for=\"to_date\">To Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"to_date\" required [(ngModel)]=\"employee.to_date\" name=\"to_date\" [value]=\"employee.to_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"dept_name\">Department</label>\n      <input type=\"text\" class=\"form-control\" id=\"dept_name\" required [(ngModel)]=\"employee.dept_name\" name=\"dept_name\" [value]=\"employee.dept_name\">\n    </div> \n  \n    <div class=\"form-group\">\n      <label for=\"salary\">Salary</label>\n      <input type=\"number\" class=\"form-control\" id=\"salary\" required [(ngModel)]=\"employee.salary\" name=\"salary\" [value]=\"employee.salary\">\n    </div>       \n    \n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"(!employeeForm.form.valid)||(!employeeForm.form.dirty)\">Submit</button>\n    <button class=\"btn btn-basic\" (click)=\"hide()\">Cancel</button>\n  </form>\n</div>"
+module.exports = "<div id=\"empoyeeDataFilterFormContainer\" [style.visibility]=\"visibility\">\n  <h1 id=\"formTitle\">{{formTitle}}</h1>\n  <form id=\"empoyeeDataFilterForm\" (ngSubmit)=\"onSubmit()\" #empoyeeDataFilterForm=\"ngForm\">\n    \n    <label for=\"gender\">Gender</label>\n    <div id=\"gender\" class=\"row\">\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderM\">Male</label>\n        <input type=\"checkbox\" class=\"form-control\" id=\"genderM\" [(ngModel)]=\"filter.genderM\" name=\"gender\" value=\"M\" [attr.checked]=\"filter.genderM\">\n      </div>\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderF\">Female</label>\n        <input type=\"checkbox\" class=\"form-control\" id=\"genderF\" [(ngModel)]=\"filter.genderF\" name=\"gender\" value=\"M\" [attr.checked]=\"filter.genderF\">\n      </div>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"limit\">Limit</label>\n      <input type=\"number\" class=\"form-control\" id=\"limit\" required [(ngModel)]=\"filter.limit\" name=\"limit\" [value]=\"filter.limit\">\n    </div> \n\n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"(!empoyeeDataFilterForm.form.valid)||(!empoyeeDataFilterForm.form.dirty)\">Submit</button>\n    <button class=\"btn btn-basic\" (click)=\"hide()\">Cancel</button>\n  </form>\n</div>"
 
 /***/ }),
 
-/***/ "../../../../../src/app/employee-data-form/employee-data-form.component.ts":
+/***/ "../../../../../src/app/employee-data-filter-form/employee-data-filter-form.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmployeeDataFormComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmployeeDataFilterFormComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_Filter__ = __webpack_require__("../../../../../src/app/utils/Filter.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var EmployeeDataFilterFormComponent = (function () {
+    function EmployeeDataFilterFormComponent() {
+        this.visibility = "visible";
+        this.formTitle = "Add New Employee";
+        this.filterChanged = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+        this.visibilityChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+    }
+    EmployeeDataFilterFormComponent.prototype.ngOnChanges = function () {
+        this.filter = this.filter || new __WEBPACK_IMPORTED_MODULE_1__utils_Filter__["a" /* Filter */](true, true, 1e3);
+        this.formTitle = "Filter Employee Data";
+    };
+    EmployeeDataFilterFormComponent.prototype.onSubmit = function (event) {
+        // this.filter.genderF = event.
+        console.log(event);
+        this.filterChanged.next(this.filter);
+        this.hide();
+    };
+    EmployeeDataFilterFormComponent.prototype.hide = function () {
+        this.visibility = "hidden";
+        this.visibilityChange.next(this.visibility);
+    };
+    EmployeeDataFilterFormComponent.prototype.show = function () {
+        this.visibility = "visible";
+        this.visibilityChange.next(this.visibility);
+    };
+    return EmployeeDataFilterFormComponent;
+}());
+EmployeeDataFilterFormComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'app-employee-data-filter-form',
+        template: __webpack_require__("../../../../../src/app/employee-data-filter-form/employee-data-filter-form.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/employee-data-filter-form/employee-data-filter-form.component.css")],
+        inputs: [
+            "filter",
+            "visibility"
+        ],
+        outputs: [
+            "filterChanged",
+            "visibilityChange"
+        ]
+    }),
+    __metadata("design:paramtypes", [])
+], EmployeeDataFilterFormComponent);
+
+//# sourceMappingURL=employee-data-filter-form.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/employee-data-tab/employee-data-tab.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/employee-data-tab/employee-data-tab.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"centeredContents\">\n  <div class=\"row\">\n    <button (click)=\"addEmployee()\" class=\"btn btn-success col-sm-4\">Add</button>\n    <button (click)=\"showFilterForm()\" class=\"btn btn-success col-sm-4\">Set Filters</button>\n    <button (click)=\"fetchData()\" class=\"btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n  <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>\n  <app-employee-data-update-form [(visibility)]=\"updateFormVisibility\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"filterFormVisibility\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/employee-data-tab/employee-data-tab.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmployeeDataTabComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_database_service__ = __webpack_require__("../../../../../src/app/services/database.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_Employee__ = __webpack_require__("../../../../../src/app/utils/Employee.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_Filter__ = __webpack_require__("../../../../../src/app/utils/Filter.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var EmployeeDataTabComponent = (function () {
+    function EmployeeDataTabComponent(databaseService) {
+        this.databaseService = databaseService;
+        this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
+        this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 1e4);
+        this.updateFormVisibility = "hidden";
+        this.filterFormVisibility = "hidden";
+    }
+    EmployeeDataTabComponent.prototype.updateEmployee = function (employee) {
+        console.log(employee);
+    };
+    EmployeeDataTabComponent.prototype.fetchData = function () {
+        var _this = this;
+        console.log(this.filter);
+        this._clearData();
+        this.databaseService.getFullEmployeeData()
+            .then(function (data) { return _this._updateData(data); })
+            .catch(function (e) { return console.log(e); });
+    };
+    EmployeeDataTabComponent.prototype._updateData = function (data) {
+        this.headers = data.columnNames;
+        this.rowData = data.data;
+    };
+    EmployeeDataTabComponent.prototype._clearData = function () {
+        this.headers = [];
+        this.rowData = [[]];
+    };
+    EmployeeDataTabComponent.prototype.showUpdateForm = function (itemCoords) {
+        this.filterFormVisibility = "hidden";
+        var row = itemCoords[0];
+        this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]);
+        this.updateFormVisibility = "visible";
+    };
+    EmployeeDataTabComponent.prototype.addEmployee = function () {
+        this.filterFormVisibility = "hidden";
+        this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
+        this.updateFormVisibility = "visible";
+    };
+    EmployeeDataTabComponent.prototype.showFilterForm = function () {
+        this.updateFormVisibility = "hidden";
+        this.filterFormVisibility = "visible";
+    };
+    return EmployeeDataTabComponent;
+}());
+EmployeeDataTabComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'app-employee-data-tab',
+        template: __webpack_require__("../../../../../src/app/employee-data-tab/employee-data-tab.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/employee-data-tab/employee-data-tab.component.css")],
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_database_service__["a" /* DatabaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_database_service__["a" /* DatabaseService */]) === "function" && _a || Object])
+], EmployeeDataTabComponent);
+
+var _a;
+//# sourceMappingURL=employee-data-tab.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/employee-data-update-form/employee-data-update-form.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "#empoyeeDataUpdateFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataUpdateForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#gender>title{\r\n    text-align: center;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n\r\n.form-group{\r\n    text-align: left;\r\n}\r\n\r\n#gender .form-group{\r\n    text-align: center;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/employee-data-update-form/employee-data-update-form.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"empoyeeDataUpdateFormContainer\" [style.visibility]=\"visibility\">\n  <h1 id=\"formTitle\">{{formTitle}}</h1>\n  <form id=\"empoyeeDataUpdateForm\" (ngSubmit)=\"onSubmit()\" #empoyeeDataUpdateForm=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"birth_date\">Birth Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"birth_date\" required [(ngModel)]=\"employee.birth_date\" name=\"birth_date\" [value]=\"employee.birth_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"first_name\">First Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"first_name\" required [(ngModel)]=\"employee.first_name\" name=\"first_name\" [value]=\"employee.first_name\">\n    </div>\n    \n    <div class=\"form-group\">\n      <label for=\"last_name\">Last Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"last_name\" required [(ngModel)]=\"employee.last_name\" name=\"last_name\" [value]=\"employee.last_name\">\n    </div>\n  \n    \n    <label for=\"gender\">Gender</label>\n    <div id=\"gender\" class=\"row\">\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderM\">Male</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderM\" required [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"M\" [attr.checked]=\"employee.gender===M\">\n      </div>\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderF\">Female</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderF\" required [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"F\" [attr.checked]=\"employee.gender===F\">\n      </div>\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"hire_date\">Hire Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"hire_date\" required [(ngModel)]=\"employee.hire_date\" name=\"hire_date\" [value]=\"employee.hire_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input type=\"text\" class=\"form-control\" id=\"title\" required [(ngModel)]=\"employee.title\" name=\"title\" [value]=\"employee.title\">\n    </div> \n    \n    <div class=\"form-group\">\n      <label for=\"to_date\">To Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"to_date\" required [(ngModel)]=\"employee.to_date\" name=\"to_date\" [value]=\"employee.to_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"dept_name\">Department</label>\n      <input type=\"text\" class=\"form-control\" id=\"dept_name\" required [(ngModel)]=\"employee.dept_name\" name=\"dept_name\" [value]=\"employee.dept_name\">\n    </div> \n  \n    <div class=\"form-group\">\n      <label for=\"salary\">Salary</label>\n      <input type=\"number\" class=\"form-control\" id=\"salary\" required [(ngModel)]=\"employee.salary\" name=\"salary\" [value]=\"employee.salary\">\n    </div>       \n    \n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"(!empoyeeDataUpdateForm.form.valid)||(!empoyeeDataUpdateForm.form.dirty)\">Submit</button>\n    <button class=\"btn btn-basic\" (click)=\"hide()\">Cancel</button>\n  </form>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/employee-data-update-form/employee-data-update-form.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmployeeDataUpdateFormComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -418,39 +533,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var EmployeeDataFormComponent = (function () {
-    function EmployeeDataFormComponent() {
+var EmployeeDataUpdateFormComponent = (function () {
+    function EmployeeDataUpdateFormComponent() {
         this.visibility = "visible";
         this.formTitle = "Add New Employee";
         this.changeSubmit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.visibilityChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
-    EmployeeDataFormComponent.prototype.ngOnInit = function () {
-        // this.employee=new Employee(
-        //   this.emp_no,
-        //   this.birth_date, 
-        //   this.first_name, 
-        //   this.last_name, 
-        //   this.gender, 
-        //   this.hire_date, 
-        //   this.title, 
-        //   this.to_date, 
-        //   this.dept_name, 
-        //   this.salary);
-        // console.log(this.employee);
-    };
-    EmployeeDataFormComponent.prototype.ngOnChanges = function () {
-        // this.employee=new Employee(
-        //   this.emp_no,
-        //   this.birth_date, 
-        //   this.first_name, 
-        //   this.last_name, 
-        //   this.gender, 
-        //   this.hire_date, 
-        //   this.title, 
-        //   this.to_date, 
-        //   this.dept_name, 
-        //   this.salary);
+    EmployeeDataUpdateFormComponent.prototype.ngOnChanges = function () {
         if (this.employee.emp_no) {
             this.formTitle = "Update Data Form Employee #" + this.employee.emp_no;
         }
@@ -459,35 +549,25 @@ var EmployeeDataFormComponent = (function () {
         }
         console.log(this.employee);
     };
-    EmployeeDataFormComponent.prototype.onSubmit = function () {
-        console.log(this.employee);
+    EmployeeDataUpdateFormComponent.prototype.onSubmit = function () {
+        this.changeSubmit.next(this.employee);
     };
-    EmployeeDataFormComponent.prototype.hide = function () {
+    EmployeeDataUpdateFormComponent.prototype.hide = function () {
         this.visibility = "hidden";
         this.visibilityChange.next(this.visibility);
     };
-    EmployeeDataFormComponent.prototype.show = function () {
+    EmployeeDataUpdateFormComponent.prototype.show = function () {
         this.visibility = "visible";
         this.visibilityChange.next(this.visibility);
     };
-    return EmployeeDataFormComponent;
+    return EmployeeDataUpdateFormComponent;
 }());
-EmployeeDataFormComponent = __decorate([
+EmployeeDataUpdateFormComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'app-employee-data-form',
-        template: __webpack_require__("../../../../../src/app/employee-data-form/employee-data-form.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/employee-data-form/employee-data-form.component.css")],
+        selector: 'app-employee-data-update-form',
+        template: __webpack_require__("../../../../../src/app/employee-data-update-form/employee-data-update-form.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/employee-data-update-form/employee-data-update-form.component.css")],
         inputs: [
-            // "emp_no",
-            // "birth_date",
-            // "first_name",
-            // "last_name",
-            // "gender",
-            // "hire_date",
-            // "title",
-            // "to_date",
-            // "dept_name",
-            // "salary",
             "employee",
             "visibility"
         ],
@@ -497,9 +577,9 @@ EmployeeDataFormComponent = __decorate([
         ]
     }),
     __metadata("design:paramtypes", [])
-], EmployeeDataFormComponent);
+], EmployeeDataUpdateFormComponent);
 
-//# sourceMappingURL=employee-data-form.component.js.map
+//# sourceMappingURL=employee-data-update-form.component.js.map
 
 /***/ }),
 
@@ -797,6 +877,24 @@ var Employee = (function () {
 
 ;
 //# sourceMappingURL=Employee.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/utils/Filter.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Filter; });
+var Filter = (function () {
+    function Filter(genderM, genderF, limit) {
+        this.genderM = genderM;
+        this.genderF = genderF;
+        this.limit = limit;
+    }
+    return Filter;
+}());
+
+//# sourceMappingURL=Filter.js.map
 
 /***/ }),
 
