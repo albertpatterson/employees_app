@@ -14,8 +14,8 @@ export class AppComponent {
 
   public setView(view: string): void{
     this.view = view;
-    this.doFullEmployeeDataFetch = this.view==="custom";
-    this.doTableNameFetch = this.view==="tables";
+    this.doFullEmployeeDataFetch = this.view==="employees";
+    this.doTableNameFetch = this.view==="rawTables";
     
   }
 }

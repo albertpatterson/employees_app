@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n    <h1 class=\"text-center\">Employee Manager</h1>\n\n    <div id=viewButtons class=\"row\">\n        <button class=\"col-md-4 btn tabButton\" [class.selected]=\"view=='tables'\" (click)=\"setView('tables')\">Tables</button>\n        <button class=\"col-md-4 btn tabButton\" [class.selected]=\"view=='update'\" (click)=\"setView('update')\">Update Data</button>\n        <button class=\"col-md-4 btn tabButton\" [class.selected]=\"view=='custom'\" (click)=\"setView('custom')\">Custom Queries</button>\n    </div>\n\n    <div [ngSwitch]=\"view\">\n        <app-tables-tab *ngSwitchCase=\"'tables'\"></app-tables-tab>\n        <app-update-tab *ngSwitchCase=\"'update'\"></app-update-tab>\n        <app-employee-data-tab *ngSwitchCase=\"'custom'\"></app-employee-data-tab>\n    </div>    \n    \n</div>"
+module.exports = "<div class=\"container\">\n    <h1 class=\"text-center\">Employee Manager</h1>\n\n    <div id=viewButtons class=\"row\">\n        <button class=\"col-md-6 btn tabButton\" [class.selected]=\"view=='employees'\" (click)=\"setView('employees')\">Employees Data</button>\n        <button class=\"col-md-6 btn tabButton\" [class.selected]=\"view=='rawTables'\" (click)=\"setView('rawTables')\">Raw Tables</button>\n    </div>\n\n    <div [ngSwitch]=\"view\">\n        <app-employee-data-tab *ngSwitchCase=\"'employees'\"></app-employee-data-tab>\n        <app-tables-tab *ngSwitchCase=\"'rawTables'\"></app-tables-tab>        \n    </div>    \n    \n</div>"
 
 /***/ }),
 
@@ -59,8 +59,8 @@ var AppComponent = (function () {
     }
     AppComponent.prototype.setView = function (view) {
         this.view = view;
-        this.doFullEmployeeDataFetch = this.view === "custom";
-        this.doTableNameFetch = this.view === "tables";
+        this.doFullEmployeeDataFetch = this.view === "employees";
+        this.doTableNameFetch = this.view === "rawTables";
     };
     return AppComponent;
 }());
@@ -438,7 +438,7 @@ var EmployeeDataTabComponent = (function () {
     function EmployeeDataTabComponent(databaseService) {
         this.databaseService = databaseService;
         this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
-        this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 1e4);
+        this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 1e3);
         this.updateFormVisibility = "hidden";
         this.filterFormVisibility = "hidden";
     }
@@ -449,7 +449,7 @@ var EmployeeDataTabComponent = (function () {
         var _this = this;
         console.log(this.filter);
         this._clearData();
-        this.databaseService.getFullEmployeeData()
+        this.databaseService.getFullEmployeeData(this.filter)
             .then(function (data) { return _this._updateData(data); })
             .catch(function (e) { return console.log(e); });
     };
@@ -695,8 +695,12 @@ var DatabaseService = (function () {
             .toPromise()
             .then(function (resp) { return resp.json(); });
     };
-    DatabaseService.prototype.getFullEmployeeData = function () {
-        return this.http.get(this._FullEmployeeDataUrl)
+    DatabaseService.prototype.getFullEmployeeData = function (filter) {
+        var search = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* URLSearchParams */]();
+        search.append("genderM", filter.genderM.toString());
+        search.append("genderF", filter.genderF.toString());
+        search.append("limit", filter.limit.toString());
+        return this.http.get(this._FullEmployeeDataUrl, { search: search })
             .toPromise()
             .then(function (resp) { return resp.json(); });
     };

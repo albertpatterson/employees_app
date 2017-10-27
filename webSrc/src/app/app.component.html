@@ -2,15 +2,13 @@
     <h1 class="text-center">Employee Manager</h1>
 
     <div id=viewButtons class="row">
-        <button class="col-md-4 btn tabButton" [class.selected]="view=='tables'" (click)="setView('tables')">Tables</button>
-        <button class="col-md-4 btn tabButton" [class.selected]="view=='update'" (click)="setView('update')">Update Data</button>
-        <button class="col-md-4 btn tabButton" [class.selected]="view=='custom'" (click)="setView('custom')">Custom Queries</button>
+        <button class="col-md-6 btn tabButton" [class.selected]="view=='employees'" (click)="setView('employees')">Employees Data</button>
+        <button class="col-md-6 btn tabButton" [class.selected]="view=='rawTables'" (click)="setView('rawTables')">Raw Tables</button>
     </div>
 
     <div [ngSwitch]="view">
-        <app-tables-tab *ngSwitchCase="'tables'"></app-tables-tab>
-        <app-update-tab *ngSwitchCase="'update'"></app-update-tab>
-        <app-employee-data-tab *ngSwitchCase="'custom'"></app-employee-data-tab>
+        <app-employee-data-tab *ngSwitchCase="'employees'"></app-employee-data-tab>
+        <app-tables-tab *ngSwitchCase="'rawTables'"></app-tables-tab>        
     </div>    
     
 </div>

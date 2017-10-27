@@ -7,6 +7,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw'
 
+import { Filter } from "../utils/Filter";
+
 @Injectable()
 export class DatabaseService {
 
@@ -38,8 +40,14 @@ export class DatabaseService {
           .then((resp: Response)=>resp.json());
   }
 
-  public getFullEmployeeData(): Promise<String[]>{
-    return this.http.get(this._FullEmployeeDataUrl)
+  public getFullEmployeeData(filter: Filter): Promise<String[]>{
+
+    let search = new URLSearchParams();
+    search.append("genderM", filter.genderM.toString())
+    search.append("genderF", filter.genderF.toString())
+    search.append("limit", filter.limit.toString())
+
+    return this.http.get(this._FullEmployeeDataUrl, {search})
     .toPromise()
     .then((resp: Response)=>resp.json());
   }

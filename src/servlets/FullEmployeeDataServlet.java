@@ -27,30 +27,32 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String name = request.getParameter("name");
-//        name = name==null?"%":name;
+//        String name = request.getParameter("name");
+////        name = name==null?"%":name;
+//
+//        String maxAge = request.getParameter("maxAge");
+////        maxAge = maxAge==null?"100":maxAge;
+//
+//        String minAge = request.getParameter("minAge");
+////        minAge = minAge==null?"18":minAge;
+//
+//        String gender = request.getParameter("gender");
+////        gender = gender==null?"(M, F)":gender;
+//
+//        String department = request.getParameter("department");
+////        department=department==null?"All"
+//
+//        String title = request.getParameter("title");
+//
+//        String active = request.getParameter("active");
 
-        String maxAge = request.getParameter("maxAge");
-//        maxAge = maxAge==null?"100":maxAge;
-
-        String minAge = request.getParameter("minAge");
-//        minAge = minAge==null?"18":minAge;
-
-        String gender = request.getParameter("gender");
-//        gender = gender==null?"(M, F)":gender;
-
-        String department = request.getParameter("department");
-//        department=department==null?"All"
-
-        String title = request.getParameter("title");
-
-        String active = request.getParameter("active");
-
+        String genderF = request.getParameter("genderF");
+        String genderM = request.getParameter("genderM");
         String limit = request.getParameter("limit");
 
         PrintWriter out = response.getWriter();
         try {
-            StringifiedTableData stringifiedTableData = employeesDBService.getFullEmployeeData();
+            StringifiedTableData stringifiedTableData = employeesDBService.getFullEmployeeData(limit, genderF, genderM);
 
             JsonWriter jsonWriter = Json.createWriter(out);
             jsonWriter.write((JsonStructure)stringifiedTableData.getJson());

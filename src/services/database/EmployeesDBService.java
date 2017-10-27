@@ -136,6 +136,62 @@ public class EmployeesDBService {
     }
 
 
+    public StringifiedTableData getFullEmployeeData(String limit, String genderF, String genderM) throws SQLException {
+
+        String genderPred = makeGenderPred(genderF, genderM);
+
+        String query = makeSelectFullEmployeeDataQueryString(limit, genderPred);
+
+        try(    Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query)){
+
+            String[] colNames = getColumnNames(rs);
+            return new StringifiedTableData(colNames, getData(rs, colNames));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    private String makeGenderPred(String genderF, String genderM){
+
+        boolean returnF = genderF.equals("true");
+        boolean returnM = genderM.equals("true");
+
+        String pred;
+
+        if(returnF && returnM){
+            pred="('F', 'M')";
+        }else if(returnF){
+            pred="('F')";
+        }else if(returnM){
+            pred="('M')";
+        }else{
+            pred="()";
+        }
+        return pred;
+    }
+
+    private String makeSelectFullEmployeeDataQueryString(String limit, String genderPred){
+
+        String limitClause = (limit==null) ? "" : String.format("LIMIT %d ", Integer.parseInt(limit));
+        String genderClause = (genderPred==null) ? "" : String.format("WHERE gender IN %s ", genderPred);
+
+        String query =  "SELECT employees.*, latest_title.title, latest_dept.to_date, latest_dept.dept_name, latest_salary.salary "
+                    +   "FROM employees "
+                    +   "INNER JOIN ("+SELECT_LATEST_DEPARTMENT+") AS latest_dept "
+                    +   "ON employees.emp_no = latest_dept.emp_no "
+                    +   "INNER JOIN ("+SELECT_LATEST_TITLE+") AS latest_title "
+                    +   "ON employees.emp_no = latest_title.emp_no "
+                    +   "INNER JOIN ("+SELECT_LATEST_SALARY+") AS latest_salary "
+                    +   "ON employees.emp_no = latest_salary.emp_no "
+                    +   genderClause
+                    +   limitClause;
+
+        return query;
+    }
+
 //    public void getAllEmployeeData(){
 //        try (Statement stmt = conn.createStatement()) {
 //

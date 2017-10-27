@@ -17,7 +17,7 @@ export class EmployeeDataTabComponent {
   public rowData: string[][];
 
   public employee: Employee = new Employee(null, null, null, null, null,null, null, null, null, null);
-  public filter: Filter = new Filter(true, true, 1e4);
+  public filter: Filter = new Filter(true, true, 1e3);
 
   public updateFormVisibility: string = "hidden";
   public filterFormVisibility: string = "hidden";
@@ -31,7 +31,7 @@ export class EmployeeDataTabComponent {
   fetchData(){
     console.log(this.filter);
     this._clearData();
-    this.databaseService.getFullEmployeeData()
+    this.databaseService.getFullEmployeeData(this.filter)
     .then(data=>this._updateData(data))
     .catch(e=>console.log(e));
   }
