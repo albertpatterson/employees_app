@@ -35,3 +35,7 @@ label{
 #gender .form-group{
     text-align: center;
 }
+
+.btn{
+    transition: none;
+}

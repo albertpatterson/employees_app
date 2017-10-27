@@ -4,7 +4,10 @@
     <button (click)="showFilterForm()" class="btn btn-success col-sm-4">Set Filters</button>
     <button (click)="fetchData()" class="btn btn-success col-sm-4">Fetch Data</button>
   </div>
-  <app-data-table [headers]="headers" [rowData]="rowData" (cellDblClick)="showUpdateForm($event)"></app-data-table>
-  <app-employee-data-update-form [(visibility)]="updateFormVisibility" [employee]="employee" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form>
-  <app-employee-data-filter-form [(visibility)]="filterFormVisibility" [(filter)]="filter"></app-employee-data-filter-form>
+
+  <app-data-table [headers]="headers" [rowData]="rowData" (cellDblClick)="showUpdateForm($event)"></app-data-table>  
+  <!-- <app-employee-data-update-form [visibility]="getVisibility('updateForm')" (visibilityChanged)="setVisibility($event, 'updateForm')" [employee]="employee" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form> -->
+  <app-employee-data-update-form [(visibility)]="overlayVisibilities.updateForm" [employee]="employee" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form>
+  <app-employee-data-filter-form [(visibility)]="overlayVisibilities.filterForm" [(filter)]="filter"></app-employee-data-filter-form>
+  <app-loading-indicator [(visibility)]="overlayVisibilities.loadingIndicator"></app-loading-indicator>
 </div>

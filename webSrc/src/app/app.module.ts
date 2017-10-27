@@ -15,6 +15,7 @@ import { DataTableComponent } from './data-table/data-table.component';
 import { FilterableEmployeeDataComponent } from './filterable-employee-data/filterable-employee-data.component';
 import { EmployeeDataUpdateFormComponent } from './employee-data-update-form/employee-data-update-form.component';
 import { EmployeeDataFilterFormComponent } from './employee-data-filter-form/employee-data-filter-form.component';
+import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { EmployeeDataFilterFormComponent } from './employee-data-filter-form/emp
     DataTableComponent,
     FilterableEmployeeDataComponent,
     EmployeeDataUpdateFormComponent,
-    EmployeeDataFilterFormComponent
+    EmployeeDataFilterFormComponent,
+    LoadingIndicatorComponent
   ],
   imports: [
     BrowserModule,

@@ -96,12 +96,14 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__filterable_employee_data_filterable_employee_data_component__ = __webpack_require__("../../../../../src/app/filterable-employee-data/filterable-employee-data.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__employee_data_update_form_employee_data_update_form_component__ = __webpack_require__("../../../../../src/app/employee-data-update-form/employee-data-update-form.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__employee_data_filter_form_employee_data_filter_form_component__ = __webpack_require__("../../../../../src/app/employee-data-filter-form/employee-data-filter-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__loading_indicator_loading_indicator_component__ = __webpack_require__("../../../../../src/app/loading-indicator/loading-indicator.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -133,7 +135,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_11__data_table_data_table_component__["a" /* DataTableComponent */],
             __WEBPACK_IMPORTED_MODULE_12__filterable_employee_data_filterable_employee_data_component__["a" /* FilterableEmployeeDataComponent */],
             __WEBPACK_IMPORTED_MODULE_13__employee_data_update_form_employee_data_update_form_component__["a" /* EmployeeDataUpdateFormComponent */],
-            __WEBPACK_IMPORTED_MODULE_14__employee_data_filter_form_employee_data_filter_form_component__["a" /* EmployeeDataFilterFormComponent */]
+            __WEBPACK_IMPORTED_MODULE_14__employee_data_filter_form_employee_data_filter_form_component__["a" /* EmployeeDataFilterFormComponent */],
+            __WEBPACK_IMPORTED_MODULE_15__loading_indicator_loading_indicator_component__["a" /* LoadingIndicatorComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -158,7 +161,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "th{\r\n    text-align: center;\r\n}", ""]);
+exports.push([module.i, "#data-table-contrainer{\r\n    overflow-x: \"scroll\";\r\n    text-align: center;\r\n}\r\n\r\nth{\r\n    text-align: center;\r\n}", ""]);
 
 // exports
 
@@ -171,7 +174,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/data-table/data-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"data-table-contrainer\">\n  <table class=\"table\" (dblclick)=\"dblClick($event)\">\n    <tr>\n      <th *ngFor=\"let header of headers\">{{header}}</th>\n    </tr>\n    <tr *ngFor=\"let row of rowData; index as rowNum\">\n      <td *ngFor=\"let item of row; index as colNum\" [attr.data-row]=\"rowNum\" [attr.data-col]=\"colNum\">{{item}}</td>\n    </tr>\n  </table>\n</div>"
+module.exports = "<div id=\"data-table-contrainer\">\n  <table class=\"table\" (dblclick)=\"dblClick($event)\">\n    <tr>\n      <th *ngFor=\"let header of headers\">{{header}}</th>\n    </tr>\n    <tr *ngFor=\"let row of rowData; index as rowNum\">\n      <td *ngFor=\"let item of row; index as colNum\" [attr.data-row]=\"rowNum\" [attr.data-col]=\"colNum\">{{item}}</td>\n    </tr>\n  </table>\n</div>"
 
 /***/ }),
 
@@ -304,7 +307,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "#empoyeeDataFilterFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataFilterForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#gender>title{\r\n    text-align: center;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n\r\n.form-group{\r\n    text-align: left;\r\n}\r\n\r\n#gender .form-group{\r\n    text-align: center;\r\n}", ""]);
+exports.push([module.i, "#empoyeeDataFilterFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataFilterForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#gender>title{\r\n    text-align: center;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n\r\n.form-group{\r\n    text-align: left;\r\n}\r\n\r\n#gender .form-group{\r\n    text-align: center;\r\n}\r\n\r\n.btn{\r\n    transition: none;\r\n}", ""]);
 
 // exports
 
@@ -408,7 +411,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/employee-data-tab/employee-data-tab.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"centeredContents\">\n  <div class=\"row\">\n    <button (click)=\"addEmployee()\" class=\"btn btn-success col-sm-4\">Add</button>\n    <button (click)=\"showFilterForm()\" class=\"btn btn-success col-sm-4\">Set Filters</button>\n    <button (click)=\"fetchData()\" class=\"btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n  <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>\n  <app-employee-data-update-form [(visibility)]=\"updateFormVisibility\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"filterFormVisibility\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n</div>"
+module.exports = "<div class=\"centeredContents\">\n  <div class=\"row\">\n    <button (click)=\"addEmployee()\" class=\"btn btn-success col-sm-4\">Add</button>\n    <button (click)=\"showFilterForm()\" class=\"btn btn-success col-sm-4\">Set Filters</button>\n    <button (click)=\"fetchData()\" class=\"btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n\n  <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>  \n  <!-- <app-employee-data-update-form [visibility]=\"getVisibility('updateForm')\" (visibilityChanged)=\"setVisibility($event, 'updateForm')\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form> -->\n  <app-employee-data-update-form [(visibility)]=\"overlayVisibilities.updateForm\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"overlayVisibilities.filterForm\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n  <app-loading-indicator [(visibility)]=\"overlayVisibilities.loadingIndicator\"></app-loading-indicator>\n</div>"
 
 /***/ }),
 
@@ -434,14 +437,84 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+var OverlayVisibilities = (function () {
+    function OverlayVisibilities(visibleOverlay) {
+        this.hideAll();
+        if (visibleOverlay) {
+            this.show(visibleOverlay);
+        }
+    }
+    Object.defineProperty(OverlayVisibilities.prototype, "updateForm", {
+        get: function () {
+            return this._updateForm;
+        },
+        set: function (visibility) {
+            this.hideAll();
+            if (visibility === "visible") {
+                this._updateForm = "visible";
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(OverlayVisibilities.prototype, "filterForm", {
+        get: function () {
+            return this._filterForm;
+        },
+        set: function (visibility) {
+            this.hideAll();
+            if (visibility === "visible") {
+                this._filterForm = "visible";
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(OverlayVisibilities.prototype, "loadingIndicator", {
+        get: function () {
+            return this._loadingIndicator;
+        },
+        set: function (visibility) {
+            this.hideAll();
+            if (visibility === "visible") {
+                this._loadingIndicator = "visible";
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    OverlayVisibilities.prototype.hideAll = function () {
+        this._updateForm = "hidden";
+        this._filterForm = "hidden";
+        this._loadingIndicator = "hidden";
+    };
+    OverlayVisibilities.prototype.show = function (overlay) {
+        this.hideAll();
+        switch (overlay) {
+            case ("updateForm"):
+                this._updateForm = "visible";
+                break;
+            case ("filterForm"):
+                this._filterForm = "visible";
+                break;
+            case ("loadingIndicator"):
+                this._loadingIndicator = "visible";
+                break;
+            default:
+                throw new Error("Invalid overlay");
+        }
+    };
+    return OverlayVisibilities;
+}());
 var EmployeeDataTabComponent = (function () {
     function EmployeeDataTabComponent(databaseService) {
         this.databaseService = databaseService;
+    }
+    EmployeeDataTabComponent.prototype.ngOnInit = function () {
         this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
         this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 1e3);
-        this.updateFormVisibility = "hidden";
-        this.filterFormVisibility = "hidden";
-    }
+        this.overlayVisibilities = new OverlayVisibilities();
+    };
     EmployeeDataTabComponent.prototype.updateEmployee = function (employee) {
         console.log(employee);
     };
@@ -449,6 +522,7 @@ var EmployeeDataTabComponent = (function () {
         var _this = this;
         console.log(this.filter);
         this._clearData();
+        this.overlayVisibilities.show("loadingIndicator");
         this.databaseService.getFullEmployeeData(this.filter)
             .then(function (data) { return _this._updateData(data); })
             .catch(function (e) { return console.log(e); });
@@ -456,25 +530,23 @@ var EmployeeDataTabComponent = (function () {
     EmployeeDataTabComponent.prototype._updateData = function (data) {
         this.headers = data.columnNames;
         this.rowData = data.data;
+        this.overlayVisibilities.hideAll();
     };
     EmployeeDataTabComponent.prototype._clearData = function () {
         this.headers = [];
         this.rowData = [[]];
     };
     EmployeeDataTabComponent.prototype.showUpdateForm = function (itemCoords) {
-        this.filterFormVisibility = "hidden";
         var row = itemCoords[0];
         this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]);
-        this.updateFormVisibility = "visible";
+        this.overlayVisibilities.show("updateForm");
     };
     EmployeeDataTabComponent.prototype.addEmployee = function () {
-        this.filterFormVisibility = "hidden";
         this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
-        this.updateFormVisibility = "visible";
+        this.overlayVisibilities.show("updateForm");
     };
     EmployeeDataTabComponent.prototype.showFilterForm = function () {
-        this.updateFormVisibility = "hidden";
-        this.filterFormVisibility = "visible";
+        this.overlayVisibilities.show("filterForm");
     };
     return EmployeeDataTabComponent;
 }());
@@ -500,7 +572,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "#empoyeeDataUpdateFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataUpdateForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#gender>title{\r\n    text-align: center;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n\r\n.form-group{\r\n    text-align: left;\r\n}\r\n\r\n#gender .form-group{\r\n    text-align: center;\r\n}", ""]);
+exports.push([module.i, "#empoyeeDataUpdateFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataUpdateForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#gender>title{\r\n    text-align: center;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n\r\n.form-group{\r\n    text-align: left;\r\n}\r\n\r\n#gender .form-group{\r\n    text-align: center;\r\n}\r\n\r\n.btn{\r\n    transition: none;\r\n}", ""]);
 
 // exports
 
@@ -641,6 +713,70 @@ FilterableEmployeeDataComponent = __decorate([
 ], FilterableEmployeeDataComponent);
 
 //# sourceMappingURL=filterable-employee-data.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/loading-indicator/loading-indicator.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/loading-indicator/loading-indicator.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"loading-indicator-container\">\n  <p>Loading</p>\n  <div id=\"rotor\"></div>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/loading-indicator/loading-indicator.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoadingIndicatorComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var LoadingIndicatorComponent = (function () {
+    function LoadingIndicatorComponent() {
+    }
+    LoadingIndicatorComponent.prototype.ngOnInit = function () {
+    };
+    return LoadingIndicatorComponent;
+}());
+LoadingIndicatorComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'app-loading-indicator',
+        template: __webpack_require__("../../../../../src/app/loading-indicator/loading-indicator.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/loading-indicator/loading-indicator.component.css")],
+        inputs: [
+            "visibility"
+        ]
+    }),
+    __metadata("design:paramtypes", [])
+], LoadingIndicatorComponent);
+
+//# sourceMappingURL=loading-indicator.component.js.map
 
 /***/ }),
 
