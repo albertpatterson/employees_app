@@ -43,8 +43,7 @@ export class EmployeeDataUpdateFormComponent implements OnChanges {
 
   hide(){
     this.visibility="hidden";
-    this.visibilityChange.next(this.visibility);
-    
+    this.visibilityChange.next(this.visibility);    
   }
 
   show(){

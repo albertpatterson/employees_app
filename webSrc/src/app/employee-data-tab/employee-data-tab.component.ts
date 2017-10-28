@@ -7,75 +7,7 @@ import { Filter } from "../utils/Filter";
 import { OverlayVisibilityManager } from "../utils/OverlayVisibilityManager";
 
 
-// class OverlayVisibilities{
-
-//   private _updateForm: string
-//   private _filterForm: string
-//   private _loadingIndicator: string
-
-//   constructor(visibleOverlay?: string){
-//     this.hideAll();
-//     if(visibleOverlay){
-//       this.show(visibleOverlay);
-//     }
-//   }
-
-//   set updateForm(visibility){
-//     this.hideAll();
-//     if(visibility==="visible"){
-//       this._updateForm = "visible";
-//     }
-//   }
-//   get updateForm(){
-//     return this._updateForm;
-//   }
-
-//   set filterForm(visibility){
-//     this.hideAll();
-//     if(visibility==="visible"){
-//       this._filterForm = "visible";
-//     }
-//   }
-//   get filterForm(){
-//     return this._filterForm;
-//   }
-
-//   set loadingIndicator(visibility){
-//     this.hideAll();
-//     if(visibility==="visible"){
-//       this._loadingIndicator = "visible";
-//     }
-//   }
-//   get loadingIndicator(){
-//     return this._loadingIndicator;
-//   }
-
-//   hideAll(){
-//     this._updateForm = "hidden";
-//     this._filterForm = "hidden";
-//     this._loadingIndicator = "hidden";
-//   }
-
-//   show(overlay){
-//     this.hideAll();
-//     switch(overlay){
-//       case("updateForm"): 
-//         this._updateForm = "visible";
-//         break;
-//       case("filterForm"): 
-//         this._filterForm = "visible";
-//         break;
-//       case("loadingIndicator"): 
-//         this._loadingIndicator = "visible";
-//         break;
-//       default:
-//         throw new Error("Invalid overlay");
-//     }
-//   }
-
-// }
-
-const overlays: string[] = ["updateForm", "filterForm", "loadingIndicator"];
+const overlays: string[] = ["updateForm", "filterForm"];
 
 @Component({
   selector: 'app-employee-data-tab',
@@ -90,6 +22,7 @@ export class EmployeeDataTabComponent implements OnInit{
   public employee: Employee;
   public filter: Filter;
   public overlayVisibilityManager: OverlayVisibilityManager;
+  public loading: boolean;
 
   constructor(private databaseService: DatabaseService) { }
 
@@ -97,6 +30,7 @@ export class EmployeeDataTabComponent implements OnInit{
     this.employee = new Employee(null, null, null, null, null,null, null, null, null, null);
     this.filter = new Filter(true, true, 1e3);
     this.overlayVisibilityManager = new OverlayVisibilityManager(overlays);
+    this.loading = false;
   }
 
   updateEmployee(employee: Employee): void{
@@ -106,9 +40,9 @@ export class EmployeeDataTabComponent implements OnInit{
   fetchData(){
     console.log(this.filter);
     this._clearData();
-    this.overlayVisibilityManager.show("loadingIndicator");
+    this.loading = true;
     this.databaseService.getFullEmployeeData(this.filter)
-    .then(data=>this._updateData(data))
+    .then(data=>{this._updateData(data); this.loading=false;})
     .catch(e=>console.log(e));
   }
 

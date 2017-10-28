@@ -205,6 +205,7 @@ var DataTableComponent = (function () {
         var col = target.dataset.col;
         var row = target.dataset.row;
         this.cellDblClick.next([row, col]);
+        event.preventDefault();
     };
     return DataTableComponent;
 }());
@@ -411,7 +412,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/employee-data-tab/employee-data-tab.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"centeredContents\">\n  <div class=\"row\">\n    <button (click)=\"addEmployee()\" class=\"btn btn-success col-sm-4\">Add</button>\n    <button (click)=\"showFilterForm()\" class=\"btn btn-success col-sm-4\">Set Filters</button>\n    <button (click)=\"fetchData()\" class=\"btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n\n  <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>  \n  <app-employee-data-update-form [(visibility)]=\"overlayVisibilityManager.updateForm\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"overlayVisibilityManager.filterForm\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n  <app-loading-indicator [(visibility)]=\"overlayVisibilityManager.loadingIndicator\"></app-loading-indicator>\n</div>"
+module.exports = "<div class=\"centeredContents\">\n  <div class=\"row\">\n    <button (click)=\"addEmployee()\" class=\"btn btn-success col-sm-4\">Add</button>\n    <button (click)=\"showFilterForm()\" class=\"btn btn-success col-sm-4\">Set Filters</button>\n    <button (click)=\"fetchData()\" class=\"btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n\n  <app-loading-indicator *ngIf=\"loading; else dataTable\"></app-loading-indicator>\n  <ng-template #dataTable>\n      <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>        \n  </ng-template>  \n\n  <app-employee-data-update-form [(visibility)]=\"overlayVisibilityManager.updateForm\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"overlayVisibilityManager.filterForm\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n  \n</div>"
 
 /***/ }),
 
@@ -439,66 +440,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-// class OverlayVisibilities{
-//   private _updateForm: string
-//   private _filterForm: string
-//   private _loadingIndicator: string
-//   constructor(visibleOverlay?: string){
-//     this.hideAll();
-//     if(visibleOverlay){
-//       this.show(visibleOverlay);
-//     }
-//   }
-//   set updateForm(visibility){
-//     this.hideAll();
-//     if(visibility==="visible"){
-//       this._updateForm = "visible";
-//     }
-//   }
-//   get updateForm(){
-//     return this._updateForm;
-//   }
-//   set filterForm(visibility){
-//     this.hideAll();
-//     if(visibility==="visible"){
-//       this._filterForm = "visible";
-//     }
-//   }
-//   get filterForm(){
-//     return this._filterForm;
-//   }
-//   set loadingIndicator(visibility){
-//     this.hideAll();
-//     if(visibility==="visible"){
-//       this._loadingIndicator = "visible";
-//     }
-//   }
-//   get loadingIndicator(){
-//     return this._loadingIndicator;
-//   }
-//   hideAll(){
-//     this._updateForm = "hidden";
-//     this._filterForm = "hidden";
-//     this._loadingIndicator = "hidden";
-//   }
-//   show(overlay){
-//     this.hideAll();
-//     switch(overlay){
-//       case("updateForm"): 
-//         this._updateForm = "visible";
-//         break;
-//       case("filterForm"): 
-//         this._filterForm = "visible";
-//         break;
-//       case("loadingIndicator"): 
-//         this._loadingIndicator = "visible";
-//         break;
-//       default:
-//         throw new Error("Invalid overlay");
-//     }
-//   }
-// }
-var overlays = ["updateForm", "filterForm", "loadingIndicator"];
+var overlays = ["updateForm", "filterForm"];
 var EmployeeDataTabComponent = (function () {
     function EmployeeDataTabComponent(databaseService) {
         this.databaseService = databaseService;
@@ -507,6 +449,7 @@ var EmployeeDataTabComponent = (function () {
         this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
         this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 1e3);
         this.overlayVisibilityManager = new __WEBPACK_IMPORTED_MODULE_4__utils_OverlayVisibilityManager__["a" /* OverlayVisibilityManager */](overlays);
+        this.loading = false;
     };
     EmployeeDataTabComponent.prototype.updateEmployee = function (employee) {
         console.log(employee);
@@ -515,9 +458,9 @@ var EmployeeDataTabComponent = (function () {
         var _this = this;
         console.log(this.filter);
         this._clearData();
-        this.overlayVisibilityManager.show("loadingIndicator");
+        this.loading = true;
         this.databaseService.getFullEmployeeData(this.filter)
-            .then(function (data) { return _this._updateData(data); })
+            .then(function (data) { _this._updateData(data); _this.loading = false; })
             .catch(function (e) { return console.log(e); });
     };
     EmployeeDataTabComponent.prototype._updateData = function (data) {
@@ -717,7 +660,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "#message{\r\n    font-size: 50px;\r\n}\r\n\r\n#spinner-container{\r\n    position: relative;\r\n    width: 750px;\r\n    height: 750px;\r\n    overflow: hidden;\r\n    margin: 0 auto;\r\n}\r\n\r\n#rotor{\r\n    position: relative;\r\n    top: -750px;\r\n    border-top-color: greenyellow; \r\n}\r\n\r\n#background{\r\n    left: 25%;\r\n    border-color: black;\r\n}\r\n\r\n.circle{\r\n    border: 20px solid transparent;\r\n    border-radius: 50%;\r\n    height:100%;\r\n    width: 100%;\r\n    margin:0 auto;\r\n}\r\n\r\n.spinning{\r\n    -webkit-animation-name: spin;\r\n            animation-name: spin;\r\n    -webkit-animation-iteration-count: infinite;\r\n            animation-iteration-count: infinite;\r\n    -webkit-animation-duration: 1.5s;\r\n            animation-duration: 1.5s;\r\n    -webkit-animation-timing-function: linear;\r\n            animation-timing-function: linear;\r\n}\r\n\r\n\r\n@media only screen and (max-width: 1100px) {\r\n    #rotor{\r\n        top: -500px;\r\n    }\r\n    #loading-indicator-container {\r\n        width: 500px;\r\n        height: 500px;\r\n    }\r\n}\r\n\r\n@media only screen and (max-width: 625px) {\r\n    #rotor{\r\n        top: -400px;\r\n    }\r\n    #loading-indicator-container {\r\n        width: 400px;\r\n        height: 400px;\r\n    }\r\n}\r\n\r\n@media only screen and (max-width: 450px) {\r\n    #rotor{\r\n        top: -200px;\r\n    }\r\n    #loading-indicator-container {\r\n        width: 200px;\r\n        height: 200px;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes spin {\r\n    0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }\r\n    100% {-webkit-transform: rotate(360deg);transform: rotate(360deg);} \r\n}\r\n\r\n@keyframes spin {\r\n    0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }\r\n    100% {-webkit-transform: rotate(360deg);transform: rotate(360deg);} \r\n}", ""]);
 
 // exports
 
@@ -730,7 +673,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/loading-indicator/loading-indicator.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"loading-indicator-container\">\n  <p>Loading</p>\n  <div id=\"rotor\"></div>\n</div>"
+module.exports = "<div id=\"loading-indicator-container\">\n  <p id=\"message\">Loading</p>\n  <div id=\"spinner-container\">\n      <div id=\"background\" class=\"circle\"></div>\n      <div id=\"rotor\" class=\"spinning circle\"></div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -753,8 +696,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var LoadingIndicatorComponent = (function () {
     function LoadingIndicatorComponent() {
     }
-    LoadingIndicatorComponent.prototype.ngOnInit = function () {
-    };
     return LoadingIndicatorComponent;
 }());
 LoadingIndicatorComponent = __decorate([
@@ -762,9 +703,6 @@ LoadingIndicatorComponent = __decorate([
         selector: 'app-loading-indicator',
         template: __webpack_require__("../../../../../src/app/loading-indicator/loading-indicator.component.html"),
         styles: [__webpack_require__("../../../../../src/app/loading-indicator/loading-indicator.component.css")],
-        inputs: [
-            "visibility"
-        ]
     }),
     __metadata("design:paramtypes", [])
 ], LoadingIndicatorComponent);

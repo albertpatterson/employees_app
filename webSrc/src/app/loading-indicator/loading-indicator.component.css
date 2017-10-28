@@ -1,0 +1,73 @@
+#message{
+    font-size: 50px;
+}
+
+#spinner-container{
+    position: relative;
+    width: 750px;
+    height: 750px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+#rotor{
+    position: relative;
+    top: -750px;
+    border-top-color: greenyellow; 
+}
+
+#background{
+    left: 25%;
+    border-color: black;
+}
+
+.circle{
+    border: 20px solid transparent;
+    border-radius: 50%;
+    height:100%;
+    width: 100%;
+    margin:0 auto;
+}
+
+.spinning{
+    animation-name: spin;
+    animation-iteration-count: infinite;
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+}
+
+
+@media only screen and (max-width: 1100px) {
+    #rotor{
+        top: -500px;
+    }
+    #loading-indicator-container {
+        width: 500px;
+        height: 500px;
+    }
+}
+
+@media only screen and (max-width: 625px) {
+    #rotor{
+        top: -400px;
+    }
+    #loading-indicator-container {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    #rotor{
+        top: -200px;
+    }
+    #loading-indicator-container {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% {transform: rotate(360deg);} 
+}

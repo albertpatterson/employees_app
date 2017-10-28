@@ -5,8 +5,12 @@
     <button (click)="fetchData()" class="btn btn-success col-sm-4">Fetch Data</button>
   </div>
 
-  <app-data-table [headers]="headers" [rowData]="rowData" (cellDblClick)="showUpdateForm($event)"></app-data-table>  
+  <app-loading-indicator *ngIf="loading; else dataTable"></app-loading-indicator>
+  <ng-template #dataTable>
+      <app-data-table [headers]="headers" [rowData]="rowData" (cellDblClick)="showUpdateForm($event)"></app-data-table>        
+  </ng-template>  
+
   <app-employee-data-update-form [(visibility)]="overlayVisibilityManager.updateForm" [employee]="employee" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form>
   <app-employee-data-filter-form [(visibility)]="overlayVisibilityManager.filterForm" [(filter)]="filter"></app-employee-data-filter-form>
-  <app-loading-indicator [(visibility)]="overlayVisibilityManager.loadingIndicator"></app-loading-indicator>
+  
 </div>

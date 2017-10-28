@@ -26,6 +26,7 @@ export class DataTableComponent implements OnChanges {
     var col = target.dataset.col;
     var row = target.dataset.row;
     this.cellDblClick.next([row, col]);
+    event.preventDefault();
   }
 
   // edit(event): void{
