@@ -411,7 +411,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/employee-data-tab/employee-data-tab.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"centeredContents\">\n  <div class=\"row\">\n    <button (click)=\"addEmployee()\" class=\"btn btn-success col-sm-4\">Add</button>\n    <button (click)=\"showFilterForm()\" class=\"btn btn-success col-sm-4\">Set Filters</button>\n    <button (click)=\"fetchData()\" class=\"btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n\n  <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>  \n  <!-- <app-employee-data-update-form [visibility]=\"getVisibility('updateForm')\" (visibilityChanged)=\"setVisibility($event, 'updateForm')\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form> -->\n  <app-employee-data-update-form [(visibility)]=\"overlayVisibilities.updateForm\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"overlayVisibilities.filterForm\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n  <app-loading-indicator [(visibility)]=\"overlayVisibilities.loadingIndicator\"></app-loading-indicator>\n</div>"
+module.exports = "<div class=\"centeredContents\">\n  <div class=\"row\">\n    <button (click)=\"addEmployee()\" class=\"btn btn-success col-sm-4\">Add</button>\n    <button (click)=\"showFilterForm()\" class=\"btn btn-success col-sm-4\">Set Filters</button>\n    <button (click)=\"fetchData()\" class=\"btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n\n  <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>  \n  <app-employee-data-update-form [(visibility)]=\"overlayVisibilityManager.updateForm\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"overlayVisibilityManager.filterForm\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n  <app-loading-indicator [(visibility)]=\"overlayVisibilityManager.loadingIndicator\"></app-loading-indicator>\n</div>"
 
 /***/ }),
 
@@ -424,6 +424,7 @@ module.exports = "<div class=\"centeredContents\">\n  <div class=\"row\">\n    <
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_database_service__ = __webpack_require__("../../../../../src/app/services/database.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_Employee__ = __webpack_require__("../../../../../src/app/utils/Employee.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_Filter__ = __webpack_require__("../../../../../src/app/utils/Filter.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_OverlayVisibilityManager__ = __webpack_require__("../../../../../src/app/utils/OverlayVisibilityManager.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -437,75 +438,67 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var OverlayVisibilities = (function () {
-    function OverlayVisibilities(visibleOverlay) {
-        this.hideAll();
-        if (visibleOverlay) {
-            this.show(visibleOverlay);
-        }
-    }
-    Object.defineProperty(OverlayVisibilities.prototype, "updateForm", {
-        get: function () {
-            return this._updateForm;
-        },
-        set: function (visibility) {
-            this.hideAll();
-            if (visibility === "visible") {
-                this._updateForm = "visible";
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(OverlayVisibilities.prototype, "filterForm", {
-        get: function () {
-            return this._filterForm;
-        },
-        set: function (visibility) {
-            this.hideAll();
-            if (visibility === "visible") {
-                this._filterForm = "visible";
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(OverlayVisibilities.prototype, "loadingIndicator", {
-        get: function () {
-            return this._loadingIndicator;
-        },
-        set: function (visibility) {
-            this.hideAll();
-            if (visibility === "visible") {
-                this._loadingIndicator = "visible";
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    OverlayVisibilities.prototype.hideAll = function () {
-        this._updateForm = "hidden";
-        this._filterForm = "hidden";
-        this._loadingIndicator = "hidden";
-    };
-    OverlayVisibilities.prototype.show = function (overlay) {
-        this.hideAll();
-        switch (overlay) {
-            case ("updateForm"):
-                this._updateForm = "visible";
-                break;
-            case ("filterForm"):
-                this._filterForm = "visible";
-                break;
-            case ("loadingIndicator"):
-                this._loadingIndicator = "visible";
-                break;
-            default:
-                throw new Error("Invalid overlay");
-        }
-    };
-    return OverlayVisibilities;
-}());
+
+// class OverlayVisibilities{
+//   private _updateForm: string
+//   private _filterForm: string
+//   private _loadingIndicator: string
+//   constructor(visibleOverlay?: string){
+//     this.hideAll();
+//     if(visibleOverlay){
+//       this.show(visibleOverlay);
+//     }
+//   }
+//   set updateForm(visibility){
+//     this.hideAll();
+//     if(visibility==="visible"){
+//       this._updateForm = "visible";
+//     }
+//   }
+//   get updateForm(){
+//     return this._updateForm;
+//   }
+//   set filterForm(visibility){
+//     this.hideAll();
+//     if(visibility==="visible"){
+//       this._filterForm = "visible";
+//     }
+//   }
+//   get filterForm(){
+//     return this._filterForm;
+//   }
+//   set loadingIndicator(visibility){
+//     this.hideAll();
+//     if(visibility==="visible"){
+//       this._loadingIndicator = "visible";
+//     }
+//   }
+//   get loadingIndicator(){
+//     return this._loadingIndicator;
+//   }
+//   hideAll(){
+//     this._updateForm = "hidden";
+//     this._filterForm = "hidden";
+//     this._loadingIndicator = "hidden";
+//   }
+//   show(overlay){
+//     this.hideAll();
+//     switch(overlay){
+//       case("updateForm"): 
+//         this._updateForm = "visible";
+//         break;
+//       case("filterForm"): 
+//         this._filterForm = "visible";
+//         break;
+//       case("loadingIndicator"): 
+//         this._loadingIndicator = "visible";
+//         break;
+//       default:
+//         throw new Error("Invalid overlay");
+//     }
+//   }
+// }
+var overlays = ["updateForm", "filterForm", "loadingIndicator"];
 var EmployeeDataTabComponent = (function () {
     function EmployeeDataTabComponent(databaseService) {
         this.databaseService = databaseService;
@@ -513,7 +506,7 @@ var EmployeeDataTabComponent = (function () {
     EmployeeDataTabComponent.prototype.ngOnInit = function () {
         this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
         this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 1e3);
-        this.overlayVisibilities = new OverlayVisibilities();
+        this.overlayVisibilityManager = new __WEBPACK_IMPORTED_MODULE_4__utils_OverlayVisibilityManager__["a" /* OverlayVisibilityManager */](overlays);
     };
     EmployeeDataTabComponent.prototype.updateEmployee = function (employee) {
         console.log(employee);
@@ -522,7 +515,7 @@ var EmployeeDataTabComponent = (function () {
         var _this = this;
         console.log(this.filter);
         this._clearData();
-        this.overlayVisibilities.show("loadingIndicator");
+        this.overlayVisibilityManager.show("loadingIndicator");
         this.databaseService.getFullEmployeeData(this.filter)
             .then(function (data) { return _this._updateData(data); })
             .catch(function (e) { return console.log(e); });
@@ -530,7 +523,7 @@ var EmployeeDataTabComponent = (function () {
     EmployeeDataTabComponent.prototype._updateData = function (data) {
         this.headers = data.columnNames;
         this.rowData = data.data;
-        this.overlayVisibilities.hideAll();
+        this.overlayVisibilityManager.hideAll();
     };
     EmployeeDataTabComponent.prototype._clearData = function () {
         this.headers = [];
@@ -539,14 +532,14 @@ var EmployeeDataTabComponent = (function () {
     EmployeeDataTabComponent.prototype.showUpdateForm = function (itemCoords) {
         var row = itemCoords[0];
         this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]);
-        this.overlayVisibilities.show("updateForm");
+        this.overlayVisibilityManager.show("updateForm");
     };
     EmployeeDataTabComponent.prototype.addEmployee = function () {
         this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
-        this.overlayVisibilities.show("updateForm");
+        this.overlayVisibilityManager.show("updateForm");
     };
     EmployeeDataTabComponent.prototype.showFilterForm = function () {
-        this.overlayVisibilities.show("filterForm");
+        this.overlayVisibilityManager.show("filterForm");
     };
     return EmployeeDataTabComponent;
 }());
@@ -1035,6 +1028,56 @@ var Filter = (function () {
 }());
 
 //# sourceMappingURL=Filter.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/utils/OverlayVisibilityManager.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OverlayVisibilityManager; });
+var OverlayVisibilityManager = (function () {
+    function OverlayVisibilityManager(overlayNames, visibleOverlay) {
+        var _this = this;
+        this._overlayNames = overlayNames;
+        visibleOverlay ? this._visibleOverlay = visibleOverlay : this._visibleOverlay = null;
+        this._overlayNames.forEach(function (name) {
+            Object.defineProperty(_this, name, {
+                get: function () {
+                    return this._visibility(name);
+                },
+                set: function (visibility) {
+                    if (visibility === "visible") {
+                        this._visibleOverlay = name;
+                    }
+                    else {
+                        this._visibleOverlay = null;
+                    }
+                }
+            });
+        });
+    }
+    OverlayVisibilityManager.prototype._visibility = function (overlayName) {
+        return (overlayName === this._visibleOverlay) ? "visible" : "hidden";
+    };
+    OverlayVisibilityManager.prototype.hideAll = function () {
+        this._visibleOverlay = null;
+    };
+    OverlayVisibilityManager.prototype.show = function (overlayName) {
+        if (this._isOverlayName(overlayName)) {
+            this[overlayName] = "visible";
+        }
+        else {
+            throw new Error("Invalid overlayName \"" + overlayName + "\", valid names are " + this._overlayNames.toString());
+        }
+    };
+    OverlayVisibilityManager.prototype._isOverlayName = function (overlayName) {
+        return this._overlayNames.reduce(function (any, name) { return (any || name === overlayName); }, false);
+    };
+    return OverlayVisibilityManager;
+}());
+
+//# sourceMappingURL=OverlayVisibilityManager.js.map
 
 /***/ }),
 

@@ -4,75 +4,78 @@ import { DatabaseService } from '../services/database.service';
 
 import { Employee } from "../utils/Employee";
 import { Filter } from "../utils/Filter";
+import { OverlayVisibilityManager } from "../utils/OverlayVisibilityManager";
 
 
-class OverlayVisibilities{
+// class OverlayVisibilities{
 
-  private _updateForm: string
-  private _filterForm: string
-  private _loadingIndicator: string
+//   private _updateForm: string
+//   private _filterForm: string
+//   private _loadingIndicator: string
 
-  constructor(visibleOverlay?: string){
-    this.hideAll();
-    if(visibleOverlay){
-      this.show(visibleOverlay);
-    }
-  }
+//   constructor(visibleOverlay?: string){
+//     this.hideAll();
+//     if(visibleOverlay){
+//       this.show(visibleOverlay);
+//     }
+//   }
 
-  set updateForm(visibility){
-    this.hideAll();
-    if(visibility==="visible"){
-      this._updateForm = "visible";
-    }
-  }
-  get updateForm(){
-    return this._updateForm;
-  }
+//   set updateForm(visibility){
+//     this.hideAll();
+//     if(visibility==="visible"){
+//       this._updateForm = "visible";
+//     }
+//   }
+//   get updateForm(){
+//     return this._updateForm;
+//   }
 
-  set filterForm(visibility){
-    this.hideAll();
-    if(visibility==="visible"){
-      this._filterForm = "visible";
-    }
-  }
-  get filterForm(){
-    return this._filterForm;
-  }
+//   set filterForm(visibility){
+//     this.hideAll();
+//     if(visibility==="visible"){
+//       this._filterForm = "visible";
+//     }
+//   }
+//   get filterForm(){
+//     return this._filterForm;
+//   }
 
-  set loadingIndicator(visibility){
-    this.hideAll();
-    if(visibility==="visible"){
-      this._loadingIndicator = "visible";
-    }
-  }
-  get loadingIndicator(){
-    return this._loadingIndicator;
-  }
+//   set loadingIndicator(visibility){
+//     this.hideAll();
+//     if(visibility==="visible"){
+//       this._loadingIndicator = "visible";
+//     }
+//   }
+//   get loadingIndicator(){
+//     return this._loadingIndicator;
+//   }
 
-  hideAll(){
-    this._updateForm = "hidden";
-    this._filterForm = "hidden";
-    this._loadingIndicator = "hidden";
-  }
+//   hideAll(){
+//     this._updateForm = "hidden";
+//     this._filterForm = "hidden";
+//     this._loadingIndicator = "hidden";
+//   }
 
-  show(overlay){
-    this.hideAll();
-    switch(overlay){
-      case("updateForm"): 
-        this._updateForm = "visible";
-        break;
-      case("filterForm"): 
-        this._filterForm = "visible";
-        break;
-      case("loadingIndicator"): 
-        this._loadingIndicator = "visible";
-        break;
-      default:
-        throw new Error("Invalid overlay");
-    }
-  }
+//   show(overlay){
+//     this.hideAll();
+//     switch(overlay){
+//       case("updateForm"): 
+//         this._updateForm = "visible";
+//         break;
+//       case("filterForm"): 
+//         this._filterForm = "visible";
+//         break;
+//       case("loadingIndicator"): 
+//         this._loadingIndicator = "visible";
+//         break;
+//       default:
+//         throw new Error("Invalid overlay");
+//     }
+//   }
 
-}
+// }
+
+const overlays: string[] = ["updateForm", "filterForm", "loadingIndicator"];
 
 @Component({
   selector: 'app-employee-data-tab',
@@ -86,15 +89,14 @@ export class EmployeeDataTabComponent implements OnInit{
 
   public employee: Employee;
   public filter: Filter;
-  public overlayVisibilities: OverlayVisibilities;
-
+  public overlayVisibilityManager: OverlayVisibilityManager;
 
   constructor(private databaseService: DatabaseService) { }
 
   ngOnInit(){
     this.employee = new Employee(null, null, null, null, null,null, null, null, null, null);
     this.filter = new Filter(true, true, 1e3);
-    this.overlayVisibilities = new OverlayVisibilities();
+    this.overlayVisibilityManager = new OverlayVisibilityManager(overlays);
   }
 
   updateEmployee(employee: Employee): void{
@@ -104,7 +106,7 @@ export class EmployeeDataTabComponent implements OnInit{
   fetchData(){
     console.log(this.filter);
     this._clearData();
-    this.overlayVisibilities.show("loadingIndicator");
+    this.overlayVisibilityManager.show("loadingIndicator");
     this.databaseService.getFullEmployeeData(this.filter)
     .then(data=>this._updateData(data))
     .catch(e=>console.log(e));
@@ -113,7 +115,7 @@ export class EmployeeDataTabComponent implements OnInit{
   private _updateData(data: any):void{
     this.headers=data.columnNames;
     this.rowData=data.data;
-    this.overlayVisibilities.hideAll();
+    this.overlayVisibilityManager.hideAll();
   }
   private _clearData():void{
     this.headers=[];
@@ -135,27 +137,15 @@ export class EmployeeDataTabComponent implements OnInit{
       this.rowData[row][9]
     )
     
-    this.overlayVisibilities.show("updateForm");
+    this.overlayVisibilityManager.show("updateForm");
   }
 
   addEmployee(){
     this.employee = new Employee(null,null,null,null,null,null,null,null,null,null);
-    this.overlayVisibilities.show("updateForm");
+    this.overlayVisibilityManager.show("updateForm");
   }
 
   showFilterForm(){
-    this.overlayVisibilities.show("filterForm");
+    this.overlayVisibilityManager.show("filterForm");
   }
-
-  // public getVisibility(overlay: string){
-  //   return (overlay===this.overlay) ? "visible" : "hidden";
-  // }
-
-  // public setVisibility(event: any, overlay: string){
-  //   console.log('set', event, overlay);
-  // }
-
-  // public setGetVisibility(event: any, overlay){
-  //   console.log('setget', event, overlay);
-  // }
 }

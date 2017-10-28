@@ -6,8 +6,7 @@
   </div>
 
   <app-data-table [headers]="headers" [rowData]="rowData" (cellDblClick)="showUpdateForm($event)"></app-data-table>  
-  <!-- <app-employee-data-update-form [visibility]="getVisibility('updateForm')" (visibilityChanged)="setVisibility($event, 'updateForm')" [employee]="employee" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form> -->
-  <app-employee-data-update-form [(visibility)]="overlayVisibilities.updateForm" [employee]="employee" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form>
-  <app-employee-data-filter-form [(visibility)]="overlayVisibilities.filterForm" [(filter)]="filter"></app-employee-data-filter-form>
-  <app-loading-indicator [(visibility)]="overlayVisibilities.loadingIndicator"></app-loading-indicator>
+  <app-employee-data-update-form [(visibility)]="overlayVisibilityManager.updateForm" [employee]="employee" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form>
+  <app-employee-data-filter-form [(visibility)]="overlayVisibilityManager.filterForm" [(filter)]="filter"></app-employee-data-filter-form>
+  <app-loading-indicator [(visibility)]="overlayVisibilityManager.loadingIndicator"></app-loading-indicator>
 </div>
