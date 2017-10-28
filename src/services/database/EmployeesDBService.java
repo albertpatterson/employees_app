@@ -192,6 +192,31 @@ public class EmployeesDBService {
         return query;
     }
 
+    public void updateEmployee(int emp_no, String attr, String value) throws SQLException {
+
+        String query =      "UPDATE ? "
+                        +   "SET ? = ? "
+                        +   "WHERE emp_no = ?";
+        PreparedStatement stmt = conn.prepareStatement(query);
+
+        switch (attr){
+            case "title":
+                stmt.setString(1, "titles");
+                stmt.setString(2, "title");
+                stmt.setString(3, value);
+                break;
+            case "salary":
+                stmt.setString(1, "salaries");
+                stmt.setString(2, "salary");
+                stmt.setInt(3, Integer.parseInt(value));
+                break;
+            default:
+                throw new Error(String.format("Invalid attribute", attr));
+        }
+
+        stmt.setInt(4, emp_no);
+    }
+
 //    public void getAllEmployeeData(){
 //        try (Statement stmt = conn.createStatement()) {
 //

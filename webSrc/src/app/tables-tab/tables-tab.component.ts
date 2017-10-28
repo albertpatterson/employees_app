@@ -5,13 +5,19 @@ import {DatabaseService} from '../services/database.service';
 @Component({
   selector: 'app-tables-tab',
   templateUrl: './tables-tab.component.html',
-  styleUrls: ['./tables-tab.component.css']
+  styleUrls: ['./tables-tab.component.css'],
+  inputs:["display"]
 })
 export class TablesTabComponent implements OnInit {
+
+  public visibility: string;
 
   public tableNamesString: string = 'nothing';
   public headers: string[];
   public rowData: string [][];
+
+  
+
 
   constructor(private databaseService: DatabaseService) { }
 

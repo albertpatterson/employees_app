@@ -1,6 +1,7 @@
 package servlets;
 
 import jdk.nashorn.internal.ir.debug.JSONWriter;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
 import services.database.EmployeesDBService;
 import services.database.StringifiedTableData;
 
@@ -15,15 +16,31 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Map;
 
 /**
  * Created by apatters on 10/22/2017.
  */
 @WebServlet(name = "FilterableDataServlet")
 public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//
-//    }
+
+
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Map params = request.getParameterMap();
+        String emp_noStr = request.getParameter("emp_no");
+        int emp_no = Integer.parseInt(emp_noStr);
+        String attrs = request.getParameter("attrs");
+        String values = request.getParameter("values");
+
+        try {
+            employeesDBService.updateEmployee(emp_no, attrs, values);
+        } catch (SQLException e) {
+            PrintWriter out = response.getWriter();
+            out.write(e.getStackTrace().toString());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

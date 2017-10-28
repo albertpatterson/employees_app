@@ -51,4 +51,31 @@ export class DatabaseService {
     .toPromise()
     .then((resp: Response)=>resp.json());
   }
+
+  public updateEmployee(emp_no: string, updates: any): Promise<any>{
+    
+        console.log(arguments);
+
+        let url: string = this._FullEmployeeDataUrl;
+        url+="?emp_no="+emp_no;
+        let attrs: string[] = [];
+        let values: string[] = [];
+        let search = new URLSearchParams();
+        // search.append("emp_no", emp_no)
+
+        for(let field in updates){
+          // search.append(field, updates[field]);
+          // url+=`&${field}=${updates[field]}`;
+          attrs.push(field);
+          values.push(updates[field]);
+        }
+        url+=`&attrs=${attrs.join(",")}&values=${values.join(",")}`;
+        // console.log(search);
+        // return this.http.put(this._FullEmployeeDataUrl, search)
+        return this.http.put(url, search)
+        .toPromise()
+        .then((resp: Response)=>resp.json());
+      }
+
+
 }

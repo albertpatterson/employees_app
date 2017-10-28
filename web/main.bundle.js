@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n    <h1 class=\"text-center\">Employee Manager</h1>\n\n    <div id=viewButtons class=\"row\">\n        <button class=\"col-md-6 btn tabButton\" [class.selected]=\"view=='employees'\" (click)=\"setView('employees')\">Employees Data</button>\n        <button class=\"col-md-6 btn tabButton\" [class.selected]=\"view=='rawTables'\" (click)=\"setView('rawTables')\">Raw Tables</button>\n    </div>\n\n    <div [ngSwitch]=\"view\">\n        <app-employee-data-tab *ngSwitchCase=\"'employees'\"></app-employee-data-tab>\n        <app-tables-tab *ngSwitchCase=\"'rawTables'\"></app-tables-tab>        \n    </div>    \n    \n</div>"
+module.exports = "<div class=\"container\">\n    <h1 class=\"text-center\">Employee Manager</h1>\n\n    <div id=viewButtons class=\"row\">\n        <button class=\"col-md-6 btn tabButton\" [class.selected]=\"tabDisplayManager.employeesData=='visible'\" (click)=\"tabDisplayManager.activate('employeesData')\">Employees Data</button>\n        <button class=\"col-md-6 btn tabButton\" [class.selected]=\"tabDisplayManager.rawTables=='visible'\" (click)=\"tabDisplayManager.activate('rawTables')\">Raw Tables</button>\n    </div>\n\n    <app-employee-data-tab [display] = \"tabDisplayManager.employeesData\"></app-employee-data-tab>\n    <app-tables-tab [display] = \"tabDisplayManager.rawTables\"></app-tables-tab>        \n    \n</div>"
 
 /***/ }),
 
@@ -44,23 +44,26 @@ module.exports = "<div class=\"container\">\n    <h1 class=\"text-center\">Emplo
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_SingleActivationManager__ = __webpack_require__("../../../../../src/app/utils/SingleActivationManager.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
+
+var tabs = ["employeesData", "rawTables"];
 var AppComponent = (function () {
     function AppComponent() {
-        this.view = "none";
         this.doFullEmployeeDataFetch = false;
         this.doTableNameFetch = false;
     }
-    AppComponent.prototype.setView = function (view) {
-        this.view = view;
-        this.doFullEmployeeDataFetch = this.view === "employees";
-        this.doTableNameFetch = this.view === "rawTables";
+    AppComponent.prototype.ngOnInit = function () {
+        this.tabDisplayManager = new __WEBPACK_IMPORTED_MODULE_1__utils_SingleActivationManager__["a" /* SingleActivationManager */](tabs, "block", "none");
     };
     return AppComponent;
 }());
@@ -69,7 +72,8 @@ AppComponent = __decorate([
         selector: 'employee-manager',
         template: __webpack_require__("../../../../../src/app/app.component.html"),
         styles: [__webpack_require__("../../../../../src/app/app.component.css")]
-    })
+    }),
+    __metadata("design:paramtypes", [])
 ], AppComponent);
 
 //# sourceMappingURL=app.component.js.map
@@ -412,7 +416,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/employee-data-tab/employee-data-tab.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"centeredContents\">\n  <div class=\"row\">\n    <button (click)=\"addEmployee()\" class=\"btn btn-success col-sm-4\">Add</button>\n    <button (click)=\"showFilterForm()\" class=\"btn btn-success col-sm-4\">Set Filters</button>\n    <button (click)=\"fetchData()\" class=\"btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n\n  <app-loading-indicator *ngIf=\"loading; else dataTable\"></app-loading-indicator>\n  <ng-template #dataTable>\n      <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>        \n  </ng-template>  \n\n  <app-employee-data-update-form [(visibility)]=\"overlayVisibilityManager.updateForm\" [employee]=\"employee\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"overlayVisibilityManager.filterForm\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n  \n</div>"
+module.exports = "<div class=\"centeredContents\" [style.display]=\"display\">\n  <div class=\"row\">\n    <button (click)=\"addEmployee()\" class=\"btn btn-success col-sm-4\">Add</button>\n    <button (click)=\"showFilterForm()\" class=\"btn btn-success col-sm-4\">Set Filters</button>\n    <button (click)=\"fetchData()\" class=\"btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n\n  <app-loading-indicator *ngIf=\"loading; else dataTable\"></app-loading-indicator>\n  <ng-template #dataTable>\n      <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>        \n  </ng-template>  \n\n  <app-employee-data-update-form [(visibility)]=\"overlayVisibilityManager.updateForm\" [employee]=\"employeeSnapshot\" (changeSubmit)=\"updateEmployee($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"overlayVisibilityManager.filterForm\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n  \n</div>"
 
 /***/ }),
 
@@ -425,7 +429,7 @@ module.exports = "<div class=\"centeredContents\">\n  <div class=\"row\">\n    <
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_database_service__ = __webpack_require__("../../../../../src/app/services/database.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_Employee__ = __webpack_require__("../../../../../src/app/utils/Employee.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_Filter__ = __webpack_require__("../../../../../src/app/utils/Filter.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_OverlayVisibilityManager__ = __webpack_require__("../../../../../src/app/utils/OverlayVisibilityManager.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_SingleActivationManager__ = __webpack_require__("../../../../../src/app/utils/SingleActivationManager.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -446,13 +450,18 @@ var EmployeeDataTabComponent = (function () {
         this.databaseService = databaseService;
     }
     EmployeeDataTabComponent.prototype.ngOnInit = function () {
-        this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
+        this._setEmployee(null, null, null, null, null, null, null, null, null, null);
         this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 1e3);
-        this.overlayVisibilityManager = new __WEBPACK_IMPORTED_MODULE_4__utils_OverlayVisibilityManager__["a" /* OverlayVisibilityManager */](overlays);
+        this.overlayVisibilityManager = new __WEBPACK_IMPORTED_MODULE_4__utils_SingleActivationManager__["a" /* SingleActivationManager */](overlays, "visible", "hidden");
         this.loading = false;
     };
-    EmployeeDataTabComponent.prototype.updateEmployee = function (employee) {
-        console.log(employee);
+    EmployeeDataTabComponent.prototype.updateEmployee = function (updatedEmployee) {
+        console.log("update!", this._employee, updatedEmployee);
+        if (this._employee.salary !== updatedEmployee.salary) {
+            this.databaseService.updateEmployee(this._employee.emp_no, { "salary": updatedEmployee.salary })
+                .then(function () { return alert('updated'); })
+                .catch(function (e) { return console.log(e); });
+        }
     };
     EmployeeDataTabComponent.prototype.fetchData = function () {
         var _this = this;
@@ -466,7 +475,7 @@ var EmployeeDataTabComponent = (function () {
     EmployeeDataTabComponent.prototype._updateData = function (data) {
         this.headers = data.columnNames;
         this.rowData = data.data;
-        this.overlayVisibilityManager.hideAll();
+        this.overlayVisibilityManager.deactivateAll();
     };
     EmployeeDataTabComponent.prototype._clearData = function () {
         this.headers = [];
@@ -474,15 +483,23 @@ var EmployeeDataTabComponent = (function () {
     };
     EmployeeDataTabComponent.prototype.showUpdateForm = function (itemCoords) {
         var row = itemCoords[0];
-        this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]);
-        this.overlayVisibilityManager.show("updateForm");
+        this._setEmployee(this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]);
+        this.overlayVisibilityManager.activate("updateForm");
     };
     EmployeeDataTabComponent.prototype.addEmployee = function () {
-        this.employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
-        this.overlayVisibilityManager.show("updateForm");
+        this._setEmployee(null, null, null, null, null, null, null, null, null, null);
+        this.overlayVisibilityManager.activate("updateForm");
     };
     EmployeeDataTabComponent.prototype.showFilterForm = function () {
-        this.overlayVisibilityManager.show("filterForm");
+        this.overlayVisibilityManager.activate("filterForm");
+    };
+    EmployeeDataTabComponent.prototype._setEmployee = function () {
+        var any = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            any[_i] = arguments[_i];
+        }
+        this._employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6], arguments[7], arguments[8], arguments[9]);
+        this.employeeSnapshot = JSON.parse(JSON.stringify(this._employee));
     };
     return EmployeeDataTabComponent;
 }());
@@ -491,6 +508,7 @@ EmployeeDataTabComponent = __decorate([
         selector: 'app-employee-data-tab',
         template: __webpack_require__("../../../../../src/app/employee-data-tab/employee-data-tab.component.html"),
         styles: [__webpack_require__("../../../../../src/app/employee-data-tab/employee-data-tab.component.css")],
+        inputs: ["display"]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_database_service__["a" /* DatabaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_database_service__["a" /* DatabaseService */]) === "function" && _a || Object])
 ], EmployeeDataTabComponent);
@@ -559,6 +577,7 @@ var EmployeeDataUpdateFormComponent = (function () {
     };
     EmployeeDataUpdateFormComponent.prototype.onSubmit = function () {
         this.changeSubmit.next(this.employee);
+        this.hide();
     };
     EmployeeDataUpdateFormComponent.prototype.hide = function () {
         this.visibility = "hidden";
@@ -771,6 +790,27 @@ var DatabaseService = (function () {
             .toPromise()
             .then(function (resp) { return resp.json(); });
     };
+    DatabaseService.prototype.updateEmployee = function (emp_no, updates) {
+        console.log(arguments);
+        var url = this._FullEmployeeDataUrl;
+        url += "?emp_no=" + emp_no;
+        var attrs = [];
+        var values = [];
+        var search = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* URLSearchParams */]();
+        // search.append("emp_no", emp_no)
+        for (var field in updates) {
+            // search.append(field, updates[field]);
+            // url+=`&${field}=${updates[field]}`;
+            attrs.push(field);
+            values.push(updates[field]);
+        }
+        url += "&attrs=" + attrs.join(",") + "&values=" + values.join(",");
+        // console.log(search);
+        // return this.http.put(this._FullEmployeeDataUrl, search)
+        return this.http.put(url, search)
+            .toPromise()
+            .then(function (resp) { return resp.json(); });
+    };
     return DatabaseService;
 }());
 DatabaseService = __decorate([
@@ -804,7 +844,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/tables-tab/tables-tab.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "  <div class=\"centeredContents\">\n      <dropdown title=\"Select Table\" items={{tableNamesString}} (selection)=\"showTable($event)\"></dropdown>\n      <app-data-table [headers]=\"headers\" [rowData]=\"rowData\"></app-data-table>\n  </div>"
+module.exports = "  <div class=\"centeredContents\" [style.display]=\"display\">\n      <dropdown title=\"Select Table\" items={{tableNamesString}} (selection)=\"showTable($event)\"></dropdown>\n      <app-data-table [headers]=\"headers\" [rowData]=\"rowData\"></app-data-table>\n  </div>"
 
 /***/ }),
 
@@ -854,7 +894,8 @@ TablesTabComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
         selector: 'app-tables-tab',
         template: __webpack_require__("../../../../../src/app/tables-tab/tables-tab.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/tables-tab/tables-tab.component.css")]
+        styles: [__webpack_require__("../../../../../src/app/tables-tab/tables-tab.component.css")],
+        inputs: ["display"]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_database_service__["a" /* DatabaseService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_database_service__["a" /* DatabaseService */]) === "function" && _a || Object])
 ], TablesTabComponent);
@@ -969,53 +1010,55 @@ var Filter = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/utils/OverlayVisibilityManager.ts":
+/***/ "../../../../../src/app/utils/SingleActivationManager.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OverlayVisibilityManager; });
-var OverlayVisibilityManager = (function () {
-    function OverlayVisibilityManager(overlayNames, visibleOverlay) {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SingleActivationManager; });
+var SingleActivationManager = (function () {
+    function SingleActivationManager(switchNames, onValue, offValue) {
         var _this = this;
-        this._overlayNames = overlayNames;
-        visibleOverlay ? this._visibleOverlay = visibleOverlay : this._visibleOverlay = null;
-        this._overlayNames.forEach(function (name) {
+        this._switchNames = switchNames;
+        switchNames;
+        this._onValue = onValue || true;
+        this._offValue = offValue || false;
+        this._switchNames.forEach(function (name) {
             Object.defineProperty(_this, name, {
                 get: function () {
-                    return this._visibility(name);
+                    return this._getState(name);
                 },
-                set: function (visibility) {
-                    if (visibility === "visible") {
-                        this._visibleOverlay = name;
+                set: function (state) {
+                    if (state === this._onValue) {
+                        this._activeSwitchName = name;
                     }
                     else {
-                        this._visibleOverlay = null;
+                        this._activeSwitchName = null;
                     }
                 }
             });
         });
     }
-    OverlayVisibilityManager.prototype._visibility = function (overlayName) {
-        return (overlayName === this._visibleOverlay) ? "visible" : "hidden";
+    SingleActivationManager.prototype._getState = function (switchName) {
+        return (switchName === this._activeSwitchName) ? this._onValue : this._offValue;
     };
-    OverlayVisibilityManager.prototype.hideAll = function () {
-        this._visibleOverlay = null;
+    SingleActivationManager.prototype.deactivateAll = function () {
+        this._activeSwitchName = null;
     };
-    OverlayVisibilityManager.prototype.show = function (overlayName) {
-        if (this._isOverlayName(overlayName)) {
-            this[overlayName] = "visible";
+    SingleActivationManager.prototype.activate = function (switchName) {
+        if (this._isSwitchName(switchName)) {
+            this[switchName] = this._onValue;
         }
         else {
-            throw new Error("Invalid overlayName \"" + overlayName + "\", valid names are " + this._overlayNames.toString());
+            throw new Error("Invalid overlayName \"" + switchName + "\", valid names are " + this._switchNames.toString());
         }
     };
-    OverlayVisibilityManager.prototype._isOverlayName = function (overlayName) {
-        return this._overlayNames.reduce(function (any, name) { return (any || name === overlayName); }, false);
+    SingleActivationManager.prototype._isSwitchName = function (switchName) {
+        return this._switchNames.reduce(function (any, name) { return (any || name === switchName); }, false);
     };
-    return OverlayVisibilityManager;
+    return SingleActivationManager;
 }());
 
-//# sourceMappingURL=OverlayVisibilityManager.js.map
+//# sourceMappingURL=SingleActivationManager.js.map
 
 /***/ }),
 

@@ -1,4 +1,4 @@
-<div class="centeredContents">
+<div class="centeredContents" [style.display]="display">
   <div class="row">
     <button (click)="addEmployee()" class="btn btn-success col-sm-4">Add</button>
     <button (click)="showFilterForm()" class="btn btn-success col-sm-4">Set Filters</button>
@@ -10,7 +10,7 @@
       <app-data-table [headers]="headers" [rowData]="rowData" (cellDblClick)="showUpdateForm($event)"></app-data-table>        
   </ng-template>  
 
-  <app-employee-data-update-form [(visibility)]="overlayVisibilityManager.updateForm" [employee]="employee" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form>
+  <app-employee-data-update-form [(visibility)]="overlayVisibilityManager.updateForm" [employee]="employeeSnapshot" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form>
   <app-employee-data-filter-form [(visibility)]="overlayVisibilityManager.filterForm" [(filter)]="filter"></app-employee-data-filter-form>
   
 </div>

@@ -13,3 +13,7 @@
 .centeredContents{
     text-align: center;
 }
+
+.btn{
+    transition: none;
+}

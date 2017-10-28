@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n\n.centeredInlineBlock{\n    display: inline-block;\n    margin:0 auto;\n}\n\n.centeredBlock{\n    display: block;\n    margin:0 auto;\n}\n\n.centeredContents{\n    text-align: center;\n}", ""]);
+exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n\n.centeredInlineBlock{\n    display: inline-block;\n    margin:0 auto;\n}\n\n.centeredBlock{\n    display: block;\n    margin:0 auto;\n}\n\n.centeredContents{\n    text-align: center;\n}\n\n.btn{\n    transition: none;\n}", ""]);
 
 // exports
 

@@ -39,6 +39,7 @@ export class EmployeeDataUpdateFormComponent implements OnChanges {
 
   onSubmit(){
     this.changeSubmit.next(this.employee);
+    this.hide();
   }
 
   hide(){

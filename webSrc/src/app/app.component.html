@@ -2,13 +2,11 @@
     <h1 class="text-center">Employee Manager</h1>
 
     <div id=viewButtons class="row">
-        <button class="col-md-6 btn tabButton" [class.selected]="view=='employees'" (click)="setView('employees')">Employees Data</button>
-        <button class="col-md-6 btn tabButton" [class.selected]="view=='rawTables'" (click)="setView('rawTables')">Raw Tables</button>
+        <button class="col-md-6 btn tabButton" [class.selected]="tabDisplayManager.employeesData=='visible'" (click)="tabDisplayManager.activate('employeesData')">Employees Data</button>
+        <button class="col-md-6 btn tabButton" [class.selected]="tabDisplayManager.rawTables=='visible'" (click)="tabDisplayManager.activate('rawTables')">Raw Tables</button>
     </div>
 
-    <div [ngSwitch]="view">
-        <app-employee-data-tab *ngSwitchCase="'employees'"></app-employee-data-tab>
-        <app-tables-tab *ngSwitchCase="'rawTables'"></app-tables-tab>        
-    </div>    
+    <app-employee-data-tab [display] = "tabDisplayManager.employeesData"></app-employee-data-tab>
+    <app-tables-tab [display] = "tabDisplayManager.rawTables"></app-tables-tab>        
     
 </div>
