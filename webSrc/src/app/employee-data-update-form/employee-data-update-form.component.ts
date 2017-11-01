@@ -1,4 +1,4 @@
-import { Component, OnChanges, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, EventEmitter } from '@angular/core';
 
 import { Employee } from "../utils/Employee";
 
@@ -15,19 +15,31 @@ import { Employee } from "../utils/Employee";
     "visibilityChange"    
   ]
 })
-export class EmployeeDataUpdateFormComponent implements OnChanges {
+export class EmployeeDataUpdateFormComponent implements OnInit, OnChanges {
 
   public employee: Employee;
   public visibility: string = "visible";
   public formTitle: string = "Add New Employee"
+  public isNewEmployee: boolean;
+
 
   public changeSubmit:EventEmitter<Employee> = new EventEmitter();
   public visibilityChange: EventEmitter<string> = new EventEmitter();
   
   constructor() { }
 
+  ngOnInit(){
+    this._updateDisplay();
+  }
+
   ngOnChanges() {
-      if(this.employee.emp_no){
+    this._updateDisplay();
+  }
+
+  private _updateDisplay(){
+    this.isNewEmployee = !this.employee.emp_no;
+    console.log("isNewEmployee", this.isNewEmployee);
+      if(!this.isNewEmployee){
         this.formTitle = "Update Data Form Employee #"+this.employee.emp_no;
       }else{
         this.formTitle = "Provide Data For New Employee"
@@ -35,7 +47,6 @@ export class EmployeeDataUpdateFormComponent implements OnChanges {
 
       console.log(this.employee);
   }
-
 
   onSubmit(){
     this.changeSubmit.next(this.employee);

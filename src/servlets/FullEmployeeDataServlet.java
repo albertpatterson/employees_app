@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,17 +30,30 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
         Map params = request.getParameterMap();
         String emp_noStr = request.getParameter("emp_no");
         int emp_no = Integer.parseInt(emp_noStr);
-        String attrs = request.getParameter("attrs");
-        String values = request.getParameter("values");
+        String[] attrs = request.getParameter("attrs").split(",");
+        String[] values = request.getParameter("values").split(",");
 
-        try {
-            employeesDBService.updateEmployee(emp_no, attrs, values);
-        } catch (SQLException e) {
+
+
+
+        if(attrs.length != values.length){
             PrintWriter out = response.getWriter();
-            out.write(e.getStackTrace().toString());
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            out.write("Attribute and value count mismatch.");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }else{
+            HashMap<String, String> updates = new HashMap<>(attrs.length);
+            for(int i=0; i<attrs.length; i++){
+                updates.put(attrs[i], values[i]);
+            }
+            try {
+                employeesDBService.updateEmployee(emp_no, updates);
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                PrintWriter out = response.getWriter();
+                out.write(e.getStackTrace().toString());
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         }
-        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

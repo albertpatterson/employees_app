@@ -1,10 +1,15 @@
 package services.database;
 
 import utils.JsonConvertible;
+import utils.Title;
 
 import javax.lang.model.element.NestingKind;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by apatters on 10/15/2017.
@@ -19,7 +24,7 @@ public class EmployeesDBService {
 
 
 
-    private static final String SELECT_LATEST_EMP_DATE =    "SELECT emp_no, max(to_date) AS to_date "
+    private static final String SELECT_LATEST_EMP_DATE =    "SELECT emp_no, from_date, max(to_date) AS to_date "
                                                         +   "FROM dept_emp "
                                                         +   "GROUP BY emp_no ";
 
@@ -39,7 +44,7 @@ public class EmployeesDBService {
                                                         +   "INNER JOIN departments "
                                                         +   "ON departments.dept_no = dept_emp.dept_no";
 
-    private static final String SELECT_LATEST_TITLE =   "SELECT TITLES.emp_no, latest_emp_date.to_date, titles.title "
+    private static final String SELECT_LATEST_TITLE =   "SELECT TITLES.emp_no, latest_emp_date.from_date, latest_emp_date.to_date, titles.title "
                                                     +   "FROM titles "
                                                     +   "INNER JOIN (" + SELECT_LATEST_EMP_DATE + ") AS latest_emp_date "
                                                     +   "ON titles.emp_no = latest_emp_date.emp_no AND titles.to_date = latest_emp_date.to_date ";
@@ -58,6 +63,17 @@ public class EmployeesDBService {
                                                         +   "INNER JOIN ("+SELECT_LATEST_SALARY+") AS latest_salary "
                                                         +   "ON employees.emp_no = latest_salary.emp_no ";
 
+
+    private static final Date FUTURE_DATE_SQL = getFutureDate();
+    private static final Date getFutureDate(){
+        try {
+            java.util.Date futureDate = new SimpleDateFormat("yyyy/MM/dd").parse("9999/01/01");
+            return new Date(futureDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static void init(){
         try {
@@ -79,6 +95,7 @@ public class EmployeesDBService {
             }
         }
     }
+
 
 //    private static final EmployeesDB db = new EmployeesDB();
 
@@ -192,31 +209,113 @@ public class EmployeesDBService {
         return query;
     }
 
-    public void updateEmployee(int emp_no, String attr, String value) throws SQLException {
+    public void updateEmployee(int emp_no, HashMap<String, String> updates) throws Exception {
 
-        String query =      "UPDATE ? "
-                        +   "SET ? = ? "
-                        +   "WHERE emp_no = ?";
-        PreparedStatement stmt = conn.prepareStatement(query);
+        conn.setAutoCommit(false);
+        Savepoint initial = conn.setSavepoint();
 
-        switch (attr){
-            case "title":
-                stmt.setString(1, "titles");
-                stmt.setString(2, "title");
-                stmt.setString(3, value);
-                break;
-            case "salary":
-                stmt.setString(1, "salaries");
-                stmt.setString(2, "salary");
-                stmt.setInt(3, Integer.parseInt(value));
-                break;
-            default:
-                throw new Error(String.format("Invalid attribute", attr));
+        try {
+            for (Map.Entry<String, String> update : updates.entrySet()) {
+                String key = update.getKey();
+                String value = update.getValue();
+                switch (key) {
+                    case "title":
+                        String newTitle = value;
+                        updateTitle(emp_no, newTitle);
+                        break;
+
+                    case "salary":
+                        int newSalary = Integer.parseInt(value);
+                        updateSalary(emp_no, newSalary);
+                        break;
+
+                    default:
+                        throw new Exception(String.format("Invalid attribute", key));
+                }
+            }
+            conn.commit();
+        } catch (Exception e) {
+            if(conn!=null){
+                conn.rollback(initial);
+            }
+            e.printStackTrace();
+            throw e;
+        } finally {
+            conn.setAutoCommit(true);
         }
-
-        stmt.setInt(4, emp_no);
     }
 
+    private void updateTitle(int emp_no, String newTitle) throws SQLException {
+
+        Date todaySql = getTodaySQL();
+
+        PreparedStatement stmt;
+        stmt = conn.prepareStatement(
+                            "UPDATE titles "
+                        +   "SET to_date=? "
+                        +   "WHERE emp_no=? AND to_date=?");
+        stmt.setDate(1, todaySql);
+        stmt.setInt(2, emp_no);
+        stmt.setDate(3, FUTURE_DATE_SQL);
+        stmt.executeUpdate();
+
+        stmt = conn.prepareStatement(
+                            "INSERT INTO titles "
+                        +   "VALUES (?, ?, ?, ?) ");
+        stmt.setInt(1, emp_no);
+        stmt.setString(2, newTitle);
+        stmt.setDate(3, todaySql);
+        stmt.setDate(4, FUTURE_DATE_SQL);
+        stmt.executeUpdate();
+
+        stmt.close();
+    }
+
+    private void updateSalary(int emp_no, int newSalary) throws SQLException {
+
+        Date todaySql = getTodaySQL();
+
+        PreparedStatement stmt;
+
+        stmt = conn.prepareStatement(
+                            "UPDATE salaries "
+                        +   "SET to_date=? "
+                        +   "WHERE emp_no=? AND to_date=?");
+        stmt.setDate(1, todaySql);
+        stmt.setInt(2, emp_no);
+        stmt.setDate(3, FUTURE_DATE_SQL);
+        stmt.executeUpdate();
+
+        stmt = conn.prepareStatement(
+                            "INSERT INTO salaries "
+                        +   "VALUES (?, ?, ?, ?) ");
+        stmt.setInt(1, emp_no);
+        stmt.setInt(2, newSalary);
+        stmt.setDate(3, todaySql);
+        stmt.setDate(4, FUTURE_DATE_SQL);
+        stmt.executeUpdate();
+
+        stmt.close();
+    }
+
+    private Title getLatestTitle(int emp_no) throws SQLException {
+        String query = String.format("%s WHERE emp_no = %d" , this.SELECT_LATEST_TITLE, emp_no);
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+
+        rs.next();
+        String title = rs.getString("title");
+        Date from_date = rs.getDate("from_date");
+        Date to_date = rs.getDate("to_date");
+        Title latestTitle = new Title(emp_no, title, from_date, to_date);
+        return latestTitle;
+    }
+
+
+    private Date getTodaySQL(){
+        java.util.Date today = new java.util.Date();
+        return new Date(today.getTime());
+    }
 //    public void getAllEmployeeData(){
 //        try (Statement stmt = conn.createStatement()) {
 //

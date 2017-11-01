@@ -31,19 +31,30 @@ export class EmployeeDataTabComponent implements OnInit{
   constructor(private databaseService: DatabaseService) { }
 
   ngOnInit(){
-    this._setEmployee(null, null, null, null, null,null, null, null, null, null);
+    this._setEmployee(null);
     this.filter = new Filter(true, true, 1e3);
     this.overlayVisibilityManager = new SingleActivationManager(overlays, "visible", "hidden");
     this.loading = false;
   }
 
   updateEmployee(updatedEmployee: Employee): void{
-    console.log("update!", this._employee, updatedEmployee);
-      if(this._employee.salary !== updatedEmployee.salary){
-        this.databaseService.updateEmployee(this._employee.emp_no, {"salary": updatedEmployee.salary})
-        .then(()=>alert('updated'))
-        .catch(e=>console.log(e))
+    
+
+    let update={};
+    for(let field in this._employee){
+      if(this._employee[field]!==updatedEmployee[field]){
+        update[field]=updatedEmployee[field];
       }
+    }
+    
+    console.log("update!", this._employee, updatedEmployee, update);
+
+    if(Object.keys(update).length>0){
+      this._setEmployee(updatedEmployee);
+      this.databaseService.updateEmployee(this._employee.emp_no, update)
+      .then(()=>alert('updated'))
+      .catch(e=>console.log(e))
+    }
   }
 
   fetchData(){
@@ -68,22 +79,23 @@ export class EmployeeDataTabComponent implements OnInit{
   showUpdateForm(itemCoords: number[]){    
     var row = itemCoords[0];
     this._setEmployee(
-      this.rowData[row][0],
-      this.rowData[row][1],
-      this.rowData[row][2],
-      this.rowData[row][3],
-      this.rowData[row][4],
-      this.rowData[row][5],
-      this.rowData[row][6],
-      this.rowData[row][7],
-      this.rowData[row][8],
-      this.rowData[row][9]
+      new Employee(
+        this.rowData[row][0],
+        this.rowData[row][1],
+        this.rowData[row][2],
+        this.rowData[row][3],
+        this.rowData[row][4],
+        this.rowData[row][5],
+        this.rowData[row][6],
+        this.rowData[row][7],
+        this.rowData[row][8],
+        this.rowData[row][9])
     )
     this.overlayVisibilityManager.activate("updateForm");
   }
 
   addEmployee(){
-    this._setEmployee(null,null,null,null,null,null,null,null,null,null);
+    this._setEmployee(null);
     this.overlayVisibilityManager.activate("updateForm");
   }
 
@@ -91,9 +103,13 @@ export class EmployeeDataTabComponent implements OnInit{
     this.overlayVisibilityManager.activate("filterForm");
   }
 
-  private _setEmployee(...any){
-    this._employee = new Employee(
-      arguments[0], arguments[1], arguments[2] ,arguments[3], arguments[4], arguments[5], arguments[6], arguments[7], arguments[8], arguments[9]);
+  private _setEmployee(employee:Employee){
+    if(employee===null){
+      this._employee = new Employee(null, null, null, null, null, null, null, null, null, null);
+    }else{
+      this._employee = employee;
+    }
+    
     this.employeeSnapshot = JSON.parse(JSON.stringify(this._employee));
   }
 }

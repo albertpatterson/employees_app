@@ -39,3 +39,7 @@ label{
 .btn{
     transition: none;
 }
+
+.form-control:disabled{
+    background-color: #929292
+}

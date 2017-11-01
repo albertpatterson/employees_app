@@ -450,15 +450,22 @@ var EmployeeDataTabComponent = (function () {
         this.databaseService = databaseService;
     }
     EmployeeDataTabComponent.prototype.ngOnInit = function () {
-        this._setEmployee(null, null, null, null, null, null, null, null, null, null);
+        this._setEmployee(null);
         this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 1e3);
         this.overlayVisibilityManager = new __WEBPACK_IMPORTED_MODULE_4__utils_SingleActivationManager__["a" /* SingleActivationManager */](overlays, "visible", "hidden");
         this.loading = false;
     };
     EmployeeDataTabComponent.prototype.updateEmployee = function (updatedEmployee) {
-        console.log("update!", this._employee, updatedEmployee);
-        if (this._employee.salary !== updatedEmployee.salary) {
-            this.databaseService.updateEmployee(this._employee.emp_no, { "salary": updatedEmployee.salary })
+        var update = {};
+        for (var field in this._employee) {
+            if (this._employee[field] !== updatedEmployee[field]) {
+                update[field] = updatedEmployee[field];
+            }
+        }
+        console.log("update!", this._employee, updatedEmployee, update);
+        if (Object.keys(update).length > 0) {
+            this._setEmployee(updatedEmployee);
+            this.databaseService.updateEmployee(this._employee.emp_no, update)
                 .then(function () { return alert('updated'); })
                 .catch(function (e) { return console.log(e); });
         }
@@ -483,22 +490,23 @@ var EmployeeDataTabComponent = (function () {
     };
     EmployeeDataTabComponent.prototype.showUpdateForm = function (itemCoords) {
         var row = itemCoords[0];
-        this._setEmployee(this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]);
+        this._setEmployee(new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]));
         this.overlayVisibilityManager.activate("updateForm");
     };
     EmployeeDataTabComponent.prototype.addEmployee = function () {
-        this._setEmployee(null, null, null, null, null, null, null, null, null, null);
+        this._setEmployee(null);
         this.overlayVisibilityManager.activate("updateForm");
     };
     EmployeeDataTabComponent.prototype.showFilterForm = function () {
         this.overlayVisibilityManager.activate("filterForm");
     };
-    EmployeeDataTabComponent.prototype._setEmployee = function () {
-        var any = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            any[_i] = arguments[_i];
+    EmployeeDataTabComponent.prototype._setEmployee = function (employee) {
+        if (employee === null) {
+            this._employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
         }
-        this._employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6], arguments[7], arguments[8], arguments[9]);
+        else {
+            this._employee = employee;
+        }
         this.employeeSnapshot = JSON.parse(JSON.stringify(this._employee));
     };
     return EmployeeDataTabComponent;
@@ -526,7 +534,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "#empoyeeDataUpdateFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataUpdateForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#gender>title{\r\n    text-align: center;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n\r\n.form-group{\r\n    text-align: left;\r\n}\r\n\r\n#gender .form-group{\r\n    text-align: center;\r\n}\r\n\r\n.btn{\r\n    transition: none;\r\n}", ""]);
+exports.push([module.i, "#empoyeeDataUpdateFormContainer{\r\n    position: fixed;\r\n    top: 0px;\r\n    left: 0px;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n}\r\n\r\n#empoyeeDataUpdateForm{\r\n    position: relative;\r\n    width: 80%;\r\n    left: 10%;\r\n}\r\n\r\n\r\nlabel{\r\n    color: white;\r\n}\r\n\r\n#gender>title{\r\n    text-align: center;\r\n}\r\n\r\n#formTitle{\r\n    color: white;\r\n    font-weight: bold;\r\n    font-size: 25px;   \r\n}\r\n\r\n.form-group{\r\n    text-align: left;\r\n}\r\n\r\n#gender .form-group{\r\n    text-align: center;\r\n}\r\n\r\n.btn{\r\n    transition: none;\r\n}\r\n\r\n.form-control:disabled{\r\n    background-color: #929292\r\n}", ""]);
 
 // exports
 
@@ -539,7 +547,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/employee-data-update-form/employee-data-update-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"empoyeeDataUpdateFormContainer\" [style.visibility]=\"visibility\">\n  <h1 id=\"formTitle\">{{formTitle}}</h1>\n  <form id=\"empoyeeDataUpdateForm\" (ngSubmit)=\"onSubmit()\" #empoyeeDataUpdateForm=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"birth_date\">Birth Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"birth_date\" required [(ngModel)]=\"employee.birth_date\" name=\"birth_date\" [value]=\"employee.birth_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"first_name\">First Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"first_name\" required [(ngModel)]=\"employee.first_name\" name=\"first_name\" [value]=\"employee.first_name\">\n    </div>\n    \n    <div class=\"form-group\">\n      <label for=\"last_name\">Last Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"last_name\" required [(ngModel)]=\"employee.last_name\" name=\"last_name\" [value]=\"employee.last_name\">\n    </div>\n  \n    \n    <label for=\"gender\">Gender</label>\n    <div id=\"gender\" class=\"row\">\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderM\">Male</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderM\" required [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"M\" [attr.checked]=\"employee.gender===M\">\n      </div>\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderF\">Female</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderF\" required [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"F\" [attr.checked]=\"employee.gender===F\">\n      </div>\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"hire_date\">Hire Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"hire_date\" required [(ngModel)]=\"employee.hire_date\" name=\"hire_date\" [value]=\"employee.hire_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input type=\"text\" class=\"form-control\" id=\"title\" required [(ngModel)]=\"employee.title\" name=\"title\" [value]=\"employee.title\">\n    </div> \n    \n    <div class=\"form-group\">\n      <label for=\"to_date\">To Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"to_date\" required [(ngModel)]=\"employee.to_date\" name=\"to_date\" [value]=\"employee.to_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"dept_name\">Department</label>\n      <input type=\"text\" class=\"form-control\" id=\"dept_name\" required [(ngModel)]=\"employee.dept_name\" name=\"dept_name\" [value]=\"employee.dept_name\">\n    </div> \n  \n    <div class=\"form-group\">\n      <label for=\"salary\">Salary</label>\n      <input type=\"number\" class=\"form-control\" id=\"salary\" required [(ngModel)]=\"employee.salary\" name=\"salary\" [value]=\"employee.salary\">\n    </div>       \n    \n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"(!empoyeeDataUpdateForm.form.valid)||(!empoyeeDataUpdateForm.form.dirty)\">Submit</button>\n    <button class=\"btn btn-basic\" (click)=\"hide()\">Cancel</button>\n  </form>\n</div>"
+module.exports = "<div id=\"empoyeeDataUpdateFormContainer\" [style.visibility]=\"visibility\">\n  <h1 id=\"formTitle\">{{formTitle}}</h1>\n  <form id=\"empoyeeDataUpdateForm\" (ngSubmit)=\"onSubmit()\" #empoyeeDataUpdateForm=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"birth_date\">Birth Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"birth_date\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.birth_date\" name=\"birth_date\" [value]=\"employee.birth_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"first_name\">First Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"first_name\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.first_name\" name=\"first_name\" [value]=\"employee.first_name\">\n    </div>\n    \n    <div class=\"form-group\">\n      <label for=\"last_name\">Last Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"last_name\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.last_name\" name=\"last_name\" [value]=\"employee.last_name\">\n    </div>\n  \n    \n    <label for=\"gender\">Gender</label>\n    <div id=\"gender\" class=\"row\">\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderM\">Male</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderM\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"M\" [attr.checked]=\"employee.gender===M\">\n      </div>\n      <div class=\"form-group col-sm-6\">\n        <label for=\"genderF\">Female</label>\n        <input type=\"radio\" class=\"form-control\" id=\"genderF\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"F\" [attr.checked]=\"employee.gender===F\">\n      </div>\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"hire_date\">Hire Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"hire_date\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.hire_date\" name=\"hire_date\" [value]=\"employee.hire_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input type=\"text\" class=\"form-control\" id=\"title\" required [(ngModel)]=\"employee.title\" name=\"title\" [value]=\"employee.title\">\n    </div> \n    \n    <div class=\"form-group\">\n      <label for=\"to_date\">To Date</label>\n      <input type=\"date\" class=\"form-control\" id=\"to_date\" required [(ngModel)]=\"employee.to_date\" name=\"to_date\" [value]=\"employee.to_date\">\n    </div>\n  \n    <div class=\"form-group\">\n      <label for=\"dept_name\">Department</label>\n      <input type=\"text\" class=\"form-control\" id=\"dept_name\" required [(ngModel)]=\"employee.dept_name\" name=\"dept_name\" [value]=\"employee.dept_name\">\n    </div> \n  \n    <div class=\"form-group\">\n      <label for=\"salary\">Salary</label>\n      <input type=\"number\" class=\"form-control\" id=\"salary\" required [(ngModel)]=\"employee.salary\" name=\"salary\" [value]=\"employee.salary\">\n    </div>       \n    \n    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"(!empoyeeDataUpdateForm.form.valid)||(!empoyeeDataUpdateForm.form.dirty)\">Submit</button>\n    <button class=\"btn btn-basic\" (click)=\"hide()\">Cancel</button>\n  </form>\n</div>"
 
 /***/ }),
 
@@ -566,8 +574,16 @@ var EmployeeDataUpdateFormComponent = (function () {
         this.changeSubmit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.visibilityChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
+    EmployeeDataUpdateFormComponent.prototype.ngOnInit = function () {
+        this._updateDisplay();
+    };
     EmployeeDataUpdateFormComponent.prototype.ngOnChanges = function () {
-        if (this.employee.emp_no) {
+        this._updateDisplay();
+    };
+    EmployeeDataUpdateFormComponent.prototype._updateDisplay = function () {
+        this.isNewEmployee = !this.employee.emp_no;
+        console.log("isNewEmployee", this.isNewEmployee);
+        if (!this.isNewEmployee) {
             this.formTitle = "Update Data Form Employee #" + this.employee.emp_no;
         }
         else {
