@@ -10,7 +10,7 @@ import {DatabaseService} from '../services/database.service';
 })
 export class TablesTabComponent implements OnInit {
 
-  public visibility: string;
+  public display: string;
 
   public tableNamesString: string = 'nothing';
   public headers: string[];

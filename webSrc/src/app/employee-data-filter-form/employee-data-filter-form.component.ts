@@ -34,9 +34,9 @@ export class EmployeeDataFilterFormComponent implements OnChanges {
   }
 
 
-  onSubmit(event){
+  onSubmit(){
     // this.filter.genderF = event.
-    console.log(event);
+    // console.log(event);
     this.filterChanged.next(this.filter);
     this.hide();
   }

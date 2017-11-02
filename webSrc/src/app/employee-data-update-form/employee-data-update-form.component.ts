@@ -63,4 +63,9 @@ export class EmployeeDataUpdateFormComponent implements OnInit, OnChanges {
     this.visibilityChange.next(this.visibility);
   }
 
+  fireEmployee(){
+    this.visibility="hidden";
+    alert("YOURE FIRED!");
+  }
+
 }

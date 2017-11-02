@@ -23,6 +23,8 @@ public class EmployeesDBService {
 
 
 
+    private static final String SELECT_DEPARTMENT_DATA  =   "SELECT * "
+                                                        +   "FROM departments ";
 
     private static final String SELECT_LATEST_EMP_DATE =    "SELECT emp_no, from_date, max(to_date) AS to_date "
                                                         +   "FROM dept_emp "
@@ -229,8 +231,13 @@ public class EmployeesDBService {
                         updateSalary(emp_no, newSalary);
                         break;
 
+                    case "dept_name":
+                        String newDepartment = value;
+                        updateDepartment(emp_no, newDepartment);
+                        break;
+
                     default:
-                        throw new Exception(String.format("Invalid attribute", key));
+                        throw new Exception("Invalid attribute " + key);
                 }
             }
             conn.commit();
@@ -296,6 +303,62 @@ public class EmployeesDBService {
         stmt.executeUpdate();
 
         stmt.close();
+    }
+
+    private void updateDepartment(int emp_no, String newDepartment) throws Exception {
+
+        Date todaySql = getTodaySQL();
+
+        PreparedStatement stmt;
+
+        HashMap<String, String> dept_name_no_map = getDepartmentMap();
+
+        if(dept_name_no_map.containsKey(newDepartment)) {
+
+            String new_dept_no = dept_name_no_map.get(newDepartment);
+
+            stmt = conn.prepareStatement(
+                                "UPDATE dept_emp "
+                            +   "SET to_date=? "
+                            +   "WHERE emp_no=? AND to_date=?");
+            stmt.setDate(1, todaySql);
+            stmt.setInt(2, emp_no);
+            stmt.setDate(3, FUTURE_DATE_SQL);
+            stmt.executeUpdate();
+
+            stmt = conn.prepareStatement(
+                                "INSERT INTO dept_emp "
+                            +   "VALUES (?, ?, ?, ?) ");
+            stmt.setInt(1, emp_no);
+            stmt.setString(2, new_dept_no);
+            stmt.setDate(3, todaySql);
+            stmt.setDate(4, FUTURE_DATE_SQL);
+            stmt.executeUpdate();
+
+            stmt.close();
+        }else{
+            throw new Exception("No department with name " + newDepartment);
+        }
+    }
+
+
+    private HashMap<String, String> getDepartmentMap() throws SQLException {
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(SELECT_DEPARTMENT_DATA);
+        rs.last();
+        int nResults = rs.getRow();
+
+        HashMap<String, String> map = new HashMap<>(nResults);
+
+        int idx = 0;
+        rs.beforeFirst();
+        while(rs.next()){
+            String name = rs.getString("dept_name");
+            String number = rs.getString("dept_no");
+            map.put(name, number);
+        }
+
+        return map;
     }
 
     private Title getLatestTitle(int emp_no) throws SQLException {

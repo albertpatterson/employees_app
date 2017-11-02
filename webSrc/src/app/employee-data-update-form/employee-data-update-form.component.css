@@ -43,3 +43,7 @@ label{
 .form-control:disabled{
     background-color: #929292
 }
+
+input[type="radio"]{
+    height: 25px;
+}

@@ -14,7 +14,7 @@ export class AppComponent implements OnInit{
   public doFullEmployeeDataFetch = false;
   public doTableNameFetch = false;
 
-  public tabDisplayManager: SingleActivationManager;
+  public tabDisplayManager: any;
 
   constructor(){}
 

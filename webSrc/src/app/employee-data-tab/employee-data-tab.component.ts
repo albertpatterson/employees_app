@@ -25,7 +25,7 @@ export class EmployeeDataTabComponent implements OnInit{
   private _employee: Employee;
   public employeeSnapshot: Employee;
   public filter: Filter;
-  public overlayVisibilityManager: SingleActivationManager;
+  public overlayVisibilityManager: any;
   public loading: boolean;
 
   constructor(private databaseService: DatabaseService) { }
