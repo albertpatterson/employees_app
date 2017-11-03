@@ -37,9 +37,20 @@ export class EmployeeDataTabComponent implements OnInit{
     this.loading = false;
   }
 
+  applyUpdate(updatedEmployee: Employee): void {
+    console.log("apply update", updatedEmployee);
+    if(this._employee.emp_no===null){
+      this.databaseService.addEmployee(updatedEmployee)
+      .then((r)=>alert('updated '+r))
+      .catch(e=>console.log(e))
+    }else{
+      this.updateEmployee(updatedEmployee);
+    }
+  }
+
+
   updateEmployee(updatedEmployee: Employee): void{
     
-
     let update={};
     for(let field in this._employee){
       if(this._employee[field]!==updatedEmployee[field]){
@@ -55,6 +66,8 @@ export class EmployeeDataTabComponent implements OnInit{
       .then(()=>alert('updated'))
       .catch(e=>console.log(e))
     }
+
+
   }
 
   fetchData(){

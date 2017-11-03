@@ -25,6 +25,27 @@ import java.util.Map;
 @WebServlet(name = "FilterableDataServlet")
 public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String birth_date = request.getParameter("birth_date");
+        String first_name = request.getParameter("first_name");
+        String last_name = request.getParameter("last_name");
+        String gender = request.getParameter("gender");
+        String hire_date = request.getParameter("hire_date");
+        String title = request.getParameter("title");
+        String dept_name = request.getParameter("dept_name");
+        String salary = request.getParameter("salary");
+
+        PrintWriter out = response.getWriter();
+        try {
+            employeesDBService.addEmployee(birth_date,first_name, last_name, gender, hire_date, title, dept_name, salary);
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.print(e.getStackTrace().toString());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+
+    }
 
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map params = request.getParameterMap();
@@ -32,9 +53,6 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
         int emp_no = Integer.parseInt(emp_noStr);
         String[] attrs = request.getParameter("attrs").split(",");
         String[] values = request.getParameter("values").split(",");
-
-
-
 
         if(attrs.length != values.length){
             PrintWriter out = response.getWriter();

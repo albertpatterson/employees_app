@@ -67,14 +67,18 @@ public class EmployeesDBService {
 
 
     private static final Date FUTURE_DATE_SQL = getFutureDate();
-    private static final Date getFutureDate(){
+    private static Date getFutureDate(){
         try {
-            java.util.Date futureDate = new SimpleDateFormat("yyyy/MM/dd").parse("9999/01/01");
-            return new Date(futureDate.getTime());
+            return makeSQLDate("9999-01-01");
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static Date makeSQLDate(String dateStr) throws ParseException {
+        java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+        return new Date(date.getTime());
     }
 
     public static void init(){
@@ -211,6 +215,68 @@ public class EmployeesDBService {
         return query;
     }
 
+    public void addEmployee(String birth_date, String first_name, String last_name, String gender,
+                            String hire_date, String title, String dept_name, String salary) throws Exception {
+
+        conn.setAutoCommit(false);
+        Savepoint initial = conn.setSavepoint();
+
+        try{
+
+            int emp_no = insertEmployee(birth_date, first_name, last_name, gender, hire_date);
+            insertIntoHistoricalTable("titles", emp_no,title);
+            insertIntoHistoricalTable("dept_emp",emp_no, dept_name);
+            insertIntoHistoricalTable("salaries",emp_no, salary);
+            conn.commit();
+        }catch(Exception e) {
+            if (conn != null) {
+                conn.rollback(initial);
+            }
+            e.printStackTrace();
+            throw e;
+        }finally {
+            conn.setAutoCommit(true);
+        }
+    }
+
+    private int getMaxEmp_no() throws SQLException {
+        String query    =   "SELECT MAX(emp_no) AS maxEmp_no "
+                        +   "FROM employees ";
+        Statement stmt = conn.createStatement();
+
+        ResultSet rs = stmt.executeQuery(query);
+
+        rs.next();
+
+        return rs.getInt("maxEmp_no");
+    }
+
+    private int insertEmployee(String birth_date, String first_name, String last_name, String gender, String hire_date) throws Exception {
+
+        Date birth_date_sql = makeSQLDate(birth_date);
+        Date hire_date_sql = makeSQLDate(hire_date);
+
+        if(!(gender.equals("F") || gender.equals("M"))){
+            throw new Exception("Gender must be \"F\" or \"M\"");
+        }
+
+        int emp_no = getMaxEmp_no()+1;
+
+        String update   =   "INSERT INTO employees "
+                        +   "VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(update);
+        stmt.setInt(1, emp_no);
+        stmt.setDate(2, birth_date_sql);
+        stmt.setString(3, first_name);
+        stmt.setString(4, last_name);
+        stmt.setString(5, gender);
+        stmt.setDate(6, hire_date_sql);
+        stmt.executeUpdate();
+        stmt.close();
+
+        return emp_no;
+    }
+
     public void updateEmployee(int emp_no, HashMap<String, String> updates) throws Exception {
 
         conn.setAutoCommit(false);
@@ -227,8 +293,8 @@ public class EmployeesDBService {
                         break;
 
                     case "salary":
-                        int newSalary = Integer.parseInt(value);
-                        updateSalary(emp_no, newSalary);
+//                        int newSalary = Integer.parseInt(value);
+                        updateSalary(emp_no, value);
                         break;
 
                     case "dept_name":
@@ -252,95 +318,151 @@ public class EmployeesDBService {
         }
     }
 
-    private void updateTitle(int emp_no, String newTitle) throws SQLException {
+    private void updateTitle(int emp_no, String newTitle) throws Exception {
 
-        Date todaySql = getTodaySQL();
+        updateHistoricalTable("titles", emp_no, newTitle);
 
-        PreparedStatement stmt;
-        stmt = conn.prepareStatement(
-                            "UPDATE titles "
-                        +   "SET to_date=? "
-                        +   "WHERE emp_no=? AND to_date=?");
-        stmt.setDate(1, todaySql);
-        stmt.setInt(2, emp_no);
-        stmt.setDate(3, FUTURE_DATE_SQL);
-        stmt.executeUpdate();
-
-        stmt = conn.prepareStatement(
-                            "INSERT INTO titles "
-                        +   "VALUES (?, ?, ?, ?) ");
-        stmt.setInt(1, emp_no);
-        stmt.setString(2, newTitle);
-        stmt.setDate(3, todaySql);
-        stmt.setDate(4, FUTURE_DATE_SQL);
-        stmt.executeUpdate();
-
-        stmt.close();
+//        Date todaySql = getTodaySQL();
+//
+//        PreparedStatement stmt;
+//        stmt = conn.prepareStatement(
+//                            "UPDATE titles "
+//                        +   "SET to_date=? "
+//                        +   "WHERE emp_no=? AND to_date=?");
+//        stmt.setDate(1, todaySql);
+//        stmt.setInt(2, emp_no);
+//        stmt.setDate(3, FUTURE_DATE_SQL);
+//        stmt.executeUpdate();
+//
+//        stmt = conn.prepareStatement(
+//                            "INSERT INTO titles "
+//                        +   "VALUES (?, ?, ?, ?) ");
+//        stmt.setInt(1, emp_no);
+//        stmt.setString(2, newTitle);
+//        stmt.setDate(3, todaySql);
+//        stmt.setDate(4, FUTURE_DATE_SQL);
+//        stmt.executeUpdate();
+//
+//        stmt.close();
     }
 
-    private void updateSalary(int emp_no, int newSalary) throws SQLException {
+    private void updateSalary(int emp_no, String newSalary) throws Exception {
 
-        Date todaySql = getTodaySQL();
+        updateHistoricalTable("salaries", emp_no, newSalary);
 
-        PreparedStatement stmt;
-
-        stmt = conn.prepareStatement(
-                            "UPDATE salaries "
-                        +   "SET to_date=? "
-                        +   "WHERE emp_no=? AND to_date=?");
-        stmt.setDate(1, todaySql);
-        stmt.setInt(2, emp_no);
-        stmt.setDate(3, FUTURE_DATE_SQL);
-        stmt.executeUpdate();
-
-        stmt = conn.prepareStatement(
-                            "INSERT INTO salaries "
-                        +   "VALUES (?, ?, ?, ?) ");
-        stmt.setInt(1, emp_no);
-        stmt.setInt(2, newSalary);
-        stmt.setDate(3, todaySql);
-        stmt.setDate(4, FUTURE_DATE_SQL);
-        stmt.executeUpdate();
-
-        stmt.close();
+//        Date todaySql = getTodaySQL();
+//
+//        PreparedStatement stmt;
+//
+//        stmt = conn.prepareStatement(
+//                            "UPDATE salaries "
+//                        +   "SET to_date=? "
+//                        +   "WHERE emp_no=? AND to_date=?");
+//        stmt.setDate(1, todaySql);
+//        stmt.setInt(2, emp_no);
+//        stmt.setDate(3, FUTURE_DATE_SQL);
+//        stmt.executeUpdate();
+//
+//        stmt = conn.prepareStatement(
+//                            "INSERT INTO salaries "
+//                        +   "VALUES (?, ?, ?, ?) ");
+//        stmt.setInt(1, emp_no);
+//        stmt.setInt(2, newSalary);
+//        stmt.setDate(3, todaySql);
+//        stmt.setDate(4, FUTURE_DATE_SQL);
+//        stmt.executeUpdate();
+//
+//        stmt.close();
     }
 
     private void updateDepartment(int emp_no, String newDepartment) throws Exception {
 
-        Date todaySql = getTodaySQL();
+//        Date todaySql = getTodaySQL();
+//
+//        PreparedStatement stmt;
+//
+//        HashMap<String, String> dept_name_no_map = getDepartmentMap();
 
-        PreparedStatement stmt;
+//        if(dept_name_no_map.containsKey(newDepartment)) {
+//
+//            String new_dept_no = dept_name_no_map.get(newDepartment);
 
-        HashMap<String, String> dept_name_no_map = getDepartmentMap();
+//            stmt = conn.prepareStatement(
+//                                "UPDATE dept_emp "
+//                            +   "SET to_date=? "
+//                            +   "WHERE emp_no=? AND to_date=?");
+//            stmt.setDate(1, todaySql);
+//            stmt.setInt(2, emp_no);
+//            stmt.setDate(3, FUTURE_DATE_SQL);
+//            stmt.executeUpdate();
 
-        if(dept_name_no_map.containsKey(newDepartment)) {
-
-            String new_dept_no = dept_name_no_map.get(newDepartment);
-
-            stmt = conn.prepareStatement(
-                                "UPDATE dept_emp "
-                            +   "SET to_date=? "
-                            +   "WHERE emp_no=? AND to_date=?");
-            stmt.setDate(1, todaySql);
-            stmt.setInt(2, emp_no);
-            stmt.setDate(3, FUTURE_DATE_SQL);
-            stmt.executeUpdate();
-
-            stmt = conn.prepareStatement(
-                                "INSERT INTO dept_emp "
-                            +   "VALUES (?, ?, ?, ?) ");
-            stmt.setInt(1, emp_no);
-            stmt.setString(2, new_dept_no);
-            stmt.setDate(3, todaySql);
-            stmt.setDate(4, FUTURE_DATE_SQL);
-            stmt.executeUpdate();
-
-            stmt.close();
-        }else{
-            throw new Exception("No department with name " + newDepartment);
-        }
+            updateHistoricalTable("dept_emp", emp_no, newDepartment);
+//        }else{
+//            throw new Exception("No department with name " + newDepartment);
+//        }
     }
 
+    private void updateHistoricalTable(String tableName, int emp_no, String value) throws Exception {
+        truncateHistoricalTableHistory(tableName, emp_no);
+        insertIntoHistoricalTable(tableName, emp_no, value);;
+    }
+
+    private void truncateHistoricalTableHistory(String tableName, int emp_no) throws Exception {
+        String update   =   "UPDATE " + tableName + " "
+                        +   "SET to_date=? "
+                        +   "WHERE emp_no=? AND to_date=?";
+        PreparedStatement stmt = conn.prepareStatement(update);
+
+        Date todaySql = getTodaySQL();
+        stmt.setDate(1, todaySql);
+        stmt.setInt(2, emp_no);
+        stmt.setDate(3, FUTURE_DATE_SQL);
+
+        switch(tableName){
+            case "dept_emp":
+                break;
+            case "salaries":
+                break;
+            case "titles":
+                break;
+            default:
+                throw new Exception("Invalid tableName");
+        }
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
+    private void insertIntoHistoricalTable(String tableName, int emp_no, String value) throws Exception {
+        String update   =   "INSERT INTO " + tableName + " "
+                        +   "VALUES (?, ?, ?, ?) ";
+        PreparedStatement stmt = conn.prepareStatement(update);
+
+        stmt.setInt(1, emp_no);
+        Date todaySql = getTodaySQL();
+        stmt.setDate(3, todaySql);
+        stmt.setDate(4, FUTURE_DATE_SQL);
+
+        switch(tableName){
+            case "dept_emp":
+                Map<String, String> dept_name_no_map = getDepartmentMap();
+                if(!dept_name_no_map.containsKey(value)){
+                    throw new Exception("Invalid department name");
+                }
+                stmt.setString(2, dept_name_no_map.get(value));
+                break;
+            case "salaries":
+                int salaryInt = Integer.parseInt(value);
+                stmt.setInt(2, salaryInt);
+                break;
+            case "titles":
+                stmt.setString(2, value);
+                break;
+            default:
+                throw new Exception("Invalid tableName");
+        }
+        stmt.executeUpdate();
+        stmt.close();
+    }
 
     private HashMap<String, String> getDepartmentMap() throws SQLException {
         Statement stmt = conn.createStatement();

@@ -10,7 +10,7 @@
       <app-data-table [headers]="headers" [rowData]="rowData" (cellDblClick)="showUpdateForm($event)"></app-data-table>        
   </ng-template>  
 
-  <app-employee-data-update-form [(visibility)]="overlayVisibilityManager.updateForm" [employee]="employeeSnapshot" (changeSubmit)="updateEmployee($event)"></app-employee-data-update-form>
+  <app-employee-data-update-form [(visibility)]="overlayVisibilityManager.updateForm" [employee]="employeeSnapshot" (changeSubmit)="applyUpdate($event)"></app-employee-data-update-form>
   <app-employee-data-filter-form [(visibility)]="overlayVisibilityManager.filterForm" [(filter)]="filter"></app-employee-data-filter-form>
   
 </div>
