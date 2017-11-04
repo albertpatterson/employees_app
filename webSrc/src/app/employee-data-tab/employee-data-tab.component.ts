@@ -28,18 +28,21 @@ export class EmployeeDataTabComponent implements OnInit{
   public overlayVisibilityManager: any;
   public loading: boolean;
 
+  public showTips: boolean = true;
+  public showTableTip: boolean = null;
+  
   constructor(private databaseService: DatabaseService) { }
 
   ngOnInit(){
     this._setEmployee(null);
-    this.filter = new Filter(true, true, 1e3);
+    this.filter = new Filter(true, true, 5);
     this.overlayVisibilityManager = new SingleActivationManager(overlays, "visible", "hidden");
     this.loading = false;
   }
 
   applyUpdate(updatedEmployee: Employee): void {
     console.log("apply update", updatedEmployee);
-
+    this.loading = true;
     let updateApplied: Promise<Employee>;
     if(this._employee.emp_no===null){
       updateApplied=this.databaseService.addEmployee(updatedEmployee)
@@ -49,12 +52,18 @@ export class EmployeeDataTabComponent implements OnInit{
       updateApplied = this.updateEmployee(updatedEmployee);
     }
 
-    updateApplied.then(employee=>this.updateEmployeeDataDisplay(employee));
+    updateApplied.then(employee=>{
+      this.updateEmployeeDataDisplay(employee);
+      this.loading = false;
+    });
   }
 
 
   updateEmployee(updatedEmployee: Employee): Promise<Employee>{
     
+
+    this.showTableTip = false;
+
     let updateApplied: Promise<Employee>;
 
     let update={};
@@ -110,11 +119,16 @@ export class EmployeeDataTabComponent implements OnInit{
   // }
 
   fetchData(){
+  
+    this.showTips = false;
     console.log(this.filter);
     this._clearData();
     this.loading = true;
     this.databaseService.getFullEmployeeData(this.filter)
-    .then(data=>{this._updateData(data); this.loading=false;})
+    .then(data=>{
+      this.showTableTip = this.showTableTip===null;
+      this._updateData(data); 
+      this.loading=false;})
     .catch(this._handleError)
   }
 
@@ -128,7 +142,8 @@ export class EmployeeDataTabComponent implements OnInit{
     this.rowData=[[]];
   }
 
-  showUpdateForm(itemCoords: number[]){    
+  showUpdateForm(itemCoords: number[]){
+    this.showTableTip = (this.showTableTip===null) ? null : false;
     var row = itemCoords[0];
     this._setEmployee(
       new Employee(
@@ -147,11 +162,13 @@ export class EmployeeDataTabComponent implements OnInit{
   }
 
   addEmployee(){
+    this.showTips = false;
     this._setEmployee(null);
     this.overlayVisibilityManager.activate("updateForm");
   }
 
   showFilterForm(){
+    this.showTips = false;
     this.overlayVisibilityManager.activate("filterForm");
   }
 

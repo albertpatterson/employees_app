@@ -1,5 +1,6 @@
 #viewButtonRow{
     margin: 25px 0;
+    position: relative;
 }
 
 .viewButton{

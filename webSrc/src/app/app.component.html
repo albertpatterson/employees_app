@@ -2,10 +2,15 @@
     <h1 class="text-center">Employee Manager</h1>
 
     <div id=viewButtons class="row">
-        <button class="col-md-6 btn tabButton" [class.selected]="tabDisplayManager.employeesData=='visible'" (click)="tabDisplayManager.activate('employeesData')">Employees Data</button>
-        <button class="col-md-6 btn tabButton" [class.selected]="tabDisplayManager.rawTables=='visible'" (click)="tabDisplayManager.activate('rawTables')">Raw Tables</button>
+        <div class = "col-md-6">
+            <tooltip arrowLocation="top" left="0%" top="50px" width="150px" message="See detailed employee data" [hidden]="!showTips"></tooltip>                  
+            <button class="btn tabButton" [class.selected]="tabDisplayManager.employeesData=='visible'" (click)="showEmployeeDataTab()">Employees Data</button>                
+        </div>
+        <div class = "col-md-6">
+            <tooltip arrowLocation="top" right="0%" top="50px" width="150px" message="See raw table data" [hidden]="!showTips"></tooltip>
+            <button class="btn tabButton" [class.selected]="tabDisplayManager.rawTables=='visible'" (click)="showRawTablesTab()">Raw Tables</button>                
+        </div>
     </div>
-
     <app-employee-data-tab [display] = "tabDisplayManager.employeesData"></app-employee-data-tab>
     <app-tables-tab [display] = "tabDisplayManager.rawTables"></app-tables-tab>        
     

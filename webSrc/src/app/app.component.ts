@@ -16,10 +16,22 @@ export class AppComponent implements OnInit{
 
   public tabDisplayManager: any;
 
+  public showTips: boolean = true;
   constructor(){}
 
   ngOnInit(){
     this.tabDisplayManager = new SingleActivationManager(tabs, "block", "none");  
+  }
+
+
+  public showEmployeeDataTab(){
+    this.tabDisplayManager.activate('employeesData');
+    this.showTips=false;
+  }
+
+  public showRawTablesTab(){
+    this.tabDisplayManager.activate('rawTables');
+    this.showTips=false;
   }
 
   // public setView(tabName: string): void{

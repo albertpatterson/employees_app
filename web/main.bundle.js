@@ -25,7 +25,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".tabButton{\r\n    border-radius: 10px;\r\n    cursor: pointer;\r\n    border: 2px solid black;\r\n    background: #f1f1f1;\r\n    font-size: 25px;\r\n}\r\n\r\n.tabButton:hover{\r\n    background: #707070;\r\n}\r\n\r\n.tabButton.selected{\r\n    background: #cfcfcf;\r\n}\r\n\r\n#viewButtons{\r\n    margin: 25px 0;\r\n}", ""]);
+exports.push([module.i, ".tabButton{\r\n    border-radius: 10px;\r\n    cursor: pointer;\r\n    border: 2px solid black;\r\n    background: #f1f1f1;\r\n    font-size: 25px;\r\n    width: 100%;\r\n}\r\n\r\n.tabButton:hover{\r\n    background: #707070;\r\n}\r\n\r\n.tabButton.selected{\r\n    background: #cfcfcf;\r\n}\r\n\r\n#viewButtons{\r\n    margin: 25px 0;\r\n}\r\n\r\n#viewButtons>div{\r\n    position: relative;\r\n}", ""]);
 
 // exports
 
@@ -38,7 +38,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n    <h1 class=\"text-center\">Employee Manager</h1>\n\n    <div id=viewButtons class=\"row\">\n        <button class=\"col-md-6 btn tabButton\" [class.selected]=\"tabDisplayManager.employeesData=='visible'\" (click)=\"tabDisplayManager.activate('employeesData')\">Employees Data</button>\n        <button class=\"col-md-6 btn tabButton\" [class.selected]=\"tabDisplayManager.rawTables=='visible'\" (click)=\"tabDisplayManager.activate('rawTables')\">Raw Tables</button>\n    </div>\n\n    <app-employee-data-tab [display] = \"tabDisplayManager.employeesData\"></app-employee-data-tab>\n    <app-tables-tab [display] = \"tabDisplayManager.rawTables\"></app-tables-tab>        \n    \n</div>"
+module.exports = "<div class=\"container\">\n    <h1 class=\"text-center\">Employee Manager</h1>\n\n    <div id=viewButtons class=\"row\">\n        <div class = \"col-md-6\">\n            <tooltip arrowLocation=\"top\" left=\"0%\" top=\"50px\" width=\"150px\" message=\"See detailed employee data\" [hidden]=\"!showTips\"></tooltip>                  \n            <button class=\"btn tabButton\" [class.selected]=\"tabDisplayManager.employeesData=='visible'\" (click)=\"showEmployeeDataTab()\">Employees Data</button>                \n        </div>\n        <div class = \"col-md-6\">\n            <tooltip arrowLocation=\"top\" right=\"0%\" top=\"50px\" width=\"150px\" message=\"See raw table data\" [hidden]=\"!showTips\"></tooltip>\n            <button class=\"btn tabButton\" [class.selected]=\"tabDisplayManager.rawTables=='visible'\" (click)=\"showRawTablesTab()\">Raw Tables</button>                \n        </div>\n    </div>\n    <app-employee-data-tab [display] = \"tabDisplayManager.employeesData\"></app-employee-data-tab>\n    <app-tables-tab [display] = \"tabDisplayManager.rawTables\"></app-tables-tab>        \n    \n</div>"
 
 /***/ }),
 
@@ -65,9 +65,18 @@ var AppComponent = (function () {
     function AppComponent() {
         this.doFullEmployeeDataFetch = false;
         this.doTableNameFetch = false;
+        this.showTips = true;
     }
     AppComponent.prototype.ngOnInit = function () {
         this.tabDisplayManager = new __WEBPACK_IMPORTED_MODULE_1__utils_SingleActivationManager__["a" /* SingleActivationManager */](tabs, "block", "none");
+    };
+    AppComponent.prototype.showEmployeeDataTab = function () {
+        this.tabDisplayManager.activate('employeesData');
+        this.showTips = false;
+    };
+    AppComponent.prototype.showRawTablesTab = function () {
+        this.tabDisplayManager.activate('rawTables');
+        this.showTips = false;
     };
     return AppComponent;
 }());
@@ -105,12 +114,14 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__employee_data_update_form_employee_data_update_form_component__ = __webpack_require__("../../../../../src/app/employee-data-update-form/employee-data-update-form.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__employee_data_filter_form_employee_data_filter_form_component__ = __webpack_require__("../../../../../src/app/employee-data-filter-form/employee-data-filter-form.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__loading_indicator_loading_indicator_component__ = __webpack_require__("../../../../../src/app/loading-indicator/loading-indicator.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__tooltip_tooltip_component__ = __webpack_require__("../../../../../src/app/tooltip/tooltip.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -144,7 +155,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_12__filterable_employee_data_filterable_employee_data_component__["a" /* FilterableEmployeeDataComponent */],
             __WEBPACK_IMPORTED_MODULE_13__employee_data_update_form_employee_data_update_form_component__["a" /* EmployeeDataUpdateFormComponent */],
             __WEBPACK_IMPORTED_MODULE_14__employee_data_filter_form_employee_data_filter_form_component__["a" /* EmployeeDataFilterFormComponent */],
-            __WEBPACK_IMPORTED_MODULE_15__loading_indicator_loading_indicator_component__["a" /* LoadingIndicatorComponent */]
+            __WEBPACK_IMPORTED_MODULE_15__loading_indicator_loading_indicator_component__["a" /* LoadingIndicatorComponent */],
+            __WEBPACK_IMPORTED_MODULE_16__tooltip_tooltip_component__["a" /* TooltipComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -407,7 +419,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "#viewButtonRow{\r\n    margin: 25px 0;\r\n}\r\n\r\n.viewButton{\r\n    border-radius: 10px;\r\n    cursor: pointer;\r\n    border: 2px solid #000;\r\n    background: #f1f1f1;\r\n    font-size: 20px;\r\n    color: black;\r\n}", ""]);
+exports.push([module.i, "#viewButtonRow{\r\n    margin: 25px 0;\r\n    position: relative;\r\n}\r\n\r\n.viewButton{\r\n    border-radius: 10px;\r\n    cursor: pointer;\r\n    border: 2px solid #000;\r\n    background: #f1f1f1;\r\n    font-size: 20px;\r\n    color: black;\r\n}", ""]);
 
 // exports
 
@@ -420,7 +432,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/employee-data-tab/employee-data-tab.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"centeredContents\" [style.display]=\"display\">\n  <div id=\"viewButtonRow\" class=\"row\">\n    <button (click)=\"addEmployee()\" class=\"viewButton btn btn-success col-sm-4\">Add</button>\n    <button (click)=\"showFilterForm()\" class=\"viewButton btn btn-success col-sm-4\">Set Filters</button>\n    <button (click)=\"fetchData()\" class=\"viewButton btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n\n  <app-loading-indicator *ngIf=\"loading; else dataTable\"></app-loading-indicator>\n  <ng-template #dataTable>\n      <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>        \n  </ng-template>  \n\n  <app-employee-data-update-form [(visibility)]=\"overlayVisibilityManager.updateForm\" [employee]=\"employeeSnapshot\" (changeSubmit)=\"applyUpdate($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"overlayVisibilityManager.filterForm\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n  \n</div>"
+module.exports = "<div class=\"centeredContents\" [style.display]=\"display\">\n  <div id=\"viewButtonRow\" class=\"row\">\n    <tooltip arrowLocation=\"top\" left=\"0%\" top=\"45px\" width=\"150px\" message=\"Add a new employee\" [hidden]=\"!showTips\"></tooltip>\n    <button (click)=\"addEmployee()\" class=\"viewButton btn btn-success col-sm-4\">Add</button>\n    <tooltip arrowLocation=\"top\" left=\"0%\" top=\"45px\" width=\"150px\" message=\"Set query filters\" [hidden]=\"!showTips\"></tooltip>\n    <button (click)=\"showFilterForm()\" class=\"viewButton btn btn-success col-sm-4\">Set Filters</button>\n    <tooltip arrowLocation=\"top\" left=\"0%\" top=\"45px\" width=\"150px\" message=\"Fetch data according to filters\" [hidden]=\"!showTips\"></tooltip>\n    <button (click)=\"fetchData()\" class=\"viewButton btn btn-success col-sm-4\">Fetch Data</button>\n  </div>\n\n  <app-loading-indicator *ngIf=\"loading; else dataTable\"></app-loading-indicator>\n  <ng-template #dataTable>\n      <tooltip arrowLocation=\"bottom\" left=\"0%\" top=\"45px\" width=\"150px\" message=\"Double click to edit\" [hidden]=\"!showTableTip\"></tooltip>\n      <app-data-table [headers]=\"headers\" [rowData]=\"rowData\" (cellDblClick)=\"showUpdateForm($event)\"></app-data-table>        \n  </ng-template>  \n\n  <app-employee-data-update-form [(visibility)]=\"overlayVisibilityManager.updateForm\" [employee]=\"employeeSnapshot\" (changeSubmit)=\"applyUpdate($event)\"></app-employee-data-update-form>\n  <app-employee-data-filter-form [(visibility)]=\"overlayVisibilityManager.filterForm\" [(filter)]=\"filter\"></app-employee-data-filter-form>\n  \n</div>"
 
 /***/ }),
 
@@ -452,16 +464,19 @@ var overlays = ["updateForm", "filterForm"];
 var EmployeeDataTabComponent = (function () {
     function EmployeeDataTabComponent(databaseService) {
         this.databaseService = databaseService;
+        this.showTips = true;
+        this.showTableTip = null;
     }
     EmployeeDataTabComponent.prototype.ngOnInit = function () {
         this._setEmployee(null);
-        this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 1e3);
+        this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 5);
         this.overlayVisibilityManager = new __WEBPACK_IMPORTED_MODULE_4__utils_SingleActivationManager__["a" /* SingleActivationManager */](overlays, "visible", "hidden");
         this.loading = false;
     };
     EmployeeDataTabComponent.prototype.applyUpdate = function (updatedEmployee) {
         var _this = this;
         console.log("apply update", updatedEmployee);
+        this.loading = true;
         var updateApplied;
         if (this._employee.emp_no === null) {
             updateApplied = this.databaseService.addEmployee(updatedEmployee);
@@ -471,9 +486,13 @@ var EmployeeDataTabComponent = (function () {
         else {
             updateApplied = this.updateEmployee(updatedEmployee);
         }
-        updateApplied.then(function (employee) { return _this.updateEmployeeDataDisplay(employee); });
+        updateApplied.then(function (employee) {
+            _this.updateEmployeeDataDisplay(employee);
+            _this.loading = false;
+        });
     };
     EmployeeDataTabComponent.prototype.updateEmployee = function (updatedEmployee) {
+        this.showTableTip = false;
         var updateApplied;
         var update = {};
         for (var field in this._employee) {
@@ -521,11 +540,16 @@ var EmployeeDataTabComponent = (function () {
     // }
     EmployeeDataTabComponent.prototype.fetchData = function () {
         var _this = this;
+        this.showTips = false;
         console.log(this.filter);
         this._clearData();
         this.loading = true;
         this.databaseService.getFullEmployeeData(this.filter)
-            .then(function (data) { _this._updateData(data); _this.loading = false; })
+            .then(function (data) {
+            _this.showTableTip = _this.showTableTip === null;
+            _this._updateData(data);
+            _this.loading = false;
+        })
             .catch(this._handleError);
     };
     EmployeeDataTabComponent.prototype._updateData = function (data) {
@@ -538,15 +562,18 @@ var EmployeeDataTabComponent = (function () {
         this.rowData = [[]];
     };
     EmployeeDataTabComponent.prototype.showUpdateForm = function (itemCoords) {
+        this.showTableTip = (this.showTableTip === null) ? null : false;
         var row = itemCoords[0];
         this._setEmployee(new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]));
         this.overlayVisibilityManager.activate("updateForm");
     };
     EmployeeDataTabComponent.prototype.addEmployee = function () {
+        this.showTips = false;
         this._setEmployee(null);
         this.overlayVisibilityManager.activate("updateForm");
     };
     EmployeeDataTabComponent.prototype.showFilterForm = function () {
+        this.showTips = false;
         this.overlayVisibilityManager.activate("filterForm");
     };
     EmployeeDataTabComponent.prototype._handleError = function (e) {
@@ -986,6 +1013,93 @@ TablesTabComponent = __decorate([
 
 var _a;
 //# sourceMappingURL=tables-tab.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/tooltip/tooltip.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".customTooltipContainer{\r\n    position: relative;\r\n    background: blue;\r\n    z-index: 1000;\r\n}\r\n\r\n.customTooltip{\r\n    position: absolute;\r\n    display: block;\r\n    background: black;\r\n    border-radius: 10px;\r\n}\r\n\r\n.customTooltip.bottom .message::after{\r\n    content: \" \";\r\n    position: absolute;\r\n    top: 100%; \r\n    left: 50%;\r\n    margin-left: -10px;\r\n    border-width: 10px;\r\n    border-style: solid;\r\n    border-color: black transparent transparent transparent;\r\n}\r\n\r\n.customTooltip.top .exit::before{\r\n    content: \" \";\r\n    position: absolute;\r\n    bottom: 100%;\r\n    left: 50%;\r\n    margin-left: -10px;\r\n    border-width: 10px;\r\n    border-style: solid;\r\n    border-color: transparent transparent black transparent;\r\n}\r\n\r\n.exit{\r\n    text-align: right;\r\n    margin: 0;\r\n    padding: 5px;\r\n\r\n}\r\n\r\n.exit>a{\r\n    color:white;\r\n    font-size: 20px;\r\n}\r\n\r\n.message{\r\n    color:white;\r\n    margin: -10px 0px 0px 0px;\r\n    padding:0 10px 10px 10px;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/tooltip/tooltip.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"customTooltipContainer\" >\n  <div class=\"customTooltip\" [ngClass]=\"arrowLocation\" [style.left]=\"left\" [style.right]=\"right\" [style.top]=\"top\" [style.bottom]=\"bottom\" [style.width]=\"width\" [style.visibility]=\"visibility\">\n    <p class=\"exit\"><a (click)=\"exit()\">x</a></p>\n    <p class=\"message\">{{message}}</p>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/tooltip/tooltip.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TooltipComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var TooltipComponent = (function () {
+    function TooltipComponent() {
+        this.onExit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+    }
+    TooltipComponent.prototype.ngOnInit = function () {
+        this.width = this.width || "";
+        this.left = this.left || null;
+        this.right = this.right || null;
+        this.top = this.top || null;
+        this.bottom = this.bottom || null;
+        this.message = this.message || "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.";
+        this.visibility = this.visibility || "visible";
+        this.arrowLocation = this.arrowLocation || "bottom";
+    };
+    TooltipComponent.prototype.exit = function () {
+        this.visibility = "hidden";
+        this.onExit.next();
+    };
+    return TooltipComponent;
+}());
+TooltipComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'tooltip',
+        template: __webpack_require__("../../../../../src/app/tooltip/tooltip.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/tooltip/tooltip.component.css")],
+        inputs: [
+            "width",
+            "left",
+            "right",
+            "top",
+            "bottom",
+            "message",
+            "visibility",
+            "arrowLocation"
+        ],
+        outputs: [
+            "onExit"
+        ]
+    }),
+    __metadata("design:paramtypes", [])
+], TooltipComponent);
+
+//# sourceMappingURL=tooltip.component.js.map
 
 /***/ }),
 

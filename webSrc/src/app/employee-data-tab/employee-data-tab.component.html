@@ -1,12 +1,16 @@
 <div class="centeredContents" [style.display]="display">
   <div id="viewButtonRow" class="row">
+    <tooltip arrowLocation="top" left="0%" top="45px" width="150px" message="Add a new employee" [hidden]="!showTips"></tooltip>
     <button (click)="addEmployee()" class="viewButton btn btn-success col-sm-4">Add</button>
+    <tooltip arrowLocation="top" left="0%" top="45px" width="150px" message="Set query filters" [hidden]="!showTips"></tooltip>
     <button (click)="showFilterForm()" class="viewButton btn btn-success col-sm-4">Set Filters</button>
+    <tooltip arrowLocation="top" left="0%" top="45px" width="150px" message="Fetch data according to filters" [hidden]="!showTips"></tooltip>
     <button (click)="fetchData()" class="viewButton btn btn-success col-sm-4">Fetch Data</button>
   </div>
 
   <app-loading-indicator *ngIf="loading; else dataTable"></app-loading-indicator>
   <ng-template #dataTable>
+      <tooltip arrowLocation="bottom" left="0%" top="45px" width="150px" message="Double click to edit" [hidden]="!showTableTip"></tooltip>
       <app-data-table [headers]="headers" [rowData]="rowData" (cellDblClick)="showUpdateForm($event)"></app-data-table>        
   </ng-template>  
 
