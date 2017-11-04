@@ -74,8 +74,8 @@ export class DatabaseService {
     // console.log(search);
     // return this.http.put(this._FullEmployeeDataUrl, search)
     return this.http.put(url, search)
-    .toPromise()
-    .then((resp: Response)=>resp.json());
+          .toPromise()
+          .then((resp: Response)=>resp.json());
   }
 
 
@@ -93,7 +93,7 @@ export class DatabaseService {
     search.append("salary",employee.salary);
 
     return this.http.post(this._FullEmployeeDataUrl, search)
-    .toPromise()
-    .then((resp: Response)=>resp.json());
+          .toPromise()
+          .then((resp: Response)=>resp.json());
   }
 }

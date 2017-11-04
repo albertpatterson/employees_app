@@ -1,11 +1,17 @@
+#loading-indicator-container{
+    width: 750px;
+    height: 750px;
+    margin: 0 auto;
+}
+
 #message{
     font-size: 50px;
 }
 
 #spinner-container{
     position: relative;
-    width: 750px;
-    height: 750px;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     margin: 0 auto;
 }
@@ -13,7 +19,7 @@
 #rotor{
     position: relative;
     top: -750px;
-    border-top-color: greenyellow; 
+    border-top-color: #f1f1f1; 
 }
 
 #background{

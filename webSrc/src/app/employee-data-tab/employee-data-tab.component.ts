@@ -39,18 +39,24 @@ export class EmployeeDataTabComponent implements OnInit{
 
   applyUpdate(updatedEmployee: Employee): void {
     console.log("apply update", updatedEmployee);
+
+    let updateApplied: Promise<Employee>;
     if(this._employee.emp_no===null){
-      this.databaseService.addEmployee(updatedEmployee)
-      .then((r)=>alert('updated '+r))
-      .catch(e=>console.log(e))
+      updateApplied=this.databaseService.addEmployee(updatedEmployee)
+      // .then((r)=>alert('updated '+r))
+      // .catch(this._handleError)
     }else{
-      this.updateEmployee(updatedEmployee);
+      updateApplied = this.updateEmployee(updatedEmployee);
     }
+
+    updateApplied.then(employee=>this.updateEmployeeDataDisplay(employee));
   }
 
 
-  updateEmployee(updatedEmployee: Employee): void{
+  updateEmployee(updatedEmployee: Employee): Promise<Employee>{
     
+    let updateApplied: Promise<Employee>;
+
     let update={};
     for(let field in this._employee){
       if(this._employee[field]!==updatedEmployee[field]){
@@ -62,13 +68,46 @@ export class EmployeeDataTabComponent implements OnInit{
 
     if(Object.keys(update).length>0){
       this._setEmployee(updatedEmployee);
-      this.databaseService.updateEmployee(this._employee.emp_no, update)
-      .then(()=>alert('updated'))
-      .catch(e=>console.log(e))
+      updateApplied = this.databaseService.updateEmployee(this._employee.emp_no, update)
+      // .then(this.updateEmployeeDataDisplay)
+      // .catch(this._handleError)
+    }else{
+      updateApplied=Promise.resolve(this._employee);
     }
-
+    return updateApplied
 
   }
+
+  updateEmployeeDataDisplay(employee: Employee){
+
+    let emp_no_str = employee.emp_no.toString();
+    let row = this.rowData.findIndex(row=>row[0]===emp_no_str);
+    if(row===-1){
+      row = this.rowData.length;
+      this.rowData[row]=[];
+    }
+
+    console.log("update display ", employee, row);
+    
+    this.rowData[row][0]= employee.emp_no;
+    this.rowData[row][1]= employee.birth_date;
+    this.rowData[row][2]= employee.first_name;
+    this.rowData[row][3]= employee.last_name;
+    this.rowData[row][4]= employee.gender;
+    this.rowData[row][5]= employee.hire_date;
+    this.rowData[row][6]= employee.title;
+    this.rowData[row][7]= employee.to_date;
+    this.rowData[row][8]= employee.dept_name;
+    this.rowData[row][9]= employee.salary;
+  }
+  
+  // updateEmployeeDataDisplay(){
+  //   let row = this.rowData.findIndex(row=>row[0]===this._employee.emp_no);
+  //   this.rowData[row][6]= this._employee.title;
+  //   this.rowData[row][7]= this._employee.to_date;
+  //   this.rowData[row][8]= this._employee.dept_name;
+  //   this.rowData[row][9]= this._employee.salary;
+  // }
 
   fetchData(){
     console.log(this.filter);
@@ -76,7 +115,7 @@ export class EmployeeDataTabComponent implements OnInit{
     this.loading = true;
     this.databaseService.getFullEmployeeData(this.filter)
     .then(data=>{this._updateData(data); this.loading=false;})
-    .catch(e=>console.log(e));
+    .catch(this._handleError)
   }
 
   private _updateData(data: any):void{
@@ -114,6 +153,10 @@ export class EmployeeDataTabComponent implements OnInit{
 
   showFilterForm(){
     this.overlayVisibilityManager.activate("filterForm");
+  }
+
+  private _handleError(e){
+    console.log(e);
   }
 
   private _setEmployee(employee:Employee){

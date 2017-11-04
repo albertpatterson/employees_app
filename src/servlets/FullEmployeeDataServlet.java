@@ -2,6 +2,7 @@ package servlets;
 
 import jdk.nashorn.internal.ir.debug.JSONWriter;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
+import services.database.EmployeeData;
 import services.database.EmployeesDBService;
 import services.database.StringifiedTableData;
 
@@ -37,8 +38,10 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
 
         PrintWriter out = response.getWriter();
         try {
-            employeesDBService.addEmployee(birth_date,first_name, last_name, gender, hire_date, title, dept_name, salary);
+            EmployeeData employeeData = employeesDBService.addEmployee(birth_date,first_name, last_name, gender, hire_date, title, dept_name, salary);
             response.setStatus(HttpServletResponse.SC_OK);
+            JsonWriter jsonWriter = Json.createWriter(out);
+            jsonWriter.writeObject(employeeData.getJson());
         } catch (Exception e) {
             e.printStackTrace();
             out.print(e.getStackTrace().toString());
@@ -54,8 +57,9 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
         String[] attrs = request.getParameter("attrs").split(",");
         String[] values = request.getParameter("values").split(",");
 
+        PrintWriter out = response.getWriter();
+
         if(attrs.length != values.length){
-            PrintWriter out = response.getWriter();
             out.write("Attribute and value count mismatch.");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }else{
@@ -64,10 +68,12 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
                 updates.put(attrs[i], values[i]);
             }
             try {
-                employeesDBService.updateEmployee(emp_no, updates);
+                EmployeeData employeeData = employeesDBService.updateEmployee(emp_no, updates);
                 response.setStatus(HttpServletResponse.SC_OK);
+                JsonWriter jsonWriter = Json.createWriter(out);
+                jsonWriter.writeObject(employeeData.getJson());
             } catch (Exception e) {
-                PrintWriter out = response.getWriter();
+                out = response.getWriter();
                 out.write(e.getStackTrace().toString());
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }

@@ -1,8 +1,8 @@
 <div class="centeredContents" [style.display]="display">
-  <div class="row">
-    <button (click)="addEmployee()" class="btn btn-success col-sm-4">Add</button>
-    <button (click)="showFilterForm()" class="btn btn-success col-sm-4">Set Filters</button>
-    <button (click)="fetchData()" class="btn btn-success col-sm-4">Fetch Data</button>
+  <div id="viewButtonRow" class="row">
+    <button (click)="addEmployee()" class="viewButton btn btn-success col-sm-4">Add</button>
+    <button (click)="showFilterForm()" class="viewButton btn btn-success col-sm-4">Set Filters</button>
+    <button (click)="fetchData()" class="viewButton btn btn-success col-sm-4">Fetch Data</button>
   </div>
 
   <app-loading-indicator *ngIf="loading; else dataTable"></app-loading-indicator>

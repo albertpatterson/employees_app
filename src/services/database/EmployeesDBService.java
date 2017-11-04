@@ -66,6 +66,9 @@ public class EmployeesDBService {
                                                         +   "ON employees.emp_no = latest_salary.emp_no ";
 
 
+    private static final String[] fullEmployeeDataFieldNames = new String[]{"emp_no", "birth_date", "first_name", "last_name", "gender","hire_date","title","to_date","dept_name","salary"};
+
+
     private static final Date FUTURE_DATE_SQL = getFutureDate();
     private static Date getFutureDate(){
         try {
@@ -145,17 +148,19 @@ public class EmployeesDBService {
 
 
     public StringifiedTableData getFullEmployeeData() throws SQLException {
-        String query = SELECT_FULL_EMPLOYEE_DATA + " LIMIT 100";
-        try(    Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(query)){
-
-            String[] colNames = getColumnNames(rs);
-            return new StringifiedTableData(colNames, getData(rs, colNames));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        return getFullEmployeeData("100", "true", "true");
+//        String query = SELECT_FULL_EMPLOYEE_DATA + " LIMIT 100";
+//        try(    Statement stmt = conn.createStatement();
+//                ResultSet rs = stmt.executeQuery(query)){
+//
+////            String[] colNames = getColumnNames(rs);
+//            String[] colNames = fullEmployeeDataFieldNames;
+//            return new StringifiedTableData(colNames, getData(rs, colNames));
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
     }
 
 
@@ -168,7 +173,8 @@ public class EmployeesDBService {
         try(    Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query)){
 
-            String[] colNames = getColumnNames(rs);
+//            String[] colNames = getColumnNames(rs);
+            String[] colNames = fullEmployeeDataFieldNames;
             return new StringifiedTableData(colNames, getData(rs, colNames));
 
         } catch (SQLException e) {
@@ -176,6 +182,33 @@ public class EmployeesDBService {
             throw e;
         }
     }
+
+    private EmployeeData getSingleEmployeeFullData(int emp_no) throws SQLException {
+        String query = SELECT_FULL_EMPLOYEE_DATA + " WHERE employees.emp_no="+emp_no;
+        try(    Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query)){
+
+            rs.next();
+            return new EmployeeData(
+                    rs.getInt("emp_no"),
+                    rs.getDate("birth_date"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getString("gender"),
+                    rs.getDate("hire_date"),
+                    rs.getString("title"),
+                    rs.getDate("to_date"),
+                    rs.getString("dept_name"),
+                    rs.getInt("salary")
+            );
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
 
     private String makeGenderPred(String genderF, String genderM){
 
@@ -215,19 +248,21 @@ public class EmployeesDBService {
         return query;
     }
 
-    public void addEmployee(String birth_date, String first_name, String last_name, String gender,
+    public EmployeeData addEmployee(String birth_date, String first_name, String last_name, String gender,
                             String hire_date, String title, String dept_name, String salary) throws Exception {
 
+        int emp_no;
         conn.setAutoCommit(false);
         Savepoint initial = conn.setSavepoint();
 
         try{
 
-            int emp_no = insertEmployee(birth_date, first_name, last_name, gender, hire_date);
+            emp_no = insertEmployee(birth_date, first_name, last_name, gender, hire_date);
             insertIntoHistoricalTable("titles", emp_no,title);
             insertIntoHistoricalTable("dept_emp",emp_no, dept_name);
             insertIntoHistoricalTable("salaries",emp_no, salary);
             conn.commit();
+
         }catch(Exception e) {
             if (conn != null) {
                 conn.rollback(initial);
@@ -237,6 +272,8 @@ public class EmployeesDBService {
         }finally {
             conn.setAutoCommit(true);
         }
+
+        return getSingleEmployeeFullData(emp_no);
     }
 
     private int getMaxEmp_no() throws SQLException {
@@ -277,7 +314,7 @@ public class EmployeesDBService {
         return emp_no;
     }
 
-    public void updateEmployee(int emp_no, HashMap<String, String> updates) throws Exception {
+    public EmployeeData updateEmployee(int emp_no, HashMap<String, String> updates) throws Exception {
 
         conn.setAutoCommit(false);
         Savepoint initial = conn.setSavepoint();
@@ -316,6 +353,8 @@ public class EmployeesDBService {
         } finally {
             conn.setAutoCommit(true);
         }
+
+        return getSingleEmployeeFullData(emp_no);
     }
 
     private void updateTitle(int emp_no, String newTitle) throws Exception {
