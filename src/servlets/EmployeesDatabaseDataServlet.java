@@ -14,9 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-
 /**
- * Created by apatters on 10/15/2017.
+ * service requests for database metadata
  */
 @WebServlet(name = "EmployeesDatabaseDataServlet")
 public class EmployeesDatabaseDataServlet extends EmployeesDBConnectedServlet {

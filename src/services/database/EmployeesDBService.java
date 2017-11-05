@@ -1,9 +1,7 @@
 package services.database;
 
-import utils.JsonConvertible;
-import utils.Title;
+import utils.StringifiedTableData;
 
-import javax.lang.model.element.NestingKind;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,33 +10,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by apatters on 10/15/2017.
+ * Service providing access to the employees database
  */
 public class EmployeesDBService {
 
+    /**
+     * url to access the database
+     */
     private static final String DATABASEURL = "jdbc:mysql://localhost:3306/employees";
+
+    /**
+     * username to connect to the database
+     */
     private static final String USERNANME = "pma";
+
+    /**
+     * password to connect to the database
+     */
     private static final String PASSWORD = "";
+
+    /**
+     * connection to the database
+     */
     public static Connection conn = null;
 
-
-
+    /**
+     * SQL query to select all data from departments table
+     */
     private static final String SELECT_DEPARTMENT_DATA  =   "SELECT * "
                                                         +   "FROM departments ";
 
+    /**
+     * SQL query to select the latest employment dates
+     */
     private static final String SELECT_LATEST_EMP_DATE =    "SELECT emp_no, from_date, max(to_date) AS to_date "
                                                         +   "FROM dept_emp "
                                                         +   "GROUP BY emp_no ";
 
-    private static final String SELECT_LATEST_EMP_DATE2=    "SELECT latest.emp_no, latest.to_date "
-                                                        +   "FROM (" + SELECT_LATEST_EMP_DATE + ") AS latest "
-                                                        +   "WHERE latest.to_date <= CURDATE() "
-                                                        +   "UNION "
-                                                        +   "SELECT latest2.emp_no, CURDATE() AS to_date "
-                                                        +   "FROM (" + SELECT_LATEST_EMP_DATE + ") AS latest2 "
-                                                        +   "WHERE latest2.to_date > CURDATE() ";
-
-
+    /**
+     * SQL query to select the latest departments
+     */
     private static final String SELECT_LATEST_DEPARTMENT =  "SELECT dept_emp.emp_no, dept_emp.dept_no, latest_emp_date.to_date, departments.dept_name "
                                                         +   "FROM dept_emp "
                                                         +   "INNER JOIN (" + SELECT_LATEST_EMP_DATE + ") AS latest_emp_date "
@@ -46,16 +57,25 @@ public class EmployeesDBService {
                                                         +   "INNER JOIN departments "
                                                         +   "ON departments.dept_no = dept_emp.dept_no";
 
+    /**
+     * SQL query to select the latest titles of employees
+     */
     private static final String SELECT_LATEST_TITLE =   "SELECT TITLES.emp_no, latest_emp_date.from_date, latest_emp_date.to_date, titles.title "
                                                     +   "FROM titles "
                                                     +   "INNER JOIN (" + SELECT_LATEST_EMP_DATE + ") AS latest_emp_date "
                                                     +   "ON titles.emp_no = latest_emp_date.emp_no AND titles.to_date = latest_emp_date.to_date ";
 
+    /**
+     * SQL query to select the latest salaries
+     */
     private static final String SELECT_LATEST_SALARY =  "SELECT salaries.emp_no, latest_emp_date.to_date, salaries.salary "
                                                     +   "FROM salaries "
                                                     +   "INNER JOIN (" + SELECT_LATEST_EMP_DATE + ") AS latest_emp_date "
                                                     +   "ON salaries.emp_no = latest_emp_date.emp_no AND salaries.to_date = latest_emp_date.to_date ";
 
+    /**\
+     * SQL query to select the detailed employee data
+     */
     private static final String SELECT_FULL_EMPLOYEE_DATA = "SELECT employees.*, latest_title.title, latest_dept.to_date, latest_dept.dept_name, latest_salary.salary "
                                                         +   "FROM employees "
                                                         +   "INNER JOIN ("+SELECT_LATEST_DEPARTMENT+") AS latest_dept "
@@ -66,10 +86,20 @@ public class EmployeesDBService {
                                                         +   "ON employees.emp_no = latest_salary.emp_no ";
 
 
+    /**
+     * the fields included in the detailed employee data
+     */
     private static final String[] fullEmployeeDataFieldNames = new String[]{"emp_no", "birth_date", "first_name", "last_name", "gender","hire_date","title","to_date","dept_name","salary"};
 
-
+    /**
+     * Date in the future, used to indicate an employees current position
+     */
     private static final Date FUTURE_DATE_SQL = getFutureDate();
+
+    /**
+     * create the future data
+     * @return the future date
+     */
     private static Date getFutureDate(){
         try {
             return makeSQLDate("9999-01-01");
@@ -79,11 +109,20 @@ public class EmployeesDBService {
         }
     }
 
+    /**
+     * create an SQL data object
+     * @param dateStr the string representing the date
+     * @return the SQL date object represending the date
+     * @throws ParseException
+     */
     private static Date makeSQLDate(String dateStr) throws ParseException {
         java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
         return new Date(date.getTime());
     }
 
+    /**
+     * initialize the service
+     */
     public static void init(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -95,6 +134,9 @@ public class EmployeesDBService {
         }
     }
 
+    /**
+     * destroy the service
+     */
     public static void destroy(){
         if(conn!=null){
             try {
@@ -105,22 +147,11 @@ public class EmployeesDBService {
         }
     }
 
-
-//    private static final EmployeesDB db = new EmployeesDB();
-
-//    private static final PreparedStatement GET_TABLE_DATA_PSTMT = makeGetTableDataStatement();
-//
-//    private static PreparedStatement makeGetTableDataStatement(){
-//        PreparedStatement stmt = null;
-//        try {
-////            stmt = db.conn.prepareStatement("SELECT * From ? LIMIT ?");
-//            stmt = db.conn.prepareStatement("SELECT * FROM ?;");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return stmt;
-//    }
-
+    /**
+     * get the names of the tables in the database
+     * @return
+     * @throws SQLException
+     */
     public ArrayList<String> getTableNames() throws SQLException {
         ArrayList<String> tableNames = new ArrayList<>();
 
@@ -130,61 +161,114 @@ public class EmployeesDBService {
             tableNames.add(rs.getString("TABLE_NAME"));
         }
 
+
+        rs.close();
         return tableNames;
     }
 
+    /**
+     * get raw data contained in a table
+     * @param tableName the name of the table whose data is required
+     * @return json object representing the data
+     * @throws SQLException
+     */
     public StringifiedTableData getTableData(String tableName) throws SQLException {
         return getTableData(tableName, 50);
     }
 
+    /**
+     * get raw data contained in a table
+     * @param tableName the name of the table whose data is required
+     * @param limit the maximum number of rows to return
+     * @return data within the table
+     * @throws SQLException
+     */
     public StringifiedTableData getTableData(String tableName, int limit) throws SQLException {
 
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM %s LIMIT %d;", tableName, limit));
+        String query = String.format("SELECT * FROM %s LIMIT %d;", tableName, limit);
 
-        String[] colNames = getColumnNames(rs);
-        return new StringifiedTableData(colNames, getData(rs, colNames));
-    }
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
 
+            String[] colNames = getColumnNames(rs);
+            String[][] data = getData(rs, colNames);
 
-    public StringifiedTableData getFullEmployeeData() throws SQLException {
-        return getFullEmployeeData("100", "true", "true");
-//        String query = SELECT_FULL_EMPLOYEE_DATA + " LIMIT 100";
-//        try(    Statement stmt = conn.createStatement();
-//                ResultSet rs = stmt.executeQuery(query)){
-//
-////            String[] colNames = getColumnNames(rs);
-//            String[] colNames = fullEmployeeDataFieldNames;
-//            return new StringifiedTableData(colNames, getData(rs, colNames));
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw e;
-//        }
-    }
-
-
-    public StringifiedTableData getFullEmployeeData(String limit, String genderF, String genderM) throws SQLException {
-
-        String genderPred = makeGenderPred(genderF, genderM);
-
-        String query = makeSelectFullEmployeeDataQueryString(limit, genderPred);
-
-        try(    Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(query)){
-
-//            String[] colNames = getColumnNames(rs);
-            String[] colNames = fullEmployeeDataFieldNames;
-            return new StringifiedTableData(colNames, getData(rs, colNames));
-
+            return new StringifiedTableData(colNames, data);
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
         }
     }
 
+
+    /**
+     * get the detailed employee data
+     * @return detailed employee data
+     * @throws SQLException
+     */
+    public StringifiedTableData getFullEmployeeData() throws SQLException {
+        return getFullEmployeeData("100", "true", "true");
+    }
+
+    /**
+     * get the detailed employee data
+     * @return detailed employee data
+     * @throws SQLException
+     */
+    public StringifiedTableData getFullEmployeeData(String limit, String genderF, String genderM) throws SQLException {
+
+        String genderPred = makeGenderClause(genderF, genderM);
+
+        String query = makeSelectFullEmployeeDataQueryString(limit, genderPred);
+
+        try(    Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query)){
+
+            String[] colNames = fullEmployeeDataFieldNames;
+            String[][] data= getData(rs, colNames);
+
+            return new StringifiedTableData(colNames, data);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    /**
+     * create the clause to filter by gender
+     * @param genderF indicates if female should be included
+     * @param genderM indicates if male should be included
+     * @return clause to filter by gender
+     */
+    private String makeGenderClause(String genderF, String genderM){
+
+        boolean returnF = genderF.equals("true");
+        boolean returnM = genderM.equals("true");
+
+        String clause;
+
+        if(returnF && returnM){
+            clause="('F', 'M')";
+        }else if(returnF){
+            clause="('F')";
+        }else if(returnM){
+            clause="('M')";
+        }else{
+            clause="()";
+        }
+        return clause;
+    }
+
+    /**
+     * get detailed data for a single employee
+     * @param emp_no the employee id number
+     * @return detailed data for the employee
+     * @throws SQLException
+     */
     private EmployeeData getSingleEmployeeFullData(int emp_no) throws SQLException {
+
         String query = SELECT_FULL_EMPLOYEE_DATA + " WHERE employees.emp_no="+emp_no;
+
         try(    Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query)){
 
@@ -201,38 +285,22 @@ public class EmployeesDBService {
                     rs.getString("dept_name"),
                     rs.getInt("salary")
             );
-
-
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
         }
     }
 
-
-    private String makeGenderPred(String genderF, String genderM){
-
-        boolean returnF = genderF.equals("true");
-        boolean returnM = genderM.equals("true");
-
-        String pred;
-
-        if(returnF && returnM){
-            pred="('F', 'M')";
-        }else if(returnF){
-            pred="('F')";
-        }else if(returnM){
-            pred="('M')";
-        }else{
-            pred="()";
-        }
-        return pred;
-    }
-
-    private String makeSelectFullEmployeeDataQueryString(String limit, String genderPred){
+    /**
+     * create the query to select detailed employee data
+     * @param limit the maximum number of rows to return
+     * @param gClause clause to filter by gender
+     * @return the query to select detailed employee data
+     */
+    private String makeSelectFullEmployeeDataQueryString(String limit, String gClause){
 
         String limitClause = (limit==null) ? "" : String.format("LIMIT %d ", Integer.parseInt(limit));
-        String genderClause = (genderPred==null) ? "" : String.format("WHERE gender IN %s ", genderPred);
+        String genderClause = (gClause==null) ? "" : String.format("WHERE gender IN %s ", gClause);
 
         String query =  "SELECT employees.*, latest_title.title, latest_dept.to_date, latest_dept.dept_name, latest_salary.salary "
                     +   "FROM employees "
@@ -248,6 +316,19 @@ public class EmployeesDBService {
         return query;
     }
 
+    /**
+     * add a new employee to the database
+     * @param birth_date the employee's birth date
+     * @param first_name the employee's first name
+     * @param last_name the employee's last name
+     * @param gender the employee's gender
+     * @param hire_date the employee's hire date
+     * @param title the employee's title
+     * @param dept_name the employee's dapertment
+     * @param salary the employee's salary
+     * @return the employee data
+     * @throws Exception
+     */
     public EmployeeData addEmployee(String birth_date, String first_name, String last_name, String gender,
                             String hire_date, String title, String dept_name, String salary) throws Exception {
 
@@ -256,7 +337,6 @@ public class EmployeesDBService {
         Savepoint initial = conn.setSavepoint();
 
         try{
-
             emp_no = insertEmployee(birth_date, first_name, last_name, gender, hire_date);
             insertIntoHistoricalTable("titles", emp_no,title);
             insertIntoHistoricalTable("dept_emp",emp_no, dept_name);
@@ -276,18 +356,36 @@ public class EmployeesDBService {
         return getSingleEmployeeFullData(emp_no);
     }
 
+    /**
+     * get the highest employee number in the database
+     * @return
+     * @throws SQLException
+     */
     private int getMaxEmp_no() throws SQLException {
         String query    =   "SELECT MAX(emp_no) AS maxEmp_no "
                         +   "FROM employees ";
-        Statement stmt = conn.createStatement();
 
-        ResultSet rs = stmt.executeQuery(query);
+        try(    Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query);){
+            rs.next();
+            return rs.getInt("maxEmp_no");
 
-        rs.next();
+        }catch (SQLException e){
+            throw e;
+        }
 
-        return rs.getInt("maxEmp_no");
     }
 
+    /**
+     * insert a new employee into the employees table
+     * @param birth_date the employee's birth data
+     * @param first_name the employee's first name
+     * @param last_name the employee's last name
+     * @param gender the employee's gender
+     * @param hire_date the employee's hire date
+     * @return
+     * @throws Exception
+     */
     private int insertEmployee(String birth_date, String first_name, String last_name, String gender, String hire_date) throws Exception {
 
         Date birth_date_sql = makeSQLDate(birth_date);
@@ -301,19 +399,30 @@ public class EmployeesDBService {
 
         String update   =   "INSERT INTO employees "
                         +   "VALUES (?, ?, ?, ?, ?, ?)";
-        PreparedStatement stmt = conn.prepareStatement(update);
-        stmt.setInt(1, emp_no);
-        stmt.setDate(2, birth_date_sql);
-        stmt.setString(3, first_name);
-        stmt.setString(4, last_name);
-        stmt.setString(5, gender);
-        stmt.setDate(6, hire_date_sql);
-        stmt.executeUpdate();
-        stmt.close();
 
-        return emp_no;
+        try( PreparedStatement stmt = conn.prepareStatement(update)){
+
+            stmt.setInt(1, emp_no);
+            stmt.setDate(2, birth_date_sql);
+            stmt.setString(3, first_name);
+            stmt.setString(4, last_name);
+            stmt.setString(5, gender);
+            stmt.setDate(6, hire_date_sql);
+            stmt.executeUpdate();
+
+            return emp_no;
+        }catch (SQLException e){
+            throw e;
+        }
     }
 
+    /**
+     * update an employee's data in the database
+     * @param emp_no the employees id number
+     * @param updates the updates to apply
+     * @return the updated employee data
+     * @throws Exception
+     */
     public EmployeeData updateEmployee(int emp_no, HashMap<String, String> updates) throws Exception {
 
         conn.setAutoCommit(false);
@@ -330,7 +439,6 @@ public class EmployeesDBService {
                         break;
 
                     case "salary":
-//                        int newSalary = Integer.parseInt(value);
                         updateSalary(emp_no, value);
                         break;
 
@@ -338,7 +446,6 @@ public class EmployeesDBService {
                         String newDepartment = value;
                         updateDepartment(emp_no, newDepartment);
                         break;
-
                     default:
                         throw new Exception("Invalid attribute " + key);
                 }
@@ -357,222 +464,172 @@ public class EmployeesDBService {
         return getSingleEmployeeFullData(emp_no);
     }
 
+    /**
+     * update an employee's title in the titles table
+     * @param emp_no the employee's id number
+     * @param newTitle the new title
+     * @throws Exception
+     */
     private void updateTitle(int emp_no, String newTitle) throws Exception {
-
         updateHistoricalTable("titles", emp_no, newTitle);
-
-//        Date todaySql = getTodaySQL();
-//
-//        PreparedStatement stmt;
-//        stmt = conn.prepareStatement(
-//                            "UPDATE titles "
-//                        +   "SET to_date=? "
-//                        +   "WHERE emp_no=? AND to_date=?");
-//        stmt.setDate(1, todaySql);
-//        stmt.setInt(2, emp_no);
-//        stmt.setDate(3, FUTURE_DATE_SQL);
-//        stmt.executeUpdate();
-//
-//        stmt = conn.prepareStatement(
-//                            "INSERT INTO titles "
-//                        +   "VALUES (?, ?, ?, ?) ");
-//        stmt.setInt(1, emp_no);
-//        stmt.setString(2, newTitle);
-//        stmt.setDate(3, todaySql);
-//        stmt.setDate(4, FUTURE_DATE_SQL);
-//        stmt.executeUpdate();
-//
-//        stmt.close();
     }
 
+    /**
+     * update an employees salary in the salaries table
+     * @param emp_no the employee's id number
+     * @param newSalary the new salary
+     * @throws Exception
+     */
     private void updateSalary(int emp_no, String newSalary) throws Exception {
-
         updateHistoricalTable("salaries", emp_no, newSalary);
-
-//        Date todaySql = getTodaySQL();
-//
-//        PreparedStatement stmt;
-//
-//        stmt = conn.prepareStatement(
-//                            "UPDATE salaries "
-//                        +   "SET to_date=? "
-//                        +   "WHERE emp_no=? AND to_date=?");
-//        stmt.setDate(1, todaySql);
-//        stmt.setInt(2, emp_no);
-//        stmt.setDate(3, FUTURE_DATE_SQL);
-//        stmt.executeUpdate();
-//
-//        stmt = conn.prepareStatement(
-//                            "INSERT INTO salaries "
-//                        +   "VALUES (?, ?, ?, ?) ");
-//        stmt.setInt(1, emp_no);
-//        stmt.setInt(2, newSalary);
-//        stmt.setDate(3, todaySql);
-//        stmt.setDate(4, FUTURE_DATE_SQL);
-//        stmt.executeUpdate();
-//
-//        stmt.close();
     }
 
+    /**
+     * update an employees department in the dept_emp table
+     * @param emp_no the employees id number
+     * @param newDepartment the new department name
+     * @throws Exception
+     */
     private void updateDepartment(int emp_no, String newDepartment) throws Exception {
-
-//        Date todaySql = getTodaySQL();
-//
-//        PreparedStatement stmt;
-//
-//        HashMap<String, String> dept_name_no_map = getDepartmentMap();
-
-//        if(dept_name_no_map.containsKey(newDepartment)) {
-//
-//            String new_dept_no = dept_name_no_map.get(newDepartment);
-
-//            stmt = conn.prepareStatement(
-//                                "UPDATE dept_emp "
-//                            +   "SET to_date=? "
-//                            +   "WHERE emp_no=? AND to_date=?");
-//            stmt.setDate(1, todaySql);
-//            stmt.setInt(2, emp_no);
-//            stmt.setDate(3, FUTURE_DATE_SQL);
-//            stmt.executeUpdate();
-
-            updateHistoricalTable("dept_emp", emp_no, newDepartment);
-//        }else{
-//            throw new Exception("No department with name " + newDepartment);
-//        }
+        updateHistoricalTable("dept_emp", emp_no, newDepartment);
     }
 
+    /**
+     * update the data in a historical table such as titles or salaries
+     * @param tableName the name of the historical table
+     * @param emp_no the employees id number
+     * @param value the new value to store in the table
+     * @throws Exception
+     */
     private void updateHistoricalTable(String tableName, int emp_no, String value) throws Exception {
         truncateHistoricalTableHistory(tableName, emp_no);
         insertIntoHistoricalTable(tableName, emp_no, value);;
     }
 
+    /**
+     * change the to_date from the future date to the current date for the current item
+     * @param tableName the name of the table
+     * @param emp_no the employee id number
+     * @throws Exception
+     */
     private void truncateHistoricalTableHistory(String tableName, int emp_no) throws Exception {
+
         String update   =   "UPDATE " + tableName + " "
                         +   "SET to_date=? "
                         +   "WHERE emp_no=? AND to_date=?";
-        PreparedStatement stmt = conn.prepareStatement(update);
 
-        Date todaySql = getTodaySQL();
-        stmt.setDate(1, todaySql);
-        stmt.setInt(2, emp_no);
-        stmt.setDate(3, FUTURE_DATE_SQL);
+        try(PreparedStatement stmt = conn.prepareStatement(update)){
+            Date todaySql = getTodaySQL();
+            stmt.setDate(1, todaySql);
+            stmt.setInt(2, emp_no);
+            stmt.setDate(3, FUTURE_DATE_SQL);
 
-        switch(tableName){
-            case "dept_emp":
-                break;
-            case "salaries":
-                break;
-            case "titles":
-                break;
-            default:
-                throw new Exception("Invalid tableName");
+            switch(tableName){
+                case "dept_emp":
+                    break;
+                case "salaries":
+                    break;
+                case "titles":
+                    break;
+                default:
+                    throw new Exception("Invalid tableName");
+            }
+            stmt.executeUpdate();
+        }catch (SQLException e){
+            throw e;
         }
-        stmt.executeUpdate();
-        stmt.close();
     }
 
+    /**
+     * insert a new item into a historical data table
+     * @param tableName the name of the table
+     * @param emp_no the employee id number
+     * @param value the new value
+     * @throws Exception
+     */
     private void insertIntoHistoricalTable(String tableName, int emp_no, String value) throws Exception {
+
         String update   =   "INSERT INTO " + tableName + " "
                         +   "VALUES (?, ?, ?, ?) ";
-        PreparedStatement stmt = conn.prepareStatement(update);
 
-        stmt.setInt(1, emp_no);
-        Date todaySql = getTodaySQL();
-        stmt.setDate(3, todaySql);
-        stmt.setDate(4, FUTURE_DATE_SQL);
+        try(PreparedStatement stmt = conn.prepareStatement(update)){
+            stmt.setInt(1, emp_no);
+            Date todaySql = getTodaySQL();
+            stmt.setDate(3, todaySql);
+            stmt.setDate(4, FUTURE_DATE_SQL);
 
-        switch(tableName){
-            case "dept_emp":
-                Map<String, String> dept_name_no_map = getDepartmentMap();
-                if(!dept_name_no_map.containsKey(value)){
-                    throw new Exception("Invalid department name");
-                }
-                stmt.setString(2, dept_name_no_map.get(value));
-                break;
-            case "salaries":
-                int salaryInt = Integer.parseInt(value);
-                stmt.setInt(2, salaryInt);
-                break;
-            case "titles":
-                stmt.setString(2, value);
-                break;
-            default:
-                throw new Exception("Invalid tableName");
+            switch(tableName){
+                case "dept_emp":
+                    Map<String, String> dept_name_no_map = getDepartmentMap();
+                    if(!dept_name_no_map.containsKey(value)){
+                        throw new Exception("Invalid department name");
+                    }
+                    stmt.setString(2, dept_name_no_map.get(value));
+                    break;
+                case "salaries":
+                    int salaryInt = Integer.parseInt(value);
+                    stmt.setInt(2, salaryInt);
+                    break;
+                case "titles":
+                    stmt.setString(2, value);
+                    break;
+                default:
+                    throw new Exception("Invalid tableName");
+            }
+            stmt.executeUpdate();
+        }catch(Exception e) {
+            throw e;
         }
-        stmt.executeUpdate();
-        stmt.close();
     }
 
+    /**
+     * get a mapping of department names to department numbers
+     * @return map of department names to department numbers
+     * @throws SQLException
+     */
     private HashMap<String, String> getDepartmentMap() throws SQLException {
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(SELECT_DEPARTMENT_DATA);
-        rs.last();
-        int nResults = rs.getRow();
 
-        HashMap<String, String> map = new HashMap<>(nResults);
+        try(
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(SELECT_DEPARTMENT_DATA);
+        ){
 
-        int idx = 0;
-        rs.beforeFirst();
-        while(rs.next()){
-            String name = rs.getString("dept_name");
-            String number = rs.getString("dept_no");
-            map.put(name, number);
+            rs.last();
+            int nResults = rs.getRow();
+
+            HashMap<String, String> map = new HashMap<>(nResults);
+
+            int idx = 0;
+            rs.beforeFirst();
+            while(rs.next()){
+                String name = rs.getString("dept_name");
+                String number = rs.getString("dept_no");
+                map.put(name, number);
+            }
+
+            return map;
+        }catch (SQLException e){
+            throw e;
         }
-
-        return map;
     }
 
-    private Title getLatestTitle(int emp_no) throws SQLException {
-        String query = String.format("%s WHERE emp_no = %d" , this.SELECT_LATEST_TITLE, emp_no);
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-
-        rs.next();
-        String title = rs.getString("title");
-        Date from_date = rs.getDate("from_date");
-        Date to_date = rs.getDate("to_date");
-        Title latestTitle = new Title(emp_no, title, from_date, to_date);
-        return latestTitle;
-    }
-
-
+    /**
+     * get todays date
+     * @return todays date
+     */
     private Date getTodaySQL(){
         java.util.Date today = new java.util.Date();
         return new Date(today.getTime());
     }
-//    public void getAllEmployeeData(){
-//        try (Statement stmt = conn.createStatement()) {
-//
-//            String q0 = SELECT_LATEST_EMP_DATE2 + "ORDER BY emp_no LIMIT 100";
-//            ResultSet rs0 = stmt.executeQuery(q0);
-//            String[][] data0 = getData(rs0, new String[]{"emp_no", "to_date"});
-//
-//
-////            String q = SELECT_LATEST_DEPARTMENT + " LIMIT 100";
-////            ResultSet rs = stmt.executeQuery(q);
-////            String[][] data = getStrings(rs, new String[]{"emp_no", "to_date", "dept_name"});
-////
-////            String q2 = SELECT_LATEST_TITLE+ " LIMIT 100";
-////            ResultSet rs2 = stmt.executeQuery(q2);
-////            String[][] data2 = getStrings(rs2, new String[]{"emp_no", "to_date", "title"});
-////
-////            String q3 = SELECT_LATEST_SALARY+ " LIMIT 100";
-////            ResultSet rs3 = stmt.executeQuery(q3);
-////            String[][] data3 = getStrings(rs3, new String[]{"emp_no", "to_date", "salary"});
-////
-//            String q4 = SELECT_LATEST_DATA+ " LIMIT 100";
-//            ResultSet rs4 = stmt.executeQuery(q4);
-//            String[][] data4 = getData(rs4, new String[]{"emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date", "to_date", "title", "dept_name", "salary"});
-//
-////            while(rs.next()){
-////                System.out.println(String.format("%s, %s",rs.getString("emp_no"), rs.getString("dept_name")));
-////            }
-//            System.out.println(data0);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
+
+    /**
+     * extract table data from a results set
+     * @param rs a results set
+     * @param names the names of the fiels to extract
+     * @return the table data
+     * @throws SQLException
+     */
     private String[][] getData(ResultSet rs, String[] names) throws SQLException {
         ResultSetMetaData rsMetaData =  rs.getMetaData();
         int nCols = names.length;
@@ -590,6 +647,12 @@ public class EmployeesDBService {
         return data;
     }
 
+    /**
+     * get the column names from a result set
+     * @param rs a results set
+     * @return the column names
+     * @throws SQLException
+     */
     private String[] getColumnNames(ResultSet rs) throws SQLException {
         ResultSetMetaData rsMetaData =  rs.getMetaData();
         int nCols = rsMetaData.getColumnCount();
@@ -603,20 +666,5 @@ public class EmployeesDBService {
         return colNames;
     }
 
-//    public StringifiedTableData getMatchingEmployeeData(
-//            String name,
-//            String minAge,
-//            String maxAge,
-//            String gender,
-//            String department,
-//            String title,
-//            String active){
-//
-//        StringBuilder querybuilder = new StringBuilder(
-//                "SELECT employees.first_name, employees.last_name, employees.gender, dept_names.dept_name")
-//
-//
-//
-//    }
 }
 

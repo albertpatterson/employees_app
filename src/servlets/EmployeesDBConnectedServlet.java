@@ -13,15 +13,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Created by apatters on 10/21/2017.
+ * a servlet capable of interacting with the employees databse via the JDBC
  */
 @WebServlet(name = "EmployeesDBConnectedServlet")
 public class EmployeesDBConnectedServlet extends HttpServlet {
 
-    private static final String DATABASEURL = "jdbc:mysql://localhost:3306/employees";
-    private static final String USERNANME = "pma";
-    private static final String PASSWORD = "";
-    public static Connection conn = null;
+    /**
+     * service capable of interacting with the employees database
+     */
     public EmployeesDBService employeesDBService = new EmployeesDBService();
 
     public void init(){

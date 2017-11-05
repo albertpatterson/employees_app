@@ -1,4 +1,4 @@
-package services.database;
+package utils;
 
 import utils.JsonConvertible;
 
@@ -6,17 +6,34 @@ import javax.json.*;
 import java.util.ArrayList;
 
 /**
- * Created by apatters on 10/15/2017.
+ * represents data stored in a table
  */
 public class StringifiedTableData implements JsonConvertible {
+
+    /**
+     * the column names of the table
+     */
     public String[] columnNames = null;
+
+    /**
+     * the data in the rows of the table
+     */
     public String[][] rowData = null;
 
+    /**
+     * create an object representing the data in a table
+     * @param columnNames the table's column names
+     * @param rowData the table's row data
+     */
     public StringifiedTableData(String[] columnNames, String[][] rowData){
         this.columnNames = columnNames;
         this.rowData = rowData;
     }
 
+    /**
+     * create a json object representing the data in the table
+     * @return json object representing the data in the table
+     */
     @Override
     public JsonValue getJson() {
 

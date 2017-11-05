@@ -1,17 +1,13 @@
 package servlets;
 
-import jdk.nashorn.internal.ir.debug.JSONWriter;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
 import services.database.EmployeeData;
-import services.database.EmployeesDBService;
-import services.database.StringifiedTableData;
+import utils.StringifiedTableData;
 
 import javax.json.Json;
 import javax.json.JsonStructure;
 import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,11 +17,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by apatters on 10/22/2017.
+ * Servlet providing access to detailed employee data
  */
 @WebServlet(name = "FilterableDataServlet")
 public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
 
+    /**
+     * create a new employee
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String birth_date = request.getParameter("birth_date");
         String first_name = request.getParameter("first_name");
@@ -50,6 +52,13 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
 
     }
 
+    /**
+     * update an existing employee
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map params = request.getParameterMap();
         String emp_noStr = request.getParameter("emp_no");
@@ -80,26 +89,14 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
         }
     }
 
+    /**
+     * get the detailed employee data
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-//        String name = request.getParameter("name");
-////        name = name==null?"%":name;
-//
-//        String maxAge = request.getParameter("maxAge");
-////        maxAge = maxAge==null?"100":maxAge;
-//
-//        String minAge = request.getParameter("minAge");
-////        minAge = minAge==null?"18":minAge;
-//
-//        String gender = request.getParameter("gender");
-////        gender = gender==null?"(M, F)":gender;
-//
-//        String department = request.getParameter("department");
-////        department=department==null?"All"
-//
-//        String title = request.getParameter("title");
-//
-//        String active = request.getParameter("active");
 
         String genderF = request.getParameter("genderF");
         String genderM = request.getParameter("genderM");
@@ -118,8 +115,5 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
             out.write(e.getStackTrace().toString());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-
-
-//        EmployeesDBService.getMatchingEmployeeData(name, minAge, maxAge, gender, department, title, active)
     }
 }

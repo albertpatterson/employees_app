@@ -39,7 +39,7 @@ export class EmployeeDataTabComponent implements OnInit{
    * @type {string[]}
    * @memberof EmployeeDataTabComponent
    */
-  public headers: string[];
+  public headers: string[] = [];
 
   /**
    * detailed employee data
@@ -47,7 +47,7 @@ export class EmployeeDataTabComponent implements OnInit{
    * @type {string[][]}
    * @memberof EmployeeDataTabComponent
    */
-  public rowData: string[][];
+  public rowData: string[][] = [[]];
 
   /**
    * object represending an employee that can be updated
@@ -310,6 +310,7 @@ export class EmployeeDataTabComponent implements OnInit{
    */
   private _handleError(e: Error){
     alert("an error occured, please reload " + e);
+    throw e;
   }
 
   /**

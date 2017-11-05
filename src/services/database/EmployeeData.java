@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by apatters on 11/4/2017.
+ * Represents the data about an employee
  */
 public class EmployeeData implements JsonConvertible{
 
@@ -28,6 +28,20 @@ public class EmployeeData implements JsonConvertible{
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 
+    /**
+     * Instantiates a new Employee data.
+     *
+     * @param emp_no     the employee's id number
+     * @param birth_date the employee's birth date
+     * @param first_name the employee's first name
+     * @param last_name  the lemployee's ast name
+     * @param gender     the employee's gender
+     * @param hire_date  the employee's hire date
+     * @param title      the employee's title
+     * @param to_date    the employee's to date
+     * @param dept_name  the employee's dept name
+     * @param salary     the employee's salary
+     */
     public EmployeeData(int emp_no, Date birth_date, String first_name, String last_name,
                         String gender, Date hire_date, String title, Date to_date, String dept_name,
                         int salary){
@@ -44,6 +58,10 @@ public class EmployeeData implements JsonConvertible{
     }
 
 
+    /**
+     * create a json object representing the employee data
+     * @return json object representing the employee data
+     */
     @Override
     public JsonObject getJson() {
 
