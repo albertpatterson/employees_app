@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomTabComponent } from './custom-tab.component';
+import { EmployeeDataTabComponent } from './employee-data-tab.component';
 
 describe('CustomTabComponent', () => {
-  let component: CustomTabComponent;
-  let fixture: ComponentFixture<CustomTabComponent>;
+  let component: EmployeeDataTabComponent;
+  let fixture: ComponentFixture<EmployeeDataTabComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CustomTabComponent ]
+      declarations: [ EmployeeDataTabComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CustomTabComponent);
+    fixture = TestBed.createComponent(EmployeeDataTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

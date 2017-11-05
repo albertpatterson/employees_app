@@ -1,5 +1,11 @@
-import { Component, OnChanges, EventEmitter } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 
+/**
+ * component defining a custom drop down menu
+ * 
+ * @export
+ * @class DropdownComponent
+ */
 @Component({
   selector: 'dropdown',
   templateUrl: './dropdown.component.html',
@@ -8,25 +14,32 @@ import { Component, OnChanges, EventEmitter } from '@angular/core';
             "items"],
   outputs: ["selection"]
 })
-export class DropdownComponent implements OnChanges {
+export class DropdownComponent {
+  /**
+   * items to display in the menu
+   * 
+   * @type {string[]}
+   * @memberof DropdownComponent
+   */
+  public items: string[];
 
-  public items: string;
+  /**
+   * label of the dropdown menu
+   * 
+   * @type {string}
+   * @memberof DropdownComponent
+   */
   public title: string;
 
+  /**
+   * event emmitter for item selection event
+   * 
+   * @type {EventEmitter<string>}
+   * @memberof DropdownComponent
+   */
   public selection: EventEmitter<string> = new EventEmitter();
 
-  public itemsArr: string[];
-
   constructor() { }
-
-  ngOnChanges() {
-    
-    this.itemsArr = this.items.split(',');
-    this.itemsArr = this.itemsArr.map(
-      function(item){return item.trim()}
-    );
-    this.itemsArr.forEach(i=>console.log(i));
-  }
 
   public select(event): void{
     let selection =event.target.innerText;

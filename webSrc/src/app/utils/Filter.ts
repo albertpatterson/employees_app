@@ -1,3 +1,4 @@
+// defines a filter for employee data
 export class Filter{
     
     genderM: boolean;

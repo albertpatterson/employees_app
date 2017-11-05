@@ -10,37 +10,86 @@ import 'rxjs/add/observable/throw'
 import { Employee } from "../utils/Employee";
 import { Filter } from "../utils/Filter";
 
+/**
+ * defines a service for sending requests to query and update employee data
+ * 
+ * @export
+ * @class DatabaseService
+ */
 @Injectable()
 export class DatabaseService {
 
-
+  /**
+   * url to access the table meta data
+   * 
+   * @private
+   * @type {string}
+   * @memberof DatabaseService
+   */
   private _tableNamesUrl: string = "databaseData";
+
+  /**
+   * url to access the table data
+   * 
+   * @private
+   * @type {string}
+   * @memberof DatabaseService
+   */
   private _tableDataUrl: string = "tableData";
+
+  /**
+   * url to access the detailed employee data
+   * 
+   * @private
+   * @type {string}
+   * @memberof DatabaseService
+   */
   private _FullEmployeeDataUrl: string = "fullEmployeeData";
 
+  /**
+   * Creates an instance of DatabaseService.
+   * @param {Http} http 
+   * @memberof DatabaseService
+   */
   constructor(private http: Http) { }
 
-
+  /**
+   * get the names of the tables in the database
+   * 
+   * @returns {Promise<string[]>} promise to be resolved when the response to the request is received
+   * @memberof DatabaseService
+   */
   public getTableNames(): Promise<string[]>{
-
-    console.log('send get');
     return this.http.get(this._tableNamesUrl)
           .toPromise()
           .then((resp: Response)=>resp.json());
   }
 
+  /**
+   * get raw data stored in a table
+   * 
+   * @param {string} tableName the name of the table to access
+   * @returns {Promise<any>} promise to be resolved when the response to the request is received
+   * @memberof DatabaseService
+   */
   public getTableData(tableName: string): Promise<any>{
     
     let search = new URLSearchParams();
     search.append("tableName", tableName);
 
-
-    console.log('send get');
     return this.http.get(this._tableDataUrl, {search})
           .toPromise()
           .then((resp: Response)=>resp.json());
   }
 
+
+  /**
+   * get the detailed employee data
+   * 
+   * @param {Filter} filter defines what data to select
+   * @returns {Promise<String[]>} promise to be resolved when the response to the request is received
+   * @memberof DatabaseService
+   */
   public getFullEmployeeData(filter: Filter): Promise<String[]>{
 
     let search = new URLSearchParams();
@@ -53,34 +102,42 @@ export class DatabaseService {
     .then((resp: Response)=>resp.json());
   }
 
+  /**
+   * update an existing employees data
+   * 
+   * @param {string} emp_no the employee id number
+   * @param {*} updates updates to apply to the employee's data
+   * @returns {Promise<any>} promise to be resolved when the response to the request is received
+   * @memberof DatabaseService
+   */
   public updateEmployee(emp_no: string, updates: any): Promise<any>{
     
-    console.log(arguments);
-
     let url: string = this._FullEmployeeDataUrl;
     url+="?emp_no="+emp_no;
     let attrs: string[] = [];
     let values: string[] = [];
     let search = new URLSearchParams();
-    // search.append("emp_no", emp_no)
 
     for(let field in updates){
-      // search.append(field, updates[field]);
-      // url+=`&${field}=${updates[field]}`;
       attrs.push(field);
       values.push(updates[field]);
     }
     url+=`&attrs=${attrs.join(",")}&values=${values.join(",")}`;
-    // console.log(search);
-    // return this.http.put(this._FullEmployeeDataUrl, search)
+
     return this.http.put(url, search)
           .toPromise()
           .then((resp: Response)=>resp.json());
   }
 
 
-  addEmployee(employee: Employee){
-    console.log("add employee ", employee);
+  /**
+   * add a new employee
+   * 
+   * @param {Employee} employee the data of the new employee
+   * @returns {Promise<any>} promise to be resolved when the response to the request is received
+   * @memberof DatabaseService
+   */
+  public addEmployee(employee: Employee): Promise<any>{
 
     let search = new URLSearchParams();
     search.append("birth_date",employee.birth_date);

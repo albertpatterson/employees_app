@@ -1,4 +1,4 @@
   <div class="centeredContents" [style.display]="display">
-      <dropdown title="Select Table" items={{tableNamesString}} (selection)="showTable($event)"></dropdown>
+      <dropdown title="Select a Table" [items]="tableNames" (selection)="showTable($event)"></dropdown>
       <app-data-table [headers]="headers" [rowData]="rowData"></app-data-table>
   </div>

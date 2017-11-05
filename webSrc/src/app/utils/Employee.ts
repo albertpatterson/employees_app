@@ -1,3 +1,4 @@
+// defines a set of detailed data for an employee
 export class Employee{
     emp_no: string;
     birth_date: string;

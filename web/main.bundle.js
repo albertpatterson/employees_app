@@ -60,20 +60,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+/**
+ * tabs shown on the page
+ */
 var tabs = ["employeesData", "rawTables"];
+/**
+ * component defining the two tabs to display - detailed employee data and raw tables
+ *
+ * @export
+ * @class AppComponent
+ * @implements {OnInit}
+ */
 var AppComponent = (function () {
     function AppComponent() {
-        this.doFullEmployeeDataFetch = false;
-        this.doTableNameFetch = false;
+        /**
+         * indicates if the tooltips should be shown
+         *
+         * @type {boolean}
+         * @memberof AppComponent
+         */
         this.showTips = true;
     }
     AppComponent.prototype.ngOnInit = function () {
         this.tabDisplayManager = new __WEBPACK_IMPORTED_MODULE_1__utils_SingleActivationManager__["a" /* SingleActivationManager */](tabs, "block", "none");
     };
+    /**
+     * Show the detailed employee data tab
+     *
+     * @memberof AppComponent
+     */
     AppComponent.prototype.showEmployeeDataTab = function () {
         this.tabDisplayManager.activate('employeesData');
         this.showTips = false;
     };
+    /**
+   * Show the raw tables tab
+   *
+   * @memberof AppComponent
+   */
     AppComponent.prototype.showRawTablesTab = function () {
         this.tabDisplayManager.activate('rawTables');
         this.showTips = false;
@@ -105,24 +129,20 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__dropdown_dropdown_component__ = __webpack_require__("../../../../../src/app/dropdown/dropdown.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tables_tab_tables_tab_component__ = __webpack_require__("../../../../../src/app/tables-tab/tables-tab.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__update_tab_update_tab_component__ = __webpack_require__("../../../../../src/app/update-tab/update-tab.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__employee_data_tab_employee_data_tab_component__ = __webpack_require__("../../../../../src/app/employee-data-tab/employee-data-tab.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_database_service__ = __webpack_require__("../../../../../src/app/services/database.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__data_table_data_table_component__ = __webpack_require__("../../../../../src/app/data-table/data-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__filterable_employee_data_filterable_employee_data_component__ = __webpack_require__("../../../../../src/app/filterable-employee-data/filterable-employee-data.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__employee_data_update_form_employee_data_update_form_component__ = __webpack_require__("../../../../../src/app/employee-data-update-form/employee-data-update-form.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__employee_data_filter_form_employee_data_filter_form_component__ = __webpack_require__("../../../../../src/app/employee-data-filter-form/employee-data-filter-form.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__loading_indicator_loading_indicator_component__ = __webpack_require__("../../../../../src/app/loading-indicator/loading-indicator.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__tooltip_tooltip_component__ = __webpack_require__("../../../../../src/app/tooltip/tooltip.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__employee_data_tab_employee_data_tab_component__ = __webpack_require__("../../../../../src/app/employee-data-tab/employee-data-tab.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_database_service__ = __webpack_require__("../../../../../src/app/services/database.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__data_table_data_table_component__ = __webpack_require__("../../../../../src/app/data-table/data-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__employee_data_update_form_employee_data_update_form_component__ = __webpack_require__("../../../../../src/app/employee-data-update-form/employee-data-update-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__employee_data_filter_form_employee_data_filter_form_component__ = __webpack_require__("../../../../../src/app/employee-data-filter-form/employee-data-filter-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__loading_indicator_loading_indicator_component__ = __webpack_require__("../../../../../src/app/loading-indicator/loading-indicator.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__tooltip_tooltip_component__ = __webpack_require__("../../../../../src/app/tooltip/tooltip.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
-
 
 
 
@@ -149,22 +169,20 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */],
             __WEBPACK_IMPORTED_MODULE_5__dropdown_dropdown_component__["a" /* DropdownComponent */],
             __WEBPACK_IMPORTED_MODULE_6__tables_tab_tables_tab_component__["a" /* TablesTabComponent */],
-            __WEBPACK_IMPORTED_MODULE_7__update_tab_update_tab_component__["a" /* UpdateTabComponent */],
-            __WEBPACK_IMPORTED_MODULE_8__employee_data_tab_employee_data_tab_component__["a" /* EmployeeDataTabComponent */],
-            __WEBPACK_IMPORTED_MODULE_11__data_table_data_table_component__["a" /* DataTableComponent */],
-            __WEBPACK_IMPORTED_MODULE_12__filterable_employee_data_filterable_employee_data_component__["a" /* FilterableEmployeeDataComponent */],
-            __WEBPACK_IMPORTED_MODULE_13__employee_data_update_form_employee_data_update_form_component__["a" /* EmployeeDataUpdateFormComponent */],
-            __WEBPACK_IMPORTED_MODULE_14__employee_data_filter_form_employee_data_filter_form_component__["a" /* EmployeeDataFilterFormComponent */],
-            __WEBPACK_IMPORTED_MODULE_15__loading_indicator_loading_indicator_component__["a" /* LoadingIndicatorComponent */],
-            __WEBPACK_IMPORTED_MODULE_16__tooltip_tooltip_component__["a" /* TooltipComponent */]
+            __WEBPACK_IMPORTED_MODULE_7__employee_data_tab_employee_data_tab_component__["a" /* EmployeeDataTabComponent */],
+            __WEBPACK_IMPORTED_MODULE_10__data_table_data_table_component__["a" /* DataTableComponent */],
+            __WEBPACK_IMPORTED_MODULE_11__employee_data_update_form_employee_data_update_form_component__["a" /* EmployeeDataUpdateFormComponent */],
+            __WEBPACK_IMPORTED_MODULE_12__employee_data_filter_form_employee_data_filter_form_component__["a" /* EmployeeDataFilterFormComponent */],
+            __WEBPACK_IMPORTED_MODULE_13__loading_indicator_loading_indicator_component__["a" /* LoadingIndicatorComponent */],
+            __WEBPACK_IMPORTED_MODULE_14__tooltip_tooltip_component__["a" /* TooltipComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_common__["a" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_9__angular_http__["b" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_8__angular_http__["b" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */]
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_10__services_database_service__["a" /* DatabaseService */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_9__services_database_service__["a" /* DatabaseService */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
@@ -214,12 +232,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+/**
+ * component defining a table for displaying and editing data
+ *
+ * @export
+ * @class DataTableComponent
+ * @implements {OnChanges}
+ */
 var DataTableComponent = (function () {
     function DataTableComponent() {
+        /**
+         * emitter for double click event to trigger data edit
+         *
+         * @type {EventEmitter<number[]>}
+         * @memberof DataTableComponent
+         */
         this.cellDblClick = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
-    DataTableComponent.prototype.ngOnChanges = function () {
-    };
+    /**
+     * emit the double click event with information about the cell that was clicked
+     *
+     * @param {any} event
+     * @memberof DataTableComponent
+     */
     DataTableComponent.prototype.dblClick = function (event) {
         var target = event.target;
         var col = target.dataset.col;
@@ -268,7 +303,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/dropdown/dropdown.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"dropdownContainer\">\n  <div class=\"dropdown\">\n      <button class=\"btn btn-secondary dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n        {{title}}\n      </button>\n      <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\" (click)=\"select($event)\">\n        <a class=\"dropdown-item\" href=\"#\" *ngFor=\"let item of itemsArr\">{{item}}</a>\n      </div>\n    </div>\n</div>"
+module.exports = "<div class=\"dropdownContainer\">\n  <div class=\"dropdown\">\n      <button class=\"btn btn-secondary dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n        {{title}}\n      </button>\n      <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\" (click)=\"select($event)\">\n        <a class=\"dropdown-item\" href=\"#\" *ngFor=\"let item of items\">{{item}}</a>\n      </div>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -288,15 +323,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+/**
+ * component defining a custom drop down menu
+ *
+ * @export
+ * @class DropdownComponent
+ */
 var DropdownComponent = (function () {
     function DropdownComponent() {
+        /**
+         * event emmitter for item selection event
+         *
+         * @type {EventEmitter<string>}
+         * @memberof DropdownComponent
+         */
         this.selection = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
-    DropdownComponent.prototype.ngOnChanges = function () {
-        this.itemsArr = this.items.split(',');
-        this.itemsArr = this.itemsArr.map(function (item) { return item.trim(); });
-        this.itemsArr.forEach(function (i) { return console.log(i); });
-    };
     DropdownComponent.prototype.select = function (event) {
         var selection = event.target.innerText;
         console.log(selection);
@@ -363,27 +405,75 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+/**
+ * component defining a form to choose filters for the employee data
+ *
+ * @export
+ * @class EmployeeDataFilterFormComponent
+ * @implements {OnChanges}
+ */
 var EmployeeDataFilterFormComponent = (function () {
     function EmployeeDataFilterFormComponent() {
+        /**
+         * indicates if this form is visible
+         *
+         * @type {string}
+         * @memberof EmployeeDataFilterFormComponent
+         */
         this.visibility = "visible";
-        this.formTitle = "Add New Employee";
+        /**
+         * The title to display with the form
+         *
+         * @type {string}
+         * @memberof EmployeeDataFilterFormComponent
+         */
+        this.formTitle = "Filter Employee Data";
+        /**
+         * emmitter for the form changed event
+         *
+         * @type {EventEmitter<Filter>}
+         * @memberof EmployeeDataFilterFormComponent
+         */
         this.filterChanged = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+        /**
+         * emitter for the visibility changed event
+         *
+         * @type {EventEmitter<string>}
+         * @memberof EmployeeDataFilterFormComponent
+         */
         this.visibilityChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
+    /**
+     * ensure that a valid vilter is being used
+     *
+     * @memberof EmployeeDataFilterFormComponent
+     */
     EmployeeDataFilterFormComponent.prototype.ngOnChanges = function () {
         this.filter = this.filter || new __WEBPACK_IMPORTED_MODULE_1__utils_Filter__["a" /* Filter */](true, true, 1e3);
-        this.formTitle = "Filter Employee Data";
     };
+    /**
+     * submit the update to the filter
+     *
+     * @memberof EmployeeDataFilterFormComponent
+     */
     EmployeeDataFilterFormComponent.prototype.onSubmit = function () {
-        // this.filter.genderF = event.
-        // console.log(event);
         this.filterChanged.next(this.filter);
         this.hide();
     };
+    /**
+     * hide the form
+     *
+     * @memberof EmployeeDataFilterFormComponent
+     */
     EmployeeDataFilterFormComponent.prototype.hide = function () {
         this.visibility = "hidden";
         this.visibilityChange.next(this.visibility);
     };
+    /**
+     * show the form
+     *
+     * @memberof EmployeeDataFilterFormComponent
+     */
     EmployeeDataFilterFormComponent.prototype.show = function () {
         this.visibility = "visible";
         this.visibilityChange.next(this.visibility);
@@ -460,28 +550,70 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+// forms to be shown with this tab
 var overlays = ["updateForm", "filterForm"];
+/**
+ * component defining the tab to display and update detailed imployee data
+ *
+ * @export
+ * @class EmployeeDataTabComponent
+ * @implements {OnInit}
+ */
 var EmployeeDataTabComponent = (function () {
+    /**
+     * Creates an instance of EmployeeDataTabComponent.
+     * @param {DatabaseService} databaseService - the service allowing querying and updating of the database
+     * @memberof EmployeeDataTabComponent
+     */
     function EmployeeDataTabComponent(databaseService) {
         this.databaseService = databaseService;
+        /**
+         * indicates if a request for data has not been resolved
+         *
+         * @type {boolean}
+         * @memberof EmployeeDataTabComponent
+         */
+        this.loading = false;
+        /**
+         * indicates if the tooltips for the viwe buttons should be shown
+         *
+         * @type {boolean}
+         * @memberof EmployeeDataTabComponent
+         */
         this.showTips = true;
+        /**
+         * indicates if the tooltip for the table should be shown
+         *
+         * @type {boolean}
+         * @memberof EmployeeDataTabComponent
+         */
         this.showTableTip = null;
     }
+    /**
+     * initialize the employee and overlayVisiblityManager
+     *
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype.ngOnInit = function () {
         this._setEmployee(null);
         this.filter = new __WEBPACK_IMPORTED_MODULE_3__utils_Filter__["a" /* Filter */](true, true, 5);
         this.overlayVisibilityManager = new __WEBPACK_IMPORTED_MODULE_4__utils_SingleActivationManager__["a" /* SingleActivationManager */](overlays, "visible", "hidden");
-        this.loading = false;
     };
+    /**
+     * apply updates to the employee
+     *
+     * @param {Employee} updatedEmployee - the updated employee data
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype.applyUpdate = function (updatedEmployee) {
         var _this = this;
-        console.log("apply update", updatedEmployee);
+        // show the loading indicator until updated data is received
         this.loading = true;
         var updateApplied;
+        // if the employee number is null, a new employee is to be added
         if (this._employee.emp_no === null) {
             updateApplied = this.databaseService.addEmployee(updatedEmployee);
-            // .then((r)=>alert('updated '+r))
-            // .catch(this._handleError)
+            // otherwise an existing employee is to be updated 
         }
         else {
             updateApplied = this.updateEmployee(updatedEmployee);
@@ -489,29 +621,42 @@ var EmployeeDataTabComponent = (function () {
         updateApplied.then(function (employee) {
             _this.updateEmployeeDataDisplay(employee);
             _this.loading = false;
-        });
+        })
+            .catch(this._handleError);
     };
+    /**
+     * update an existing employee
+     *
+     * @param {Employee} updatedEmployee - the updated employee data
+     * @returns {Promise<Employee>} promise to be resolve once the request to update the employee is resolved
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype.updateEmployee = function (updatedEmployee) {
         this.showTableTip = false;
         var updateApplied;
+        // create an object represending the fields to update
         var update = {};
         for (var field in this._employee) {
             if (this._employee[field] !== updatedEmployee[field]) {
                 update[field] = updatedEmployee[field];
             }
         }
-        console.log("update!", this._employee, updatedEmployee, update);
+        // apply the update and return promise
         if (Object.keys(update).length > 0) {
             this._setEmployee(updatedEmployee);
             updateApplied = this.databaseService.updateEmployee(this._employee.emp_no, update);
-            // .then(this.updateEmployeeDataDisplay)
-            // .catch(this._handleError)
         }
         else {
             updateApplied = Promise.resolve(this._employee);
         }
         return updateApplied;
     };
+    /**
+     * update the detailed employee data displayed in the table
+     *
+     * @param {Employee} employee - the updated employee data
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype.updateEmployeeDataDisplay = function (employee) {
         var emp_no_str = employee.emp_no.toString();
         var row = this.rowData.findIndex(function (row) { return row[0] === emp_no_str; });
@@ -519,7 +664,6 @@ var EmployeeDataTabComponent = (function () {
             row = this.rowData.length;
             this.rowData[row] = [];
         }
-        console.log("update display ", employee, row);
         this.rowData[row][0] = employee.emp_no;
         this.rowData[row][1] = employee.birth_date;
         this.rowData[row][2] = employee.first_name;
@@ -531,17 +675,14 @@ var EmployeeDataTabComponent = (function () {
         this.rowData[row][8] = employee.dept_name;
         this.rowData[row][9] = employee.salary;
     };
-    // updateEmployeeDataDisplay(){
-    //   let row = this.rowData.findIndex(row=>row[0]===this._employee.emp_no);
-    //   this.rowData[row][6]= this._employee.title;
-    //   this.rowData[row][7]= this._employee.to_date;
-    //   this.rowData[row][8]= this._employee.dept_name;
-    //   this.rowData[row][9]= this._employee.salary;
-    // }
+    /**
+     * fetch the detailed employee data according to the filter
+     *
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype.fetchData = function () {
         var _this = this;
         this.showTips = false;
-        console.log(this.filter);
         this._clearData();
         this.loading = true;
         this.databaseService.getFullEmployeeData(this.filter)
@@ -552,33 +693,77 @@ var EmployeeDataTabComponent = (function () {
         })
             .catch(this._handleError);
     };
+    /**
+     * update the data displayed in the table
+     *
+     * @private
+     * @param {any} data - the data to display in the table
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype._updateData = function (data) {
         this.headers = data.columnNames;
         this.rowData = data.data;
         this.overlayVisibilityManager.deactivateAll();
     };
+    /**
+     * clear the table
+     *
+     * @private
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype._clearData = function () {
         this.headers = [];
         this.rowData = [[]];
     };
+    /**
+     * show the update form with the employee data populated
+     *
+     * @param {number[]} itemCoords - the corrdinates of the cell that was dobule clicked, used to identify the employee to update
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype.showUpdateForm = function (itemCoords) {
         this.showTableTip = (this.showTableTip === null) ? null : false;
         var row = itemCoords[0];
         this._setEmployee(new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](this.rowData[row][0], this.rowData[row][1], this.rowData[row][2], this.rowData[row][3], this.rowData[row][4], this.rowData[row][5], this.rowData[row][6], this.rowData[row][7], this.rowData[row][8], this.rowData[row][9]));
         this.overlayVisibilityManager.activate("updateForm");
     };
+    /**
+     * show the form to add an employee
+     *
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype.addEmployee = function () {
         this.showTips = false;
         this._setEmployee(null);
         this.overlayVisibilityManager.activate("updateForm");
     };
+    /**
+     * show the form to update the filter
+     *
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype.showFilterForm = function () {
+        this.showTableTip = (this.showTableTip === null) ? null : false;
         this.showTips = false;
         this.overlayVisibilityManager.activate("filterForm");
     };
+    /**
+     * handle an error in a request
+     *
+     * @private
+     * @param {Error} e - the error message
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype._handleError = function (e) {
-        console.log(e);
+        alert("an error occured, please reload " + e);
     };
+    /**
+     * set the employee to update
+     *
+     * @private
+     * @param {Employee} employee - the data of the employee to update
+     * @memberof EmployeeDataTabComponent
+     */
     EmployeeDataTabComponent.prototype._setEmployee = function (employee) {
         if (employee === null) {
             this._employee = new __WEBPACK_IMPORTED_MODULE_2__utils_Employee__["a" /* Employee */](null, null, null, null, null, null, null, null, null, null);
@@ -626,7 +811,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/employee-data-update-form/employee-data-update-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"empoyeeDataUpdateFormContainer\" [style.visibility]=\"visibility\">\r\n    <h1 id=\"formTitle\">{{formTitle}}</h1>\r\n    <form id=\"empoyeeDataUpdateForm\" (ngSubmit)=\"onSubmit()\" #empoyeeDataUpdateForm=\"ngForm\">\r\n      <div class=\"form-group\">\r\n        <label for=\"birth_date\">Birth Date</label>\r\n        <input type=\"date\" class=\"form-control\" id=\"birth_date\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.birth_date\" name=\"birth_date\" [value]=\"employee.birth_date\">\r\n      </div>\r\n    \r\n      <div class=\"form-group\">\r\n        <label for=\"first_name\">First Name</label>\r\n        <input type=\"text\" class=\"form-control\" id=\"first_name\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.first_name\" name=\"first_name\" [value]=\"employee.first_name\">\r\n      </div>\r\n      \r\n      <div class=\"form-group\">\r\n        <label for=\"last_name\">Last Name</label>\r\n        <input type=\"text\" class=\"form-control\" id=\"last_name\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.last_name\" name=\"last_name\" [value]=\"employee.last_name\">\r\n      </div>\r\n    \r\n      \r\n      <label for=\"gender\">Gender</label>\r\n      <div id=\"gender\" class=\"row\">\r\n        <div class=\"form-group col-sm-6\">\r\n          <label for=\"genderM\">Male</label>\r\n          <input type=\"radio\" class=\"form-control\" id=\"genderM\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"M\" [attr.checked]=\"employee.gender==='M'\">\r\n        </div>\r\n        <div class=\"form-group col-sm-6\">\r\n          <label for=\"genderF\">Female</label>\r\n          <input type=\"radio\" class=\"form-control\" id=\"genderF\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"F\" [attr.checked]=\"employee.gender==='F'\">\r\n        </div>\r\n      </div>\r\n    \r\n      <div class=\"form-group\">\r\n        <label for=\"hire_date\">Hire Date</label>\r\n        <input type=\"date\" class=\"form-control\" id=\"hire_date\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.hire_date\" name=\"hire_date\" [value]=\"employee.hire_date\">\r\n      </div>\r\n    \r\n      <div class=\"form-group\">\r\n        <label for=\"title\">Title</label>\r\n        <input type=\"text\" class=\"form-control\" id=\"title\" required [(ngModel)]=\"employee.title\" name=\"title\" [value]=\"employee.title\">\r\n      </div> \r\n      \r\n      <div class=\"form-group\">\r\n        <label for=\"to_date\">To Date</label>\r\n        <input type=\"date\" class=\"form-control\" id=\"to_date\" required disabled [(ngModel)]=\"employee.to_date\" name=\"to_date\" [value]=\"employee.to_date\">\r\n      </div>\r\n        \r\n      <div class=\"form-group\">\r\n        <label for=\"dept_name\">Department</label>\r\n        <select id=\"dept_name\" class=\"form-control\" required [(ngModel)]=\"employee.dept_name\" name=\"dept_name\">\r\n          <option value=\"Customer Service\" [selected]=\"employee.dept_name==='Customer Service'\">Customer Service</option>\r\n          <option value=\"Development\" [selected]=\"employee.dept_name==='Development'\">Development</option>\r\n          <option value=\"Finance\" [selected]=\"employee.dept_name==='Finance'\">Finance</option>\r\n          <option value=\"Human Resources\" [selected]=\"employee.dept_name==='Human Resources'\">Human Resources</option>\r\n          <option value=\"Marketing\" [selected]=\"employee.dept_name==='Marketing'\">Marketing</option>\r\n          <option value=\"Production\" [selected]=\"employee.dept_name==='Production'\">Production</option>\r\n          <option value=\"Quality Management\" [selected]=\"employee.dept_name==='Quality Management'\">Quality Management</option>\r\n          <option value=\"Research\" [selected]=\"employee.dept_name==='Research'\">Research</option>\r\n          <option value=\"Sales\" [selected]=\"employee.dept_name==='Sales'\">Sales</option>\r\n        </select>\r\n      </div>\r\n\r\n      <div class=\"form-group\">\r\n        <label for=\"salary\">Salary</label>\r\n        <input type=\"number\" class=\"form-control\" id=\"salary\" required [(ngModel)]=\"employee.salary\" name=\"salary\" [value]=\"employee.salary\">\r\n      </div>       \r\n      \r\n      <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"(!empoyeeDataUpdateForm.form.valid)||(!empoyeeDataUpdateForm.form.dirty)\">Submit</button>\r\n      <button class=\"btn btn-danger\" [disabled]=\"isNewEmployee\" (click)=\"fireEmployee()\">Fire</button>\r\n      <button class=\"btn btn-basic\" (click)=\"hide()\">Cancel</button>\r\n    </form>\r\n  </div>"
+module.exports = "<div id=\"empoyeeDataUpdateFormContainer\" [style.visibility]=\"visibility\">\r\n    <h1 id=\"formTitle\">{{formTitle}}</h1>\r\n    <form id=\"empoyeeDataUpdateForm\" (ngSubmit)=\"onSubmit()\" #empoyeeDataUpdateForm=\"ngForm\">\r\n      <div class=\"form-group\">\r\n        <label for=\"birth_date\">Birth Date</label>\r\n        <input type=\"date\" class=\"form-control\" id=\"birth_date\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.birth_date\" name=\"birth_date\" [value]=\"employee.birth_date\">\r\n      </div>\r\n    \r\n      <div class=\"form-group\">\r\n        <label for=\"first_name\">First Name</label>\r\n        <input type=\"text\" class=\"form-control\" id=\"first_name\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.first_name\" name=\"first_name\" [value]=\"employee.first_name\">\r\n      </div>\r\n      \r\n      <div class=\"form-group\">\r\n        <label for=\"last_name\">Last Name</label>\r\n        <input type=\"text\" class=\"form-control\" id=\"last_name\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.last_name\" name=\"last_name\" [value]=\"employee.last_name\">\r\n      </div>\r\n    \r\n      \r\n      <label for=\"gender\">Gender</label>\r\n      <div id=\"gender\" class=\"row\">\r\n        <div class=\"form-group col-sm-6\">\r\n          <label for=\"genderM\">Male</label>\r\n          <input type=\"radio\" class=\"form-control\" id=\"genderM\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"M\" [attr.checked]=\"employee.gender==='M'\">\r\n        </div>\r\n        <div class=\"form-group col-sm-6\">\r\n          <label for=\"genderF\">Female</label>\r\n          <input type=\"radio\" class=\"form-control\" id=\"genderF\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.gender\" name=\"gender\" value=\"F\" [attr.checked]=\"employee.gender==='F'\">\r\n        </div>\r\n      </div>\r\n    \r\n      <div class=\"form-group\">\r\n        <label for=\"hire_date\">Hire Date</label>\r\n        <input type=\"date\" class=\"form-control\" id=\"hire_date\" required [disabled]=\"!isNewEmployee\" [(ngModel)]=\"employee.hire_date\" name=\"hire_date\" [value]=\"employee.hire_date\">\r\n      </div>\r\n    \r\n      <div class=\"form-group\">\r\n        <label for=\"title\">Title</label>\r\n        <input type=\"text\" class=\"form-control\" id=\"title\" required [(ngModel)]=\"employee.title\" name=\"title\" [value]=\"employee.title\">\r\n      </div> \r\n      \r\n      <div class=\"form-group\">\r\n        <label for=\"to_date\">To Date</label>\r\n        <input type=\"date\" class=\"form-control\" id=\"to_date\" required disabled [(ngModel)]=\"employee.to_date\" name=\"to_date\" [value]=\"employee.to_date\">\r\n      </div>\r\n        \r\n      <div class=\"form-group\">\r\n        <label for=\"dept_name\">Department</label>\r\n        <select id=\"dept_name\" class=\"form-control\" required [(ngModel)]=\"employee.dept_name\" name=\"dept_name\">\r\n          <option value=\"Customer Service\" [selected]=\"employee.dept_name==='Customer Service'\">Customer Service</option>\r\n          <option value=\"Development\" [selected]=\"employee.dept_name==='Development'\">Development</option>\r\n          <option value=\"Finance\" [selected]=\"employee.dept_name==='Finance'\">Finance</option>\r\n          <option value=\"Human Resources\" [selected]=\"employee.dept_name==='Human Resources'\">Human Resources</option>\r\n          <option value=\"Marketing\" [selected]=\"employee.dept_name==='Marketing'\">Marketing</option>\r\n          <option value=\"Production\" [selected]=\"employee.dept_name==='Production'\">Production</option>\r\n          <option value=\"Quality Management\" [selected]=\"employee.dept_name==='Quality Management'\">Quality Management</option>\r\n          <option value=\"Research\" [selected]=\"employee.dept_name==='Research'\">Research</option>\r\n          <option value=\"Sales\" [selected]=\"employee.dept_name==='Sales'\">Sales</option>\r\n        </select>\r\n      </div>\r\n\r\n      <div class=\"form-group\">\r\n        <label for=\"salary\">Salary</label>\r\n        <input type=\"number\" class=\"form-control\" id=\"salary\" required [(ngModel)]=\"employee.salary\" name=\"salary\" [value]=\"employee.salary\">\r\n      </div>       \r\n      \r\n      <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"(!empoyeeDataUpdateForm.form.valid)||(!empoyeeDataUpdateForm.form.dirty)\">Submit</button>\r\n      <button type=\"button\" class=\"btn btn-danger\" [disabled]=\"isNewEmployee\" (click)=\"fireEmployee()\">Fire</button>\r\n      <button type=\"button\" class=\"btn btn-basic\" (click)=\"hide()\">Cancel</button>\r\n    </form>\r\n  </div>"
 
 /***/ }),
 
@@ -646,45 +831,112 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+/**
+ * defines a form for updating an employee's data
+ *
+ * @export
+ * @class EmployeeDataUpdateFormComponent
+ * @implements {OnInit}
+ * @implements {OnChanges}
+ */
 var EmployeeDataUpdateFormComponent = (function () {
     function EmployeeDataUpdateFormComponent() {
+        /**
+         * indicates if the form is visible
+         *
+         * @type {string}
+         * @memberof EmployeeDataUpdateFormComponent
+         */
         this.visibility = "visible";
+        /**
+         * the title to be shown with the form
+         *
+         * @type {string}
+         * @memberof EmployeeDataUpdateFormComponent
+         */
         this.formTitle = "Add New Employee";
+        /**
+         * emitter for the update employee data event
+         *
+         * @type {EventEmitter<Employee>}
+         * @memberof EmployeeDataUpdateFormComponent
+         */
         this.changeSubmit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+        /**
+         * emitter for the visibility changed event
+         *
+         * @type {EventEmitter<string>}
+         * @memberof EmployeeDataUpdateFormComponent
+         */
         this.visibilityChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
+    /**
+     * update the display on it
+     *
+     * @memberof EmployeeDataUpdateFormComponent
+     */
     EmployeeDataUpdateFormComponent.prototype.ngOnInit = function () {
         this._updateDisplay();
     };
+    /**
+     * update the display when any changes occure
+     *
+     * @memberof EmployeeDataUpdateFormComponent
+     */
     EmployeeDataUpdateFormComponent.prototype.ngOnChanges = function () {
         this._updateDisplay();
     };
+    /**
+     * update the form display
+     *
+     * @private
+     * @memberof EmployeeDataUpdateFormComponent
+     */
     EmployeeDataUpdateFormComponent.prototype._updateDisplay = function () {
         this.isNewEmployee = !this.employee.emp_no;
-        console.log("isNewEmployee", this.isNewEmployee);
         if (!this.isNewEmployee) {
             this.formTitle = "Update Data Form Employee #" + this.employee.emp_no;
         }
         else {
             this.formTitle = "Provide Data For New Employee";
         }
-        console.log(this.employee);
     };
+    /**
+     * event the employee data update event
+     *
+     * @memberof EmployeeDataUpdateFormComponent
+     */
     EmployeeDataUpdateFormComponent.prototype.onSubmit = function () {
         this.changeSubmit.next(this.employee);
         this.hide();
     };
+    /**
+     * hide the form
+     *
+     * @memberof EmployeeDataUpdateFormComponent
+     */
     EmployeeDataUpdateFormComponent.prototype.hide = function () {
+        console.log("hide");
         this.visibility = "hidden";
         this.visibilityChange.next(this.visibility);
     };
+    /**
+     * show the form
+     *
+     * @memberof EmployeeDataUpdateFormComponent
+     */
     EmployeeDataUpdateFormComponent.prototype.show = function () {
         this.visibility = "visible";
         this.visibilityChange.next(this.visibility);
     };
+    /**
+     * fire an employee
+     *
+     * @memberof EmployeeDataUpdateFormComponent
+     */
     EmployeeDataUpdateFormComponent.prototype.fireEmployee = function () {
-        this.visibility = "hidden";
         alert("YOURE FIRED!");
+        // todo use service to update data
     };
     return EmployeeDataUpdateFormComponent;
 }());
@@ -706,67 +958,6 @@ EmployeeDataUpdateFormComponent = __decorate([
 ], EmployeeDataUpdateFormComponent);
 
 //# sourceMappingURL=employee-data-update-form.component.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/filterable-employee-data/filterable-employee-data.component.css":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/filterable-employee-data/filterable-employee-data.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<p>\n  filterable-employee-data works!\n</p>\n"
-
-/***/ }),
-
-/***/ "../../../../../src/app/filterable-employee-data/filterable-employee-data.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FilterableEmployeeDataComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var FilterableEmployeeDataComponent = (function () {
-    function FilterableEmployeeDataComponent() {
-    }
-    FilterableEmployeeDataComponent.prototype.ngOnInit = function () {
-    };
-    return FilterableEmployeeDataComponent;
-}());
-FilterableEmployeeDataComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'app-filterable-employee-data',
-        template: __webpack_require__("../../../../../src/app/filterable-employee-data/filterable-employee-data.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/filterable-employee-data/filterable-employee-data.component.css")]
-    }),
-    __metadata("design:paramtypes", [])
-], FilterableEmployeeDataComponent);
-
-//# sourceMappingURL=filterable-employee-data.component.js.map
 
 /***/ }),
 
@@ -811,6 +1002,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+/**
+ * define a simple spinner to indicate that the app is loading data
+ *
+ * @export
+ * @class LoadingIndicatorComponent
+ */
 var LoadingIndicatorComponent = (function () {
     function LoadingIndicatorComponent() {
     }
@@ -856,27 +1053,77 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+/**
+ * defines a service for sending requests to query and update employee data
+ *
+ * @export
+ * @class DatabaseService
+ */
 var DatabaseService = (function () {
+    /**
+     * Creates an instance of DatabaseService.
+     * @param {Http} http
+     * @memberof DatabaseService
+     */
     function DatabaseService(http) {
         this.http = http;
+        /**
+         * url to access the table meta data
+         *
+         * @private
+         * @type {string}
+         * @memberof DatabaseService
+         */
         this._tableNamesUrl = "databaseData";
+        /**
+         * url to access the table data
+         *
+         * @private
+         * @type {string}
+         * @memberof DatabaseService
+         */
         this._tableDataUrl = "tableData";
+        /**
+         * url to access the detailed employee data
+         *
+         * @private
+         * @type {string}
+         * @memberof DatabaseService
+         */
         this._FullEmployeeDataUrl = "fullEmployeeData";
     }
+    /**
+     * get the names of the tables in the database
+     *
+     * @returns {Promise<string[]>} promise to be resolved when the response to the request is received
+     * @memberof DatabaseService
+     */
     DatabaseService.prototype.getTableNames = function () {
-        console.log('send get');
         return this.http.get(this._tableNamesUrl)
             .toPromise()
             .then(function (resp) { return resp.json(); });
     };
+    /**
+     * get raw data stored in a table
+     *
+     * @param {string} tableName the name of the table to access
+     * @returns {Promise<any>} promise to be resolved when the response to the request is received
+     * @memberof DatabaseService
+     */
     DatabaseService.prototype.getTableData = function (tableName) {
         var search = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* URLSearchParams */]();
         search.append("tableName", tableName);
-        console.log('send get');
         return this.http.get(this._tableDataUrl, { search: search })
             .toPromise()
             .then(function (resp) { return resp.json(); });
     };
+    /**
+     * get the detailed employee data
+     *
+     * @param {Filter} filter defines what data to select
+     * @returns {Promise<String[]>} promise to be resolved when the response to the request is received
+     * @memberof DatabaseService
+     */
     DatabaseService.prototype.getFullEmployeeData = function (filter) {
         var search = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* URLSearchParams */]();
         search.append("genderM", filter.genderM.toString());
@@ -886,29 +1133,37 @@ var DatabaseService = (function () {
             .toPromise()
             .then(function (resp) { return resp.json(); });
     };
+    /**
+     * update an existing employees data
+     *
+     * @param {string} emp_no the employee id number
+     * @param {*} updates updates to apply to the employee's data
+     * @returns {Promise<any>} promise to be resolved when the response to the request is received
+     * @memberof DatabaseService
+     */
     DatabaseService.prototype.updateEmployee = function (emp_no, updates) {
-        console.log(arguments);
         var url = this._FullEmployeeDataUrl;
         url += "?emp_no=" + emp_no;
         var attrs = [];
         var values = [];
         var search = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* URLSearchParams */]();
-        // search.append("emp_no", emp_no)
         for (var field in updates) {
-            // search.append(field, updates[field]);
-            // url+=`&${field}=${updates[field]}`;
             attrs.push(field);
             values.push(updates[field]);
         }
         url += "&attrs=" + attrs.join(",") + "&values=" + values.join(",");
-        // console.log(search);
-        // return this.http.put(this._FullEmployeeDataUrl, search)
         return this.http.put(url, search)
             .toPromise()
             .then(function (resp) { return resp.json(); });
     };
+    /**
+     * add a new employee
+     *
+     * @param {Employee} employee the data of the new employee
+     * @returns {Promise<any>} promise to be resolved when the response to the request is received
+     * @memberof DatabaseService
+     */
     DatabaseService.prototype.addEmployee = function (employee) {
-        console.log("add employee ", employee);
         var search = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* URLSearchParams */]();
         search.append("birth_date", employee.birth_date);
         search.append("first_name", employee.first_name);
@@ -955,7 +1210,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/tables-tab/tables-tab.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "  <div class=\"centeredContents\" [style.display]=\"display\">\n      <dropdown title=\"Select Table\" items={{tableNamesString}} (selection)=\"showTable($event)\"></dropdown>\n      <app-data-table [headers]=\"headers\" [rowData]=\"rowData\"></app-data-table>\n  </div>"
+module.exports = "  <div class=\"centeredContents\" [style.display]=\"display\">\n      <dropdown title=\"Select a Table\" [items]=\"tableNames\" (selection)=\"showTable($event)\"></dropdown>\n      <app-data-table [headers]=\"headers\" [rowData]=\"rowData\"></app-data-table>\n  </div>"
 
 /***/ }),
 
@@ -977,27 +1232,58 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+/**
+ * defines the tab displaying the raw table data
+ *
+ * @export
+ * @class TablesTabComponent
+ * @implements {OnInit}
+ */
 var TablesTabComponent = (function () {
+    /**
+     * Creates an instance of TablesTabComponent.
+     * @param {DatabaseService} databaseService
+     * @memberof TablesTabComponent
+     */
     function TablesTabComponent(databaseService) {
         this.databaseService = databaseService;
-        this.tableNamesString = 'nothing';
+        /**
+         * names of the tables stored in the database
+         *
+         * @type {string[]}
+         * @memberof TablesTabComponent
+         */
+        this.tableNames = [];
     }
+    /**
+     * get the names of the tables in the database on init
+     *
+     * @memberof TablesTabComponent
+     */
     TablesTabComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.databaseService.getTableNames()
             .then(function (names) {
-            _this.tableNamesString = names.join(",");
+            _this.tableNames = names;
         })
-            .catch(function (e) { return console.log(e); });
+            .catch(function (e) { return _this._handleError(e); });
     };
+    /**
+     * show the table data
+     *
+     * @param {string} tableName
+     * @memberof TablesTabComponent
+     */
     TablesTabComponent.prototype.showTable = function (tableName) {
         var _this = this;
         this.databaseService.getTableData(tableName)
             .then(function (data) {
             _this.headers = data.columnNames;
             _this.rowData = data.data;
-            console.log(data);
         });
+    };
+    TablesTabComponent.prototype._handleError = function (e) {
+        alert("An Errr occured, please reload: " + e.message);
     };
     return TablesTabComponent;
 }());
@@ -1057,10 +1343,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+/**
+ * defines a tooltip to be shown on the page for instructional purposes
+ *
+ * @export
+ * @class TooltipComponent
+ * @implements {OnInit}
+ */
 var TooltipComponent = (function () {
     function TooltipComponent() {
+        /**
+         * event emitter for the exit tooltip event
+         *
+         * @type {EventEmitter<null>}
+         * @memberof TooltipComponent
+         */
         this.onExit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
+    /**
+     * ensure all properties have valid valued
+     *
+     * @memberof TooltipComponent
+     */
     TooltipComponent.prototype.ngOnInit = function () {
         this.width = this.width || "";
         this.left = this.left || null;
@@ -1071,6 +1375,11 @@ var TooltipComponent = (function () {
         this.visibility = this.visibility || "visible";
         this.arrowLocation = this.arrowLocation || "bottom";
     };
+    /**
+     * hide the tooltip and emit the exit event
+     *
+     * @memberof TooltipComponent
+     */
     TooltipComponent.prototype.exit = function () {
         this.visibility = "hidden";
         this.onExit.next();
@@ -1103,72 +1412,12 @@ TooltipComponent = __decorate([
 
 /***/ }),
 
-/***/ "../../../../../src/app/update-tab/update-tab.component.css":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/update-tab/update-tab.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"centeredContents\">\n  <dropdown title=\"Select Update\" items=\"a,b   ,c , junk\"></dropdown>\n</div>"
-
-/***/ }),
-
-/***/ "../../../../../src/app/update-tab/update-tab.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UpdateTabComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var UpdateTabComponent = (function () {
-    function UpdateTabComponent() {
-    }
-    UpdateTabComponent.prototype.ngOnInit = function () {
-    };
-    return UpdateTabComponent;
-}());
-UpdateTabComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'app-update-tab',
-        template: __webpack_require__("../../../../../src/app/update-tab/update-tab.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/update-tab/update-tab.component.css")]
-    }),
-    __metadata("design:paramtypes", [])
-], UpdateTabComponent);
-
-//# sourceMappingURL=update-tab.component.js.map
-
-/***/ }),
-
 /***/ "../../../../../src/app/utils/Employee.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Employee; });
+// defines a set of detailed data for an employee
 var Employee = (function () {
     function Employee(emp_no, birth_date, first_name, last_name, gender, hire_date, title, to_date, dept_name, salary) {
         this.emp_no = emp_no;
@@ -1195,6 +1444,7 @@ var Employee = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Filter; });
+// defines a filter for employee data
 var Filter = (function () {
     function Filter(genderM, genderF, limit) {
         this.genderM = genderM;
@@ -1213,13 +1463,26 @@ var Filter = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SingleActivationManager; });
+/**
+ * manager of switchable (on/off) states allowing only a single state to be active (on) at a time
+ *
+ * @export
+ * @class SingleActivationManager
+ */
 var SingleActivationManager = (function () {
+    /**
+     * Creates an instance of SingleActivationManager.
+     * @param {string[]} switchNames
+     * @param {string} onValue
+     * @param {string} offValue
+     * @memberof SingleActivationManager
+     */
     function SingleActivationManager(switchNames, onValue, offValue) {
         var _this = this;
         this._switchNames = switchNames;
-        switchNames;
         this._onValue = onValue || true;
         this._offValue = offValue || false;
+        // defines setters and getters for the switches such that activating on switch deactivates the others
         this._switchNames.forEach(function (name) {
             Object.defineProperty(_this, name, {
                 get: function () {
@@ -1236,12 +1499,31 @@ var SingleActivationManager = (function () {
             });
         });
     }
+    /**
+     * get the state of a switch
+     *
+     * @private
+     * @param {string} switchName the name of the switch to check
+     * @returns {string} the state of the switch
+     * @memberof SingleActivationManager
+     */
     SingleActivationManager.prototype._getState = function (switchName) {
         return (switchName === this._activeSwitchName) ? this._onValue : this._offValue;
     };
+    /**
+     * deactivate all switches
+     *
+     * @memberof SingleActivationManager
+     */
     SingleActivationManager.prototype.deactivateAll = function () {
         this._activeSwitchName = null;
     };
+    /**
+     * activate a switch
+     *
+     * @param {string} switchName the name of the switch
+     * @memberof SingleActivationManager
+     */
     SingleActivationManager.prototype.activate = function (switchName) {
         if (this._isSwitchName(switchName)) {
             this[switchName] = this._onValue;
@@ -1250,6 +1532,14 @@ var SingleActivationManager = (function () {
             throw new Error("Invalid overlayName \"" + switchName + "\", valid names are " + this._switchNames.toString());
         }
     };
+    /**
+     * indicates if a string is a valid swich name
+     *
+     * @private
+     * @param {string} switchName the name to check
+     * @returns {boolean} indicates if the string is a valid name
+     * @memberof SingleActivationManager
+     */
     SingleActivationManager.prototype._isSwitchName = function (switchName) {
         return this._switchNames.reduce(function (any, name) { return (any || name === switchName); }, false);
     };

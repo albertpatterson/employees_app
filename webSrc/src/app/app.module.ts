@@ -6,13 +6,11 @@ import { FormsModule }   from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { TablesTabComponent } from './tables-tab/tables-tab.component';
-import { UpdateTabComponent } from './update-tab/update-tab.component';
 import { EmployeeDataTabComponent } from './employee-data-tab/employee-data-tab.component';
 import { HttpModule } from '@angular/http';
 
 import { DatabaseService } from "./services/database.service";
 import { DataTableComponent } from './data-table/data-table.component';
-import { FilterableEmployeeDataComponent } from './filterable-employee-data/filterable-employee-data.component';
 import { EmployeeDataUpdateFormComponent } from './employee-data-update-form/employee-data-update-form.component';
 import { EmployeeDataFilterFormComponent } from './employee-data-filter-form/employee-data-filter-form.component';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
@@ -23,10 +21,8 @@ import { TooltipComponent } from './tooltip/tooltip.component';
     AppComponent,
     DropdownComponent,
     TablesTabComponent,
-    UpdateTabComponent,
     EmployeeDataTabComponent,
     DataTableComponent,
-    FilterableEmployeeDataComponent,
     EmployeeDataUpdateFormComponent,
     EmployeeDataFilterFormComponent,
     LoadingIndicatorComponent,
