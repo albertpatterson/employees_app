@@ -124,7 +124,6 @@ export class EmployeeDataUpdateFormComponent implements OnInit, OnChanges {
    * @memberof EmployeeDataUpdateFormComponent
    */
   hide(){
-    console.log("hide")
     this.visibility="hidden";
     this.visibilityChange.next(this.visibility);    
   }

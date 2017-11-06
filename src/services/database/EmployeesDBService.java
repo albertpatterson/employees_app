@@ -60,7 +60,7 @@ public class EmployeesDBService {
     /**
      * SQL query to select the latest titles of employees
      */
-    private static final String SELECT_LATEST_TITLE =   "SELECT TITLES.emp_no, latest_emp_date.from_date, latest_emp_date.to_date, titles.title "
+    private static final String SELECT_LATEST_TITLE =   "SELECT titles.emp_no, latest_emp_date.from_date, latest_emp_date.to_date, titles.title "
                                                     +   "FROM titles "
                                                     +   "INNER JOIN (" + SELECT_LATEST_EMP_DATE + ") AS latest_emp_date "
                                                     +   "ON titles.emp_no = latest_emp_date.emp_no AND titles.to_date = latest_emp_date.to_date ";
@@ -138,13 +138,13 @@ public class EmployeesDBService {
      * destroy the service
      */
     public static void destroy(){
-        if(conn!=null){
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+//        if(conn!=null){
+//            try {
+//                conn.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     /**
@@ -154,16 +154,19 @@ public class EmployeesDBService {
      */
     public ArrayList<String> getTableNames() throws SQLException {
         ArrayList<String> tableNames = new ArrayList<>();
-
         DatabaseMetaData metaData = conn.getMetaData();
-        ResultSet rs = metaData.getTables(null, null, null, new String[]{"TABLE"});
-        while(rs.next()){
-            tableNames.add(rs.getString("TABLE_NAME"));
+
+        try(
+            ResultSet rs = metaData.getTables(null, null, null, new String[]{"TABLE"});
+        ){
+            while(rs.next()){
+                tableNames.add(rs.getString("TABLE_NAME"));
+            }
+            return tableNames;
+
+        }catch (SQLException e){
+            throw e;
         }
-
-
-        rs.close();
-        return tableNames;
     }
 
     /**

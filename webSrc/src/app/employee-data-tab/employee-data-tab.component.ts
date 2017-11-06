@@ -285,6 +285,7 @@ export class EmployeeDataTabComponent implements OnInit{
    * @memberof EmployeeDataTabComponent
    */
   addEmployee(){
+    this.showTableTip = (this.showTableTip===null) ? null : false;
     this.showTips = false;
     this._setEmployee(null);
     this.overlayVisibilityManager.activate("updateForm");

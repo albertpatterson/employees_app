@@ -112,7 +112,7 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            out.write(e.getStackTrace().toString());
+            out.write(e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
