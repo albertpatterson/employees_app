@@ -9,23 +9,13 @@ An application for exploring and manipulating the data contained in the [Employe
     - [x] employees: information about each employee
     - [x] salaries: salaries of employees
     - [x] titles: titles of employees
-- [ ] update data
-    - [ ] add department
-    - [ ] remove department
-    - [ ] rename department
-    - [ ] add manager
-    - [ ] remove manager
-    - [ ] add employee
-    - [ ] remove employee        
-    - [ ] update employee department 
-    - [ ] update employee title 
-    - [ ] update employee salary 
-- [ ] custom queries
-    - [ ] Employee name, Current department, Title, Current salary and Manager
-    - [ ] Employee salary, title, and department history
-    - [ ] Employee maximum salary, curent salary
-    - [ ] Employee length of service
-    - [ ] Current and former Employees 
+- [x] Filter data fetched from database
+- [x] update employee data
+    - [x] add employee
+    - [] fire employee        
+    - [x] update employee department 
+    - [x] update employee title 
+    - [x] update employee salary 
     
 # Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
