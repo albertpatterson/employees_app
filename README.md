@@ -12,7 +12,7 @@ An application for exploring and manipulating the data contained in the [Employe
 - [x] Filter data fetched from database
 - [x] update employee data
     - [x] add employee
-    - [] fire employee        
+    - [ ] fire employee        
     - [x] update employee department 
     - [x] update employee title 
     - [x] update employee salary 
