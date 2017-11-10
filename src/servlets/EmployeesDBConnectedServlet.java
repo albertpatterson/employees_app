@@ -21,9 +21,10 @@ public class EmployeesDBConnectedServlet extends HttpServlet {
     /**
      * service capable of interacting with the employees database
      */
-    public EmployeesDBService employeesDBService = new EmployeesDBService();
+    public EmployeesDBService employeesDBService;
 
     public void init(){
+        employeesDBService = new EmployeesDBService();
         EmployeesDBService.init();
     }
 

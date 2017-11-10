@@ -26,6 +26,8 @@ public class EmployeesDatabaseDataServlet extends EmployeesDBConnectedServlet {
         PrintWriter out = response.getWriter();
 
         try {
+
+
             ArrayList<String> tableNames = employeesDBService.getTableNames();
 
             JsonWriter jsonWriter = Json.createWriter(out);
