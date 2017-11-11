@@ -12,6 +12,8 @@ import java.sql.SQLException;
 
 import utils.JsonConvertible;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 /**
  * Created by apatters on 10/15/2017.
  */
@@ -35,7 +37,7 @@ public class EmployeesTableDataServlet extends EmployeesDBConnectedServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.write(e.getStackTrace().toString());
+            out.write(ExceptionUtils.getStackTrace(e));
         }
     }
 }

@@ -29,6 +29,7 @@ public class EmployeesDBConnectedServlet extends HttpServlet {
     }
 
     public void destroy(){
-        EmployeesDBService.destroy();
+        employeesDBService = null;
+        EmployeesDBService.close();
     }
 }

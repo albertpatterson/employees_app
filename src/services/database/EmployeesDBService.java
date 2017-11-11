@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.apache.tomcat.jdbc.pool.PoolProperties;
+
+import com.mysql.jdbc.Driver;
+
 /**
  * Service providing access to the employees database
  */
@@ -32,7 +37,7 @@ public class EmployeesDBService {
     /**
      * connection to the database
      */
-    public static Connection conn = null;
+    private static DataSource datasource = null;
 
     /**
      * SQL query to select all data from departments table
@@ -124,27 +129,36 @@ public class EmployeesDBService {
      * initialize the service
      */
     public static void init(){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(DATABASEURL, USERNANME, PASSWORD);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        PoolProperties p = new PoolProperties();
+        p.setUrl("jdbc:mysql://localhost:3306/employees");
+        p.setDriverClassName("com.mysql.jdbc.Driver");
+        p.setUsername(USERNANME);
+        p.setPassword(PASSWORD);
+        p.setJmxEnabled(true);
+        p.setTestWhileIdle(false);
+        p.setTestOnBorrow(true);
+        p.setValidationQuery("SELECT 1");
+        p.setTestOnReturn(false);
+        p.setValidationInterval(30000);
+        p.setTimeBetweenEvictionRunsMillis(30000);
+        p.setMaxActive(100);
+        p.setInitialSize(10);
+        p.setMaxWait(10000);
+        p.setRemoveAbandonedTimeout(60);
+        p.setMinEvictableIdleTimeMillis(30000);
+        p.setMinIdle(10);
+        p.setLogAbandoned(true);
+        p.setRemoveAbandoned(true);
+        p.setJdbcInterceptors(
+            "org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"+
+            "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
+        datasource = new DataSource();
+        datasource.setPoolProperties(p);
     }
 
-    /**
-     * destroy the service
-     */
-    public static void destroy(){
-//        if(conn!=null){
-//            try {
-//                conn.close();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        }
+    public static void close(){
+        datasource.close();
     }
 
     /**
@@ -154,10 +168,10 @@ public class EmployeesDBService {
      */
     public ArrayList<String> getTableNames() throws SQLException {
         ArrayList<String> tableNames = new ArrayList<>();
-        DatabaseMetaData metaData = conn.getMetaData();
 
         try(
-            ResultSet rs = metaData.getTables(null, null, null, new String[]{"TABLE"});
+                Connection conn = datasource.getConnection();
+                ResultSet rs = conn.getMetaData().getTables(null, null, null, new String[]{"TABLE"});
         ){
             while(rs.next()){
                 tableNames.add(rs.getString("TABLE_NAME"));
@@ -190,8 +204,9 @@ public class EmployeesDBService {
 
         String query = String.format("SELECT * FROM %s LIMIT %d;", tableName, limit);
 
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (   Connection conn = datasource.getConnection();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
 
             String[] colNames = getColumnNames(rs);
             String[][] data = getData(rs, colNames);
@@ -224,7 +239,8 @@ public class EmployeesDBService {
 
         String query = makeSelectFullEmployeeDataQueryString(limit, genderPred);
 
-        try(    Statement stmt = conn.createStatement();
+        try(    Connection conn = datasource.getConnection();
+                Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query)){
 
             String[] colNames = fullEmployeeDataFieldNames;
@@ -272,7 +288,8 @@ public class EmployeesDBService {
 
         String query = SELECT_FULL_EMPLOYEE_DATA + " WHERE employees.emp_no="+emp_no;
 
-        try(    Statement stmt = conn.createStatement();
+        try(    Connection conn = datasource.getConnection();
+                Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query)){
 
             rs.next();
@@ -304,6 +321,7 @@ public class EmployeesDBService {
 
         String limitClause = (limit==null) ? "" : String.format("LIMIT %d ", Integer.parseInt(limit));
         String genderClause = (gClause==null) ? "" : String.format("WHERE gender IN %s ", gClause);
+        String orderClause = "ORDER BY employees.emp_no ";
 
         String query =  "SELECT employees.*, latest_title.title, latest_dept.to_date, latest_dept.dept_name, latest_salary.salary "
                     +   "FROM employees "
@@ -314,6 +332,7 @@ public class EmployeesDBService {
                     +   "INNER JOIN ("+SELECT_LATEST_SALARY+") AS latest_salary "
                     +   "ON employees.emp_no = latest_salary.emp_no "
                     +   genderClause
+                    +   orderClause
                     +   limitClause;
 
         return query;
@@ -335,28 +354,34 @@ public class EmployeesDBService {
     public EmployeeData addEmployee(String birth_date, String first_name, String last_name, String gender,
                             String hire_date, String title, String dept_name, String salary) throws Exception {
 
-        int emp_no;
-        conn.setAutoCommit(false);
-        Savepoint initial = conn.setSavepoint();
+        try(Connection conn = datasource.getConnection()){
 
-        try{
-            emp_no = insertEmployee(birth_date, first_name, last_name, gender, hire_date);
-            insertIntoHistoricalTable("titles", emp_no,title);
-            insertIntoHistoricalTable("dept_emp",emp_no, dept_name);
-            insertIntoHistoricalTable("salaries",emp_no, salary);
-            conn.commit();
+            int emp_no;
+            conn.setAutoCommit(false);
+            Savepoint initial = conn.setSavepoint();
 
-        }catch(Exception e) {
-            if (conn != null) {
-                conn.rollback(initial);
+            try{
+                emp_no = insertEmployee(birth_date, first_name, last_name, gender, hire_date);
+                insertIntoHistoricalTable("titles", emp_no,title);
+                insertIntoHistoricalTable("dept_emp",emp_no, dept_name);
+                insertIntoHistoricalTable("salaries",emp_no, salary);
+                conn.commit();
+
+            }catch(Exception e) {
+                if (conn != null) {
+                    conn.rollback(initial);
+                }
+                throw e;
+            }finally {
+                conn.setAutoCommit(true);
             }
+
+            return getSingleEmployeeFullData(emp_no);
+
+        }catch (Exception e){
             e.printStackTrace();
             throw e;
-        }finally {
-            conn.setAutoCommit(true);
         }
-
-        return getSingleEmployeeFullData(emp_no);
     }
 
     /**
@@ -368,7 +393,8 @@ public class EmployeesDBService {
         String query    =   "SELECT MAX(emp_no) AS maxEmp_no "
                         +   "FROM employees ";
 
-        try(    Statement stmt = conn.createStatement();
+        try(    Connection conn = datasource.getConnection();
+                Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query);){
             rs.next();
             return rs.getInt("maxEmp_no");
@@ -403,7 +429,8 @@ public class EmployeesDBService {
         String update   =   "INSERT INTO employees "
                         +   "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try( PreparedStatement stmt = conn.prepareStatement(update)){
+        try( Connection conn = datasource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(update);){
 
             stmt.setInt(1, emp_no);
             stmt.setDate(2, birth_date_sql);
@@ -428,43 +455,48 @@ public class EmployeesDBService {
      */
     public EmployeeData updateEmployee(int emp_no, HashMap<String, String> updates) throws Exception {
 
-        conn.setAutoCommit(false);
-        Savepoint initial = conn.setSavepoint();
+        try(Connection conn = datasource.getConnection();){
+            conn.setAutoCommit(false);
+            Savepoint initial = conn.setSavepoint();
 
-        try {
-            for (Map.Entry<String, String> update : updates.entrySet()) {
-                String key = update.getKey();
-                String value = update.getValue();
-                switch (key) {
-                    case "title":
-                        String newTitle = value;
-                        updateTitle(emp_no, newTitle);
-                        break;
+            try {
+                for (Map.Entry<String, String> update : updates.entrySet()) {
+                    String key = update.getKey();
+                    String value = update.getValue();
+                    switch (key) {
+                        case "title":
+                            String newTitle = value;
+                            updateTitle(emp_no, newTitle);
+                            break;
 
-                    case "salary":
-                        updateSalary(emp_no, value);
-                        break;
+                        case "salary":
+                            updateSalary(emp_no, value);
+                            break;
 
-                    case "dept_name":
-                        String newDepartment = value;
-                        updateDepartment(emp_no, newDepartment);
-                        break;
-                    default:
-                        throw new Exception("Invalid attribute " + key);
+                        case "dept_name":
+                            String newDepartment = value;
+                            updateDepartment(emp_no, newDepartment);
+                            break;
+                        default:
+                            throw new Exception("Invalid attribute " + key);
+                    }
                 }
+                conn.commit();
+            } catch (Exception e) {
+                if(conn!=null){
+                    conn.rollback(initial);
+                }
+                e.printStackTrace();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
             }
-            conn.commit();
-        } catch (Exception e) {
-            if(conn!=null){
-                conn.rollback(initial);
-            }
+
+            return getSingleEmployeeFullData(emp_no);
+        }catch (Exception e){
             e.printStackTrace();
             throw e;
-        } finally {
-            conn.setAutoCommit(true);
         }
-
-        return getSingleEmployeeFullData(emp_no);
     }
 
     /**
@@ -521,7 +553,8 @@ public class EmployeesDBService {
                         +   "SET to_date=? "
                         +   "WHERE emp_no=? AND to_date=?";
 
-        try(PreparedStatement stmt = conn.prepareStatement(update)){
+        try(Connection conn = datasource.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(update)){
             Date todaySql = getTodaySQL();
             stmt.setDate(1, todaySql);
             stmt.setInt(2, emp_no);
@@ -555,7 +588,8 @@ public class EmployeesDBService {
         String update   =   "INSERT INTO " + tableName + " "
                         +   "VALUES (?, ?, ?, ?) ";
 
-        try(PreparedStatement stmt = conn.prepareStatement(update)){
+        try(Connection conn = datasource.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(update)){
             stmt.setInt(1, emp_no);
             Date todaySql = getTodaySQL();
             stmt.setDate(3, todaySql);
@@ -592,7 +626,7 @@ public class EmployeesDBService {
      */
     private HashMap<String, String> getDepartmentMap() throws SQLException {
 
-        try(
+        try(Connection conn = datasource.getConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(SELECT_DEPARTMENT_DATA);
         ){

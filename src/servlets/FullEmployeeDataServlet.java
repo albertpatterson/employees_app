@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  * Servlet providing access to detailed employee data
@@ -46,7 +47,7 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
             jsonWriter.writeObject(employeeData.getJson());
         } catch (Exception e) {
             e.printStackTrace();
-            out.print(e.getStackTrace().toString());
+            out.print(ExceptionUtils.getStackTrace(e));
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
@@ -83,7 +84,7 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
                 jsonWriter.writeObject(employeeData.getJson());
             } catch (Exception e) {
                 out = response.getWriter();
-                out.write(e.getStackTrace().toString());
+                out.write(ExceptionUtils.getStackTrace(e));
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         }
@@ -112,7 +113,7 @@ public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            out.write(e.getMessage());
+            out.write(ExceptionUtils.getStackTrace(e));
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 
 /**
@@ -45,7 +46,7 @@ public class EmployeesDatabaseDataServlet extends EmployeesDBConnectedServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.write(e.getStackTrace().toString());
+            out.write(ExceptionUtils.getMessage(e));
         }
     }
 }
