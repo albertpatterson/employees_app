@@ -1,4 +1,4 @@
-package servlets;
+package com.manager_app.servlets;
 
 
 import javax.json.*;
@@ -10,16 +10,23 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-import utils.JsonConvertible;
+import com.manager_app.utils.JsonConvertible;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
- * Created by apatters on 10/15/2017.
+ * service requests for the raw data contained in a table from the employees database
  */
 @WebServlet(name = "EmployeesTableDataServlet")
 public class EmployeesTableDataServlet extends EmployeesDBConnectedServlet {
 
+    /**
+     * get the raw data contained in a table from the employees database
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String tableName = request.getParameter("tableName");

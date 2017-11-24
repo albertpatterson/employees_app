@@ -1,6 +1,6 @@
-package services.database;
+package com.manager_app.services.database;
 
-import utils.StringifiedTableData;
+import com.manager_app.utils.StringifiedTableData;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -11,8 +11,6 @@ import java.util.Map;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
-
-import com.mysql.jdbc.Driver;
 
 /**
  * Service providing access to the employees database
@@ -157,6 +155,9 @@ public class EmployeesDBService {
         datasource.setPoolProperties(p);
     }
 
+    /**
+     * close the datasource
+     */
     public static void close(){
         datasource.close();
     }

@@ -1,19 +1,12 @@
-package servlets;
+package com.manager_app.servlets;
 
-import services.database.EmployeesDBService;
+import com.manager_app.services.database.EmployeesDBService;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 /**
- * a servlet capable of interacting with the employees databse via the JDBC
+ * a servlet capable of interacting with the employees database via the JDBC
  */
 @WebServlet(name = "EmployeesDBConnectedServlet")
 public class EmployeesDBConnectedServlet extends HttpServlet {
@@ -23,11 +16,17 @@ public class EmployeesDBConnectedServlet extends HttpServlet {
      */
     public EmployeesDBService employeesDBService;
 
+    /**
+     * initialize the database service
+     */
     public void init(){
         employeesDBService = new EmployeesDBService();
         EmployeesDBService.init();
     }
 
+    /**
+     * close the database service
+     */
     public void destroy(){
         employeesDBService = null;
         EmployeesDBService.close();

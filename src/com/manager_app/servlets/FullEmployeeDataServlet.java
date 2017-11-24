@@ -1,7 +1,7 @@
-package servlets;
+package com.manager_app.servlets;
 
-import services.database.EmployeeData;
-import utils.StringifiedTableData;
+import com.manager_app.services.database.EmployeeData;
+import com.manager_app.utils.StringifiedTableData;
 
 import javax.json.Json;
 import javax.json.JsonStructure;

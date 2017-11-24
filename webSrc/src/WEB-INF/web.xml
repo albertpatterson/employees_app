@@ -16,7 +16,7 @@
 
     <servlet>
         <servlet-name>databaseData</servlet-name>
-        <servlet-class>servlets.EmployeesDatabaseDataServlet</servlet-class>
+        <servlet-class>com.manager_app.servlets.EmployeesDatabaseDataServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -26,7 +26,7 @@
 
     <servlet>
         <servlet-name>tableData</servlet-name>
-        <servlet-class>servlets.EmployeesTableDataServlet</servlet-class>
+        <servlet-class>com.manager_app.servlets.EmployeesTableDataServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -36,7 +36,7 @@
 
     <servlet>
         <servlet-name>fullEmployeeData</servlet-name>
-        <servlet-class>servlets.FullEmployeeDataServlet</servlet-class>
+        <servlet-class>com.manager_app.servlets.FullEmployeeDataServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

@@ -1,4 +1,4 @@
-package utils;
+package com.manager_app.utils;
 
 import javax.json.JsonValue;
 

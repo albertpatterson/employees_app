@@ -1,9 +1,6 @@
-package utils;
-
-import utils.JsonConvertible;
+package com.manager_app.utils;
 
 import javax.json.*;
-import java.util.ArrayList;
 
 /**
  * represents data stored in a table
