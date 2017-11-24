@@ -16,6 +16,7 @@ out/production
 
 # IDEs and editors
 /.idea
+.iml
 .project
 .classpath
 .c9/
