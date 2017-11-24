@@ -25,7 +25,6 @@ These instructions will get you a copy of the project up and running on your loc
     1. alternatively, consider using [XAMPP](https://www.apachefriends.org/index.html), which provides both
     
 ## Installation
-1. Clone this repository
-
-## Deployment
-1. Place the included war file into %CATALINA_HOME%
+1. Download the [MySQL Connector](https://www.mysql.com/products/connector/) and place the .jar in %CATALINA_HOME%/lib
+2. Place out/artifacts/manager_app_war/manager_app.war into %CATALINA_HOME%/webapps
+3. Restart Tomcat. 
