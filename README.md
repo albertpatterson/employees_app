@@ -1,4 +1,4 @@
-# employees_app
+# manager_app
 An application for exploring and manipulating the data contained in the [Employees Sample SQL Database](https://dev.mysql.com/doc/employee/en) using the [MySQL Connector JDBC driver](https://dev.mysql.com/downloads/connector/j/5.1.html). 
 
 # Features
