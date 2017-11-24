@@ -26,5 +26,6 @@ These instructions will get you a copy of the project up and running on your loc
     
 ## Installation
 1. Download the [MySQL Connector](https://www.mysql.com/products/connector/) and place the .jar in %CATALINA_HOME%/lib
-2. Place out/artifacts/manager_app_war/manager_app.war into %CATALINA_HOME%/webapps
-3. Restart Tomcat. 
+2. Clone this repository
+3. Place out/artifacts/manager_app_war/manager_app.war into %CATALINA_HOME%/webapps
+4. Restart Tomcat. 
