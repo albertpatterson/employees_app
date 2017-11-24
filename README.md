@@ -25,7 +25,8 @@ These instructions will get you a copy of the project up and running on your loc
     1. alternatively, consider using [XAMPP](https://www.apachefriends.org/index.html), which provides both
     
 ## Installation
-1. Download the [MySQL Connector](https://www.mysql.com/products/connector/) and place the .jar in %CATALINA_HOME%/lib
-2. Clone this repository
-3. Place out/artifacts/manager_app_war/manager_app.war into %CATALINA_HOME%/webapps
-4. Restart Tomcat. 
+1. import the [Employees Sample SQL Database](https://dev.mysql.com/doc/employee/en)
+2. Download the [MySQL Connector](https://www.mysql.com/products/connector/) and place the .jar in %CATALINA_HOME%/lib
+3. Clone this repository
+4. Place out/artifacts/manager_app_war/manager_app.war into %CATALINA_HOME%/webapps
+5. Restart Tomcat. 
