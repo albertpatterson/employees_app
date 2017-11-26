@@ -1,4 +1,4 @@
-package com.manager_app.services.database;
+package com.manager_app.utils;
 
 import com.manager_app.utils.JsonConvertible;
 
