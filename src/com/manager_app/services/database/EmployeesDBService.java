@@ -1,5 +1,6 @@
 package com.manager_app.services.database;
 
+import com.manager_app.utils.EmployeeData;
 import com.manager_app.utils.StringifiedTableData;
 
 import java.sql.*;

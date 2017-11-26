@@ -2,13 +2,11 @@ package com.manager_app.servlets;
 
 import com.manager_app.services.database.EmployeesDBService;
 
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
 /**
  * a servlet capable of interacting with the employees database via the JDBC
  */
-@WebServlet(name = "EmployeesDBConnectedServlet")
 public class EmployeesDBConnectedServlet extends HttpServlet {
 
     /**

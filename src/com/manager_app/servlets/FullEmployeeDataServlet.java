@@ -1,13 +1,12 @@
 package com.manager_app.servlets;
 
-import com.manager_app.services.database.EmployeeData;
+import com.manager_app.utils.EmployeeData;
 import com.manager_app.utils.StringifiedTableData;
 
 import javax.json.Json;
 import javax.json.JsonStructure;
 import javax.json.JsonWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,7 +19,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 /**
  * Servlet providing access to detailed employee data
  */
-@WebServlet(name = "FilterableDataServlet")
 public class FullEmployeeDataServlet extends EmployeesDBConnectedServlet {
 
     /**
