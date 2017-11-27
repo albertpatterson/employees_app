@@ -17,6 +17,11 @@ An application for exploring and manipulating the data contained in the [Employe
     - [x] update employee title 
     - [x] update employee salary 
     
+# TODO
+- [ ] add capability to fire an employee
+- [ ] add tests for front and back ends
+- [ ] expand filter options
+
 # Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
@@ -26,7 +31,8 @@ These instructions will get you a copy of the project up and running on your loc
     
 ## Installation
 1. import the [Employees Sample SQL Database](https://dev.mysql.com/doc/employee/en)
-2. Download the [MySQL Connector](https://www.mysql.com/products/connector/) and place the .jar in %CATALINA_HOME%/lib
-3. Clone this repository
-4. Place out/artifacts/manager_app_war/manager_app.war into %CATALINA_HOME%/webapps
-5. Restart Tomcat. 
+2. create a user named "pma" with read and write access to the database, or update com.manager_app.services.database.EmployeesDBService.java with a different username/password to access the database
+3. Download the [MySQL Connector](https://www.mysql.com/products/connector/) and place the .jar in %CATALINA_HOME%/lib
+4. Clone this repository
+5. Place out/artifacts/manager_app_war/manager_app.war into %CATALINA_HOME%/webapps
+6. Restart Tomcat. 
